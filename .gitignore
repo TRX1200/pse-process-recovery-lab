@@ -1,0 +1,33 @@
+# Local credentials and private inputs
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+credentials/
+private/
+# Local environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+# Generated and machine-local artifacts
+*.log
+*.asv
+*.m~
+*.mexw64
+*.slxc
+*.sqlite
+*.sqlite3
+*.db
+*.zip
+*.7z
+*.tar.gz
+local/
+outputs/
+data/raw/
+.DS_Store
+Thumbs.db
