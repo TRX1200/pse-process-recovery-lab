@@ -31,3 +31,7 @@ outputs/
 data/raw/
 .DS_Store
 Thumbs.db
+node_modules/
+sim_app/frontend/dist/
+sim_app/frontend/.vite/
+*.tsbuildinfo

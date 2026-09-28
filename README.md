@@ -1,4 +1,72 @@
-# PSE Process Recovery Lab: Etch + Deposition
+# Process Studio — ALD / Plasma Etch Simulator
+
+**v0.1: 로컬에서 실행 가능한 ALD / Plasma Etch Simulator.**
+
+레시피와 장비 상태를 직접 바꾸고, 계산된 공정 결과를 비교하는 로컬 시뮬레이터입니다.
+AMK PSE 준비를 위해 공정 원리 → 관측 → 가설 → 평가 → 조치 검증을 공부하는 프로젝트입니다.
+Python 모델과 React 화면은 AI 도구의 지원으로 구현했으며, 직접 검토한 가정·실험·해석을 별도 기록합니다.
+
+| 모듈 | 구현한 계산 | 조절 항목 |
+| --- | --- | --- |
+| Thermal ALD | 챔버 분압 응답, 36셀 반응·확산, A/B 표면 포화와 성장 | 17개: 주입·퍼지·분압·온도·형상·반응 계수 등 |
+| Plasma Etch | Ar 입자·에너지 수지, 라디칼 수지, 표면 반응과 제거 | 31개: 전력·압력·유량·바이어스·형상·수율 등 |
+
+전자 밀도와 전자 온도는 수지식으로 계산합니다. 고급 모델 계수는 가정을 탐구하는 입력이며, 모두 실제 장비의 독립 레시피 조절 항목을 의미하지는 않습니다.
+고장 7종은 RF 전달, 압력, 공급, 배기, 온도, 벽 상태 등 상류 상태를 바꿉니다. 결과 KPI를 고장별 상수로 지정하지 않습니다.
+
+화면에서 레시피 편집, 정상/고장 비교, 단일 변수 스윕, 실험 메모, 레시피 저장, JSON·CSV 내보내기를 사용할 수 있습니다.
+
+![Process Studio 실행 화면](docs/assets/process-studio.png)
+
+**범위:** 교육·연구용 축약 모델입니다. 실제 Applied Materials 장비나 고객 레시피에 맞춰 보정한 모델이 아닙니다.
+ALD 총 두께는 첫 사이클 × N 투영이며, Etch는 0D 플라즈마와 가정한 방사형 분포를 사용합니다.
+3D 전자기장·RF 방전·패턴 측벽 진화·실제 재료 반응망 전체를 계산하지 않습니다.
+
+## 실행
+
+Python 3.10+, Node.js 22.12+, pnpm이 필요합니다.
+
+```powershell
+python -m pip install -r sim_app/requirements.txt
+cd sim_app/frontend
+pnpm install --frozen-lockfile
+pnpm build
+cd ../..
+python sim_app/server.py
+```
+
+브라우저에서 **http://127.0.0.1:8765**를 엽니다. API 키가 필요하지 않습니다.
+
+## 모델과 검증
+
+- [사용법과 첫 고장·조치 실험](docs/PROCESS_STUDIO_KR.md)
+- [ALD 모델: 방정식·단위·가정·출처](docs/ALD_MODEL.md)
+- [Etch 모델: 방정식·단위·가정·출처](docs/ETCH_MODEL.md)
+
+```powershell
+python -m unittest discover -s sim_app/tests -v
+python sim_app/run_reference_cases.py --out outputs/process_studio/reference_cases
+```
+
+ALD 17개·Etch 12개·API 9개의 테스트가 있습니다. 무주입/무전력, 포화, 수지 잔차, 단위, 입력 경계, 고장·복구, ALD 격자/시간 민감도, 재현성 및 API 동작을 확인합니다. 프런트엔드 디렉터리의 `pnpm test`는 레시피 입력 검증, 무효값 표시, CSV 출처·값 처리와 그래프 숫자 표시를 확인합니다. 테스트 통과는 수치·구현 검증이며 실제 공정 정확도의 증거는 아닙니다.
+조건과 모델 버전을 포함한 JSON, 비교 지표 CSV를 재생성할 수 있습니다. 생성 결과는 `outputs/`에 저장하며 Git에서 제외합니다.
+
+## 저장소 구조
+
+```text
+sim_app/models/       Python ALD / Etch models
+sim_app/frontend/     React + TypeScript interface
+sim_app/server.py     Local model API and UI server
+sim_app/tests/        Numerical and API checks
+docs/                Model assumptions, sources and usage
+learning/            Earlier introductory learning notes
+study_lab/           Earlier synthetic-data exercises
+```
+
+<details>
+<summary>이전 Etch + PVD 입문 실습과 계획</summary>
+
+아래 내용은 시뮬레이터 개발 전의 입문 자료입니다. 현재 앱의 실행과 모델 범위는 위 `sim_app/` 안내를 사용합니다.
 
 **Status: Etch + PVD starter available; DOE and independent recovery evaluation planned.**
 
@@ -56,3 +124,5 @@ Day 1 실행 명령과 학습 순서는 [시작 안내](START_HERE_KR.md)에 있
 현재 범위와 데이터·실험·검증 조건은 [AMK PSE 전용 프로젝트 명세](docs/AMK_PSE_PROJECT_SPEC_KR.md)에 정리했습니다.
 기존 세 직무 통합 명세와 `run_day1.py`는 이전 학습 자료입니다. 현재 AMK 프로젝트의 실행 진입점은 `run_amk_starter.py`입니다.
 전체 진단 시스템의 정량 결과는 해당 구현과 검증을 마친 뒤 추가합니다.
+
+</details>
