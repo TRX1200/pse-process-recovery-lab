@@ -10,7 +10,7 @@ import math
 from numbers import Real
 from typing import Any
 
-MODEL_VERSION = "etch-ar-global-0.1.0"
+MODEL_VERSION = "etch-ar-global-0.1.1"
 E_CHARGE = 1.602176634e-19
 K_B = 1.380649e-23
 M_E = 9.1093837139e-31
@@ -256,7 +256,16 @@ def simulate(params: dict, fault: str = "none") -> dict[str, Any]:
     mask_rate = ion_flux * mask_yield / mask_density * 1e9 * 60
     selectivity = rate / mask_rate if mask_rate > 0 else 0.0
     nu = (max(row[0] for row in area_samples) - min(row[0] for row in area_samples)) / (2 * depth) * 100 if depth > 0 else 0.0
-    times = [p["process_time_s"] * i / 120 for i in range(121)]
+    base_times = [p["process_time_s"] * i / 120 for i in range(121)]
+    # Resolve fast surface kinetics in the displayed trace as well as the long
+    # process interval. Eight time constants cover >99.96% of the exponential
+    # response; 96 intervals keep linear display interpolation below ~0.1% of
+    # the equilibrium coverage. This changes sampling, not the analytic solution.
+    display_decay = adsorption + p["thermal_desorption_s"] + p["chemical_rate_s"] + ion_flux * assist_yield / sites
+    transient_end = min(p["process_time_s"], 8 / display_decay) if display_decay > 0 else 0
+    transient_times = [transient_end * i / 96 for i in range(97)]
+    times = sorted(set(base_times + transient_times))
+    frame_times = sorted(set(base_times[::4] + transient_times[::4] + [p["process_time_s"]]))
     time_rows = [surface(ion_flux, t) for t in times]
     spatial_x = [wafer_radius_mm * (-1 + i / 40) for i in range(81)]
     spatial_values = [surface(radial_ion_flux((x / wafer_radius_mm) ** 2), p["process_time_s"])[0] for x in spatial_x]
@@ -297,12 +306,21 @@ def simulate(params: dict, fault: str = "none") -> dict[str, Any]:
         "series": [
             {"key": "depth", "title": "균일 플럭스 기준 처리 깊이", "x_label": "시간 (s)", "y_label": "두께 (nm)", "x": times,
              "lines": [{"name": "타깃 제거", "values": [r[0] for r in time_rows]}, {"name": "마스크 손실", "values": [r[3] for r in time_rows]}]},
+            {"key": "coverage", "title": "균일 플럭스 기준 표면 피복률", "x_label": "시간 (s)", "y_label": "피복률 (0–1)", "x": times,
+             "lines": [{"name": "반응종 피복률", "values": [r[2] for r in time_rows]}]},
             {"key": "particle_balance", "title": "전자온도를 결정하는 입자 수지", "x_label": "전자온도 (eV)", "y_label": "빈도 (s^-1)", "x": temperatures,
              "lines": [{"name": "Ar 이온화", "values": [argon_density * _rates(t)[0] for t in temperatures]}, {"name": "Bohm 벽 손실", "values": [math.sqrt(E_CHARGE * t / M_AR) * effective_area / volume for t in temperatures]}]},
             {"key": "yield", "title": "가정한 에너지별 제거 수율", "x_label": "이온 에너지 (eV)", "y_label": "수율 (atoms/ion)", "x": energies,
              "lines": [{"name": "완전 피복 시 이온 보조", "values": [_yield(e, p["etch_threshold_ev"], p["etch_yield_scale"]) for e in energies]}, {"name": "타깃 스퍼터", "values": [_yield(e, p["sputter_threshold_ev"], p["sputter_yield_scale"]) for e in energies]}, {"name": "마스크 스퍼터", "values": [_yield(e, p["mask_threshold_ev"], p["mask_yield_scale"]) for e in energies]}]},
         ],
         "spatial": {"kind": "etch", "x": spatial_x, "values": spatial_values, "unit": "nm", "x_unit": "mm", "label": "가정한 방사형 플럭스에 따른 식각 깊이"},
+        "playback": {
+            "time_s": frame_times,
+            "profiles_nm": [[surface(radial_ion_flux((x / wafer_radius_mm) ** 2), t)[0]
+                             for x in spatial_x] for t in frame_times],
+            "profile_basis": "etch_depth",
+            "description": "Analytic surface transient under steady plasma; interpolated display samples. No ignition or RF transient.",
+        },
         "diagnostics": diagnostics,
         "assumptions": [
             "Maxwellian EEDF, 1–7 eV Ar 속도식, 전기양성·준중성·낮은 전리도의 0D 모델입니다.",

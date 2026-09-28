@@ -45,6 +45,9 @@ import { Metrics } from "./components/Metrics";
 import { Modal } from "./components/Modal";
 import { Reactor } from "./components/Reactor";
 import { SweepPanel } from "./components/SweepPanel";
+import { Playback } from "./components/Playback";
+import { durationOf, isTimeSeries } from "./playback";
+import { usePlayback } from "./usePlayback";
 import "./styles.css";
 
 type View = "simulate" | "sweep" | "recipes";
@@ -70,6 +73,11 @@ export default function App() {
   const [notes, setNotes] = useState("");
   const importRef = useRef<HTMLInputElement>(null);
   const requestId = useRef(0);
+  const playbackDuration = durationOf(run?.result);
+  const playback = usePlayback(
+    playbackDuration,
+    view === "simulate" && !busy && modal === null,
+  );
 
   function record(response: Simulation) {
     setRun(response);
@@ -225,8 +233,8 @@ export default function App() {
     result?.series.filter((series) =>
       model === "etch"
         ? tab === "process"
-          ? ["depth", "yield"].includes(series.key)
-          : ["particle_balance"].includes(series.key)
+          ? ["depth", "coverage"].includes(series.key)
+          : ["particle_balance", "yield"].includes(series.key)
         : tab === "process"
           ? ["pressure", "growth"].includes(series.key)
           : ["coverage", "profile"].includes(series.key),
@@ -235,6 +243,8 @@ export default function App() {
   function selectModel(next: ModelKey) {
     if (next === model || !schema) return;
     requestId.current += 1;
+    playback.reset();
+    playback.setSpeed(next === "ald" ? 0.5 : 5);
     setModel(next);
     setParams(defaults(schema.models[next]));
     setFault("none");
@@ -247,12 +257,16 @@ export default function App() {
   async function execute() {
     const token = ++requestId.current;
     setBusy(true);
+    playback.pause();
     setError("");
     try {
       const response = await simulate(model, params, fault);
       if (token === requestId.current) {
         record(response);
         setView("simulate");
+        setTab("process");
+        if (durationOf(response.result) > 0) playback.start();
+        else playback.reset();
       }
     } catch (error) {
       if (token === requestId.current)
@@ -275,6 +289,9 @@ export default function App() {
     if (busy) return;
     try {
       const validated = validateRecipe(recipe, schema!);
+      playback.reset();
+      if (validated.model !== model)
+        playback.setSpeed(validated.model === "ald" ? 0.5 : 5);
       requestId.current += 1;
       setBusy(false);
       setModel(validated.model);
@@ -519,11 +536,25 @@ export default function App() {
                 진단과 레시피를 확인하세요.
               </div>
             )}
-            <div className="simulation-overview">
+            {result && !invalid && (
+              <Playback
+                model={model}
+                result={result}
+                params={displayedParams}
+                duration={playbackDuration}
+                controller={playback}
+              />
+            )}
+            <div
+              className={`simulation-overview ${result && !invalid ? "playback-overview" : ""}`}
+            >
               <Reactor
                 model={model}
                 result={invalid ? undefined : result}
                 params={displayedParams}
+                time={playback.time}
+                motion={playback.motion}
+                playing={playback.playing && !playback.reduceMotion}
               />
               <Metrics model={model} result={result} baseline={baseline} />
             </div>
@@ -715,10 +746,16 @@ export default function App() {
                     baseline={baseline?.series.find(
                       (other) => other.key === series.key,
                     )}
+                    time={isTimeSeries(series) ? playback.time : undefined}
+                    staticLabel={!isTimeSeries(series)}
                   />
                 ))}
                 {tab === "physics" && model === "etch" && spatialSeries && (
-                  <Chart series={spatialSeries} baseline={spatialBaseline} />
+                  <Chart
+                    series={spatialSeries}
+                    baseline={spatialBaseline}
+                    staticLabel
+                  />
                 )}
               </div>
             ) : (
@@ -887,6 +924,9 @@ export default function App() {
                       setParams(item.params);
                       setFault(item.fault);
                       setRun(item);
+                      playback.reset();
+                      if (item.model !== model)
+                        playback.setSpeed(item.model === "ald" ? 0.5 : 5);
                       setView("simulate");
                       setBaselineId("auto");
                       setTab("process");
@@ -915,7 +955,7 @@ export default function App() {
             <Info size={13} />
             Reduced physical model · 실험 데이터 검증 전의 학습용 모델
           </button>
-          <span>PROCESS STUDIO v0.1.0</span>
+          <span>PROCESS STUDIO v0.2.0</span>
         </footer>
       </main>
       {modal === "save" && (

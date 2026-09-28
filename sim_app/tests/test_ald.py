@@ -27,6 +27,19 @@ class AldModelTests(unittest.TestCase):
                 self.assertEqual(len(line["values"]), len(series["x"]))
                 self.assertTrue(np.isfinite(line["values"]).all())
 
+    def test_playback_is_solved_first_cycle_not_projected_thickness(self):
+        result = self.baseline
+        playback = result["playback"]
+        frames = np.asarray(playback["profiles_nm"])
+        times = playback["time_s"]
+        self.assertEqual(frames.shape, (len(times), len(result["spatial"]["x"])))
+        self.assertEqual(times[0], 0)
+        self.assertEqual(times[-1], metric(result, "cycle_time_s"))
+        self.assertTrue(np.all(np.diff(times) > 0))
+        np.testing.assert_allclose(frames[0], 0)
+        np.testing.assert_allclose(frames[-1] * 50, result["spatial"]["values"])
+        self.assertEqual(playback["profile_basis"], "first_cycle_growth")
+
     def test_zero_reactant_dose_gives_zero_growth(self):
         for key in ("pressure_a_pa", "pressure_b_pa", "pulse_a_s", "pulse_b_s"):
             with self.subTest(key=key):

@@ -52,6 +52,12 @@ export interface ModelResult {
   metrics: Metric[];
   series: Series[];
   spatial: { kind: ModelKey; x: number[]; values: number[]; unit: string };
+  playback?: {
+    time_s: number[];
+    profiles_nm: number[][];
+    profile_basis: "first_cycle_growth" | "etch_depth";
+    description: string;
+  };
   diagnostics: Array<{ level: "info" | "warning"; message: string }>;
   assumptions: string[];
   effective: Record<string, unknown>;

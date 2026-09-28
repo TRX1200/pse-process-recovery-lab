@@ -2320,3 +2320,230 @@ td {
     transition: none !important;
   }
 }
+
+/* Time playback uses one physical-time clock for the reactor and time plots. */
+.playback-panel {
+  border: 1px solid #d6e6e9;
+  border-radius: 9px;
+  margin: 8px 0 20px;
+  background: linear-gradient(110deg, #f1faf9, #fbfcfe 70%);
+  padding: 15px 18px 11px;
+}
+.playback-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+.playback-heading > strong {
+  font-size: 13px;
+}
+.playback-heading output {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  color: var(--teal-dark);
+  font-weight: 650;
+}
+.playback-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 10px;
+}
+.playback-status i {
+  width: 6px;
+  height: 6px;
+  background: #9daeb7;
+  border-radius: 50%;
+}
+.playback-status.is-playing {
+  color: var(--teal);
+}
+.playback-status.is-playing i {
+  background: var(--teal);
+  box-shadow: 0 0 0 4px #008b9512;
+}
+.playback-stage {
+  color: #586e80;
+  font-size: 11px;
+}
+.playback-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+}
+.playback-controls > input {
+  flex: 1;
+  min-width: 50px;
+  accent-color: var(--teal);
+}
+.playback-controls .icon-button {
+  width: 30px;
+  height: 30px;
+  padding: 4px;
+}
+.playback-toggle {
+  min-width: 100px;
+  justify-content: center;
+  min-height: 32px;
+  padding: 7px 12px;
+  font-size: 11px;
+}
+.playback-speed {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 10px;
+}
+.playback-speed select {
+  padding: 6px 8px;
+  min-height: 30px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+}
+.playback-readouts {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  border-top: 1px solid #e1edef;
+  padding-top: 10px;
+}
+.playback-readouts > div {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+.playback-readouts span {
+  color: var(--muted);
+}
+.playback-readouts b {
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+}
+.playback-readouts small {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 400;
+}
+.playback-explanation {
+  font-size: 10px;
+  line-height: 1.65;
+  color: #627888;
+  margin: 8px 0 0;
+}
+.playback-explanation > span {
+  display: block;
+  color: #7b8d9b;
+}
+.pulse-timeline > .current-stage {
+  box-shadow: 0 0 0 2px #008b95;
+  background: #e1f4f1;
+  color: #006c73;
+  position: relative;
+}
+.static-plot-label {
+  display: block;
+  color: #81909d;
+  font-size: 9px;
+  margin-left: auto;
+}
+@media (max-width: 740px) {
+  .playback-panel {
+    padding: 12px;
+    margin: 10px 0 15px;
+  }
+  .playback-heading {
+    gap: 7px;
+  }
+  .playback-heading > strong {
+    font-size: 12px;
+  }
+  .playback-heading output {
+    margin-left: 0;
+    font-size: 12px;
+    width: 100%;
+  }
+  .playback-controls {
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .playback-toggle {
+    min-width: 66px;
+    padding: 7px;
+  }
+  .playback-controls > input {
+    min-width: 100px;
+  }
+  .playback-speed {
+    margin-left: auto;
+  }
+  .playback-readouts {
+    gap: 8px 15px;
+  }
+  .playback-readouts > div {
+    gap: 6px;
+  }
+  .playback-readouts b {
+    font-size: 12px;
+  }
+  .playback-explanation {
+    font-size: 9px;
+  }
+  .static-plot-label {
+    font-size: 8px;
+  }
+}
+@media (min-width: 1021px) {
+  .playback-panel {
+    padding: 10px 16px 8px;
+    margin-bottom: 10px;
+    position: sticky;
+    top: -1px;
+    z-index: 3;
+  }
+  .playback-controls {
+    margin: 8px 0;
+  }
+  .playback-readouts {
+    padding-top: 7px;
+  }
+  .playback-explanation {
+    margin-top: 5px;
+  }
+  .playback-overview {
+    margin-bottom: 8px;
+  }
+  .playback-overview .reactor-svg {
+    height: 248px;
+    max-height: 248px;
+  }
+  .playback-overview .metrics-panel {
+    margin-top: 0;
+  }
+  .playback-overview .metrics-panel > header {
+    padding: 10px 13px;
+  }
+  .playback-overview .metric-row {
+    min-height: 44px;
+  }
+  .playback-overview .metric-label,
+  .playback-overview .metric-value {
+    padding: 8px 12px;
+  }
+  .playback-overview .metric-value > strong {
+    font-size: 21px;
+  }
+  .playback-overview .more-metrics > summary {
+    padding: 8px 13px;
+  }
+}
+.ald .schematic-footnote {
+  margin-top: 7px;
+  line-height: 1.5;
+}

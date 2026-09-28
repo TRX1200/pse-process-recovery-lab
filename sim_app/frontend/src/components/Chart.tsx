@@ -1,4 +1,6 @@
 import { axisTick } from "../storage";
+import { interpolate } from "../playback";
+import { useId } from "react";
 import type { Series } from "../types";
 
 const COLORS = ["#008b95", "#9364d7", "#dd9850", "#5284b7"];
@@ -27,11 +29,16 @@ export function Chart({
   series,
   baseline,
   compact = false,
+  time,
+  staticLabel = false,
 }: {
   series: Series;
   baseline?: Series;
   compact?: boolean;
+  time?: number | null;
+  staticLabel?: boolean;
 }) {
+  const clipId = useId().replaceAll(":", "");
   const width = 600;
   const height = compact ? 235 : 275;
   const pad = { left: 68, right: 18, top: 18, bottom: 52 };
@@ -89,12 +96,34 @@ export function Chart({
           {baseline && <span className="baseline-legend">--- 정상 기준</span>}
         </div>
       </div>
+      {staticLabel && (
+        <span className="static-plot-label">
+          종점 / 조건 곡선 · 시간축 아님
+        </span>
+      )}
       <svg
         className="chart-svg"
         viewBox={`0 0 ${width} ${height}`}
         role="img"
         aria-label={`${series.title}. 가로축 ${series.x_label}, 세로축 ${series.y_label}`}
       >
+        <defs>
+          <clipPath id={clipId}>
+            <rect
+              x={pad.left - 2}
+              y={pad.top - 4}
+              width={
+                time == null
+                  ? width
+                  : Math.max(
+                      0,
+                      Math.min(width - pad.right, px(time)) - pad.left,
+                    ) + 2
+              }
+              height={height - pad.bottom - pad.top + 8}
+            />
+          </clipPath>
+        </defs>
         {Array.from({ length: 5 }, (_, index) => {
           const x = xMin + ((xMax - xMin) * index) / 4;
           const y = yMin + ((yMax - yMin) * index) / 4;
@@ -141,7 +170,7 @@ export function Chart({
           y2={height - pad.bottom}
         />
         {datasets.map((line, index) => (
-          <g key={`${line.name}-${index}`}>
+          <g key={`${line.name}-${index}`} clipPath={`url(#${clipId})`}>
             <path
               d={pathData(line.x, line.values, px, py)}
               fill="none"
@@ -175,6 +204,38 @@ export function Chart({
               : null}
           </g>
         ))}
+        {time != null && time >= xMin && time <= xMax && (
+          <g className="time-cursor">
+            <line
+              x1={px(time)}
+              x2={px(time)}
+              y1={pad.top}
+              y2={height - pad.bottom}
+              stroke="#008b95"
+              strokeWidth="1.4"
+              strokeDasharray="3 4"
+            />
+            {datasets.map((line, index) => {
+              const value = interpolate(line.x, line.values, time);
+              return value === null ? null : (
+                <circle
+                  key={index}
+                  cx={px(time)}
+                  cy={py(value)}
+                  r={line.baseline ? 3 : 4}
+                  fill={line.color}
+                  stroke="white"
+                  strokeWidth="1.5"
+                  opacity={line.baseline ? 0.6 : 1}
+                >
+                  <title>
+                    {line.name}: {value}
+                  </title>
+                </circle>
+              );
+            })}
+          </g>
+        )}
         <text
           className="axis-label"
           x={(width + pad.left) / 2}

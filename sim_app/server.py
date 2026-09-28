@@ -24,6 +24,7 @@ if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 APP_DIR = Path(__file__).resolve().parent
+APP_VERSION = "0.2.0"
 DIST_DIR = APP_DIR / "frontend" / "dist"
 MAX_BODY_BYTES = 128 * 1024
 MAX_SWEEP_POINTS = 21
@@ -47,7 +48,7 @@ def schema() -> dict[str, Any]:
             "faults": module.FAULTS,
             "model_version": module.MODEL_VERSION,
         }
-    return {"app": "Process Studio", "version": "0.1.0", "models": models}
+    return {"app": "Process Studio", "version": APP_VERSION, "models": models}
 
 
 def parse_request(payload: Any, *, sweep: bool = False) -> tuple[str, Any, dict, str]:
@@ -163,7 +164,7 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:
         path = unquote(urlsplit(self.path).path)
         if path == "/api/health":
-            self.send_json(HTTPStatus.OK, {"status": "ok", "version": "0.1.0"})
+            self.send_json(HTTPStatus.OK, {"status": "ok", "version": APP_VERSION})
             return
         if path == "/api/schema":
             self.send_json(HTTPStatus.OK, schema())

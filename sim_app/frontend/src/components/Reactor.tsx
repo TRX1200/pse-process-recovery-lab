@@ -1,15 +1,22 @@
 import { useId } from "react";
 import { metricNumber } from "../storage";
 import type { ModelKey, ModelResult, Params } from "../types";
+import { durationOf, profileAt, stageAt, valueAt } from "../playback";
 
 export function Reactor({
   model,
   result,
   params,
+  time = null,
+  motion = 0,
+  playing = false,
 }: {
   model: ModelKey;
   result?: ModelResult;
   params: Params;
+  time?: number | null;
+  motion?: number;
+  playing?: boolean;
 }) {
   const prefix = useId().replaceAll(":", "");
   const density =
@@ -20,11 +27,34 @@ export function Reactor({
       ? Math.max(0.15, Math.min(0.95, (Math.log10(density) - 13) / 5))
       : 0;
   const profile = result?.spatial;
-  const max = profile ? Math.max(...profile.values, 1e-9) : 1;
-  const points = profile?.values
+  const currentTime = time ?? durationOf(result);
+  const values =
+    (time === null
+      ? profile?.values
+      : (profileAt(result, currentTime) ?? profile?.values)) ?? [];
+  const reference =
+    time === null
+      ? profile?.values
+      : (result?.playback?.profiles_nm.at(-1) ?? profile?.values);
+  const max = reference ? Math.max(...reference, 1e-9) : 1;
+  const stage = stageAt(model, params, currentTime, durationOf(result));
+  const pressureA = valueAt(result, "pressure", 0, currentTime) ?? 0;
+  const pressureB = valueAt(result, "pressure", 1, currentTime) ?? 0;
+  const pressureScale = Math.max(
+    params.pressure_a_pa || 0,
+    params.pressure_b_pa || 0,
+    1,
+  );
+  // Decorative motion runs in wall-clock seconds, independently of playback speed.
+  // The model's ne and Te stay at their steady values; no artificial startup ramp.
+  const shimmer =
+    0.88 +
+    0.08 * Math.sin(motion * Math.PI * 1.1) +
+    0.04 * Math.sin(motion * Math.PI * 2.3);
+  const points = values
     .map(
       (value, index) =>
-        `${215 + (index / Math.max(1, profile.values.length - 1)) * 190},${311 - (value / max) * 16}`,
+        `${215 + (index / Math.max(1, values.length - 1)) * 190},${294 + (value / max) * 16}`,
     )
     .join(" ");
   const stages = [
@@ -46,7 +76,7 @@ export function Reactor({
         {model === "ald"
           ? "Thermal ALD · 1D channel"
           : "Global plasma · reduced order"}
-        <span>개념도 · 축척 아님</span>
+        <span>{playing ? "● 재생 중 · " : ""}개념도 · 축척 아님</span>
       </div>
       <svg
         className="reactor-svg"
@@ -125,8 +155,38 @@ export function Reactor({
                 rx="145"
                 ry="105"
                 fill={`url(#${prefix}-plasma)`}
-                opacity={glow}
+                opacity={glow * shimmer}
+                transform={`translate(${Math.sin(motion * 1.7) * 7} ${Math.cos(motion * 1.2) * 3})`}
               />
+              {density > 0 && (
+                <>
+                  <ellipse
+                    cx={305 + Math.sin(motion * 1.3) * 14}
+                    cy="219"
+                    rx="93"
+                    ry="67"
+                    fill={`url(#${prefix}-plasma)`}
+                    opacity={glow * 0.45}
+                  />
+                  {Array.from({ length: 24 }, (_, index) => (
+                    <circle
+                      key={`moving-${index}`}
+                      cx={
+                        211 +
+                        ((index * 37) % 211) +
+                        Math.sin(motion * 2 + index) * 5
+                      }
+                      cy={
+                        141 +
+                        ((motion * (26 + (index % 5) * 4) + index * 19) % 157)
+                      }
+                      r={index % 3 === 0 ? 2.4 : 1.4}
+                      fill={index % 3 === 0 ? "#f8edff" : "#dcc8ff"}
+                      opacity={glow * 0.9}
+                    />
+                  ))}
+                </>
+              )}
               {result && density > 0
                 ? Array.from({ length: 7 }, (_, index) => (
                     <g key={index} opacity="0.8">
@@ -147,6 +207,7 @@ export function Reactor({
                         stroke="#a782cf"
                         strokeWidth="1.1"
                         strokeDasharray="4 5"
+                        strokeDashoffset={-motion * 12}
                         markerEnd={`url(#${prefix}-arrow)`}
                       />
                     </g>
@@ -155,6 +216,40 @@ export function Reactor({
             </>
           ) : (
             <>
+              <ellipse
+                cx="287"
+                cy="198"
+                rx="100"
+                ry="73"
+                fill="#49c1c6"
+                opacity={Math.min(0.4, (pressureA / pressureScale) * 0.4)}
+              />
+              <ellipse
+                cx="346"
+                cy="202"
+                rx="100"
+                ry="74"
+                fill="#a980df"
+                opacity={Math.min(0.4, (pressureB / pressureScale) * 0.4)}
+              />
+              {[pressureA, pressureB].map((pressure, kind) =>
+                pressure > 1e-6
+                  ? Array.from({ length: 10 }, (_, index) => (
+                      <circle
+                        key={`${kind}-${index}`}
+                        cx={
+                          224 + index * 20 + Math.sin(motion * 1.4 + index) * 5
+                        }
+                        cy={
+                          145 + ((motion * 25 + index * 17 + kind * 29) % 126)
+                        }
+                        r="2"
+                        fill={kind ? "#9067c7" : "#139da5"}
+                        opacity={Math.min(0.85, pressure / pressureScale)}
+                      />
+                    ))
+                  : null,
+              )}
               <path
                 d="M270 128V160M315 128V169M360 128V160"
                 stroke="#60a8aa"
@@ -180,14 +275,14 @@ export function Reactor({
                 fill="#fff"
                 stroke="#95a7b2"
               />
-              {profile
-                ? profile.values.map((value, index) => (
+              {values
+                ? values.map((value, index) => (
                     <rect
                       key={index}
-                      x={241 + (index / profile.values.length) * 142}
+                      x={241 + (index / values.length) * 142}
                       y="202"
-                      width={142 / profile.values.length + 0.1}
-                      height={Math.max(0.1, (value / max) * 5)}
+                      width={142 / values.length + 0.1}
+                      height={Math.max(0, (value / max) * 5)}
                       fill="#009aa1"
                     />
                   ))
@@ -331,7 +426,7 @@ export function Reactor({
               ? result
                 ? `${metricNumber(density)} m⁻³`
                 : "Awaiting run"
-              : `${params.temperature_c} °C`}
+              : `${result?.effective.temperature_c ?? params.temperature_c} °C`}
           </text>
           <path d="M80 219H168L200 210" />
           <circle cx="200" cy="210" r="3" />
@@ -357,9 +452,7 @@ export function Reactor({
             <div
               key={index}
               style={{ flexGrow: Math.max(duration, 0.1) }}
-              className={
-                index % 2 ? "purge-stage" : `pulse-stage pulse-${index}`
-              }
+              className={`${index % 2 ? "purge-stage" : `pulse-stage pulse-${index}`} ${time !== null && stage.index === index ? "current-stage" : ""}`}
             >
               <span>{["A pulse", "Purge", "B pulse", "Purge"][index]}</span>
               <b>{duration} s</b>
@@ -368,7 +461,14 @@ export function Reactor({
         </div>
       ) : (
         <div className="schematic-footnote">
-          밝기: 계산 전자 밀도 · 화살표: 방향 개념도, 입자 궤적 해석 아님
+          밀도는 정상상태 계산 · 일렁임·입자 이동은 연출 · RF 진동 해석 아님
+        </div>
+      )}
+      {model === "ald" && (
+        <div className="schematic-footnote">
+          {time === null
+            ? "채널 막: 첫 사이클 × N 투영 두께"
+            : "채널 막: 현재 t의 첫 사이클 성장 · 기체 색: 계산 분압 · 입자 이동은 연출"}
         </div>
       )}
     </section>

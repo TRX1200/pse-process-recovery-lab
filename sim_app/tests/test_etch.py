@@ -15,6 +15,32 @@ def metrics(result):
 
 
 class EtchModelTests(unittest.TestCase):
+    def test_playback_trace_resolves_fast_surface_transient(self):
+        from bisect import bisect_right
+        result = simulate({"process_time_s": 60})
+        trace = next(series for series in result["series"] if series["key"] == "coverage")
+        x, values = trace["x"], trace["lines"][0]["values"]
+        for time_s in (0.001, 0.01, 0.05, 0.2):
+            exact_result = simulate({"process_time_s": time_s})
+            exact = next(series for series in exact_result["series"] if series["key"] == "coverage")["lines"][0]["values"][-1]
+            index = bisect_right(x, time_s) - 1
+            interpolated = values[index] + (values[index + 1] - values[index]) * (time_s - x[index]) / (x[index + 1] - x[index])
+            self.assertLess(abs(interpolated - exact), 0.001 * values[-1])
+
+    def test_playback_spatial_frames_and_coverage_match_surface_solution(self):
+        result = simulate({"process_time_s": 10})
+        playback = result["playback"]
+        self.assertEqual(playback["time_s"][0], 0)
+        self.assertEqual(playback["time_s"][-1], 10)
+        self.assertTrue(all(value == 0 for value in playback["profiles_nm"][0]))
+        self.assertEqual(playback["profiles_nm"][-1], result["spatial"]["values"])
+        earlier = simulate({"process_time_s": 5})
+        index = playback["time_s"].index(5)
+        self.assertEqual(playback["profiles_nm"][index], earlier["spatial"]["values"])
+        coverage = next(series for series in result["series"] if series["key"] == "coverage")
+        self.assertEqual(coverage["lines"][0]["values"][0], 0)
+        self.assertTrue(all(0 <= value <= 1 for value in coverage["lines"][0]["values"]))
+
     def test_default_balances_and_finite_schema(self):
         result = simulate({})
         json.dumps(result, allow_nan=False)

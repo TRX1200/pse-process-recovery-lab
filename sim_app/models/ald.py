@@ -14,7 +14,7 @@ import numpy as np
 from scipy.integrate import quad, solve_ivp
 from scipy.sparse import lil_matrix
 
-MODEL_VERSION = "ald-reactive-diffusion-1.0"
+MODEL_VERSION = "ald-reactive-diffusion-1.0.1"
 KB = 1.380649e-23
 AMU = 1.66053906660e-27
 EV = 1.602176634e-19
@@ -283,6 +283,13 @@ def simulate(params: dict, fault: str = "none") -> dict:
              "lines": [line("막 두께", thickness)]},
         ],
         "spatial": {"kind": "ald", "x": raw["x_um"].tolist(), "values": thickness.tolist(), "unit": "nm"},
+        # Display samples come from the solved first cycle, not final-profile scaling.
+        "playback": {
+            "time_s": t[::4].tolist(),
+            "profiles_nm": raw["growth"][::4].tolist(),
+            "profile_basis": "first_cycle_growth",
+            "description": "Solved first-cycle growth; linear interpolation between display samples. Not N-cycle evolution.",
+        },
         "diagnostics": diagnostics,
         "assumptions": [
             "열 ALD, 등온·1차원 평행 평판, Knudsen 확산, 막힌 채널 끝에서 무유속.",
