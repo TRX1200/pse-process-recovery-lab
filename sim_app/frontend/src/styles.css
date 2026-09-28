@@ -23,6 +23,443 @@
   --rail: #252d37;
   --surface: #f7f9fb;
 }
+.quality-summary {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 13px 16px;
+  margin: 0 0 16px;
+  border: 1px solid #d2e7e7;
+  border-left: 3px solid var(--teal);
+  border-radius: 6px;
+  background: #f6fbfb;
+}
+.quality-summary > div {
+  margin-right: auto;
+  display: grid;
+  gap: 4px;
+}
+.quality-summary strong {
+  font-size: 13px;
+}
+.quality-summary span {
+  font-size: 11px;
+  color: var(--muted);
+}
+.quality-summary.outside_spec {
+  border-left-color: #b76a16;
+  background: #fffbf5;
+}
+.quality-summary.incomplete {
+  border-left-color: #8390a3;
+  background: var(--surface);
+}
+.assessment-panel,
+.equations-panel {
+  padding-top: 18px;
+}
+.assessment-panel h2,
+.equations-panel h2 {
+  font-size: 22px;
+  line-height: 1.5;
+}
+.assessment-panel h3,
+.equations-panel h3 {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.eyebrow {
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+}
+.assessment-verdict {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  background: #edf8f7;
+  border: 1px solid #cde5e1;
+  border-radius: 7px;
+  padding: 20px;
+}
+.assessment-verdict > svg {
+  color: var(--teal);
+  flex-shrink: 0;
+}
+.assessment-verdict > div {
+  margin-right: auto;
+}
+.assessment-verdict p {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+.assessment-verdict.outside_spec {
+  background: #fff8ed;
+  border-color: #f0dcbb;
+}
+.assessment-verdict.outside_spec > svg {
+  color: #a56312;
+}
+.assessment-verdict.incomplete {
+  background: var(--surface);
+  border-color: var(--line);
+}
+.assessment-scope {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 12px 0 20px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.assessment-scope svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.spec-editor {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+.spec-editor > summary {
+  padding: 14px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+}
+.spec-editor > summary span {
+  margin-left: 12px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+.spec-editor form {
+  border-top: 1px solid var(--line);
+  padding: 18px;
+}
+.spec-fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px 18px;
+}
+.spec-fields label {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  font-size: 12px;
+}
+.spec-fields label > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+.spec-fields small {
+  color: var(--muted);
+}
+.spec-fields input {
+  width: 100%;
+  min-width: 0;
+}
+.spec-editor form > p {
+  margin-top: 15px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.spec-editor .spec-pending {
+  color: #985113;
+}
+.spec-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+.assessment-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.assessment-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.assessment-table caption {
+  text-align: left;
+  padding: 13px 16px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 11px;
+  white-space: normal;
+  line-height: 1.7;
+}
+.assessment-table th,
+.assessment-table td {
+  text-align: right;
+  padding: 15px 16px;
+  border-top: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+}
+.assessment-table th:first-child {
+  text-align: left;
+}
+.assessment-table thead th {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.assessment-table tbody th {
+  font-weight: 500;
+}
+.assessment-table small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.check-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 4px;
+  padding: 4px 7px;
+  font-size: 11px;
+  background: #eff3f7;
+  color: #617088;
+}
+.check-badge.pass {
+  background: #eaf6f2;
+  color: #16755c;
+}
+.check-badge.fail {
+  background: #fff0dc;
+  color: #9a570a;
+}
+.assessment-next {
+  margin-top: 24px;
+}
+.assessment-next > p {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 7px 0 12px;
+  line-height: 1.8;
+}
+.assessment-next details {
+  border-bottom: 1px solid var(--line);
+  padding: 12px 0;
+}
+.assessment-next summary {
+  cursor: pointer;
+  font-size: 13px;
+}
+.assessment-next details p {
+  margin: 10px 0 0 19px;
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--muted);
+}
+.check-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: #8794a5;
+  border-radius: 50%;
+  margin: 0 8px 1px 4px;
+}
+.check-dot.pass {
+  background: #278b74;
+}
+.check-dot.fail {
+  background: #c38428;
+}
+.assessment-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 24px;
+}
+.assessment-unmodeled,
+.assessment-workflow {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 18px;
+}
+.assessment-bottom-grid ul,
+.assessment-bottom-grid ol,
+.assessment-warnings ul {
+  padding-left: 19px;
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--muted);
+  margin: 12px 0;
+}
+.assessment-bottom-grid li {
+  margin: 7px 0;
+}
+.assessment-unmodeled p {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.assessment-warnings {
+  margin-top: 18px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.assessment-warnings summary {
+  cursor: pointer;
+  color: #925c1e;
+}
+.equations-heading {
+  margin-bottom: 20px;
+}
+.equations-heading h2 {
+  margin: 5px 0;
+}
+.equations-heading p {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.equations-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.equation-card {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 20px;
+  min-width: 0;
+}
+.equation-title {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.equation-title > span {
+  color: var(--teal);
+  font-size: 11px;
+  line-height: 23px;
+  font-weight: 700;
+}
+.equation-card pre {
+  font-family: "Cambria Math", Cambria, "Segoe UI Symbol", serif;
+  font-size: 17px;
+  line-height: 1.9;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: #f4f8fa;
+  border-left: 2px solid #91bac4;
+  padding: 14px;
+  margin: 17px 0 12px;
+}
+.equation-variables {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.9;
+}
+.equation-reading {
+  padding: 12px 0;
+  margin: 12px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.equation-reading b {
+  font-size: 10px;
+  color: var(--teal);
+}
+.equation-reading p {
+  font-size: 12px;
+  line-height: 1.8;
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+.equation-meaning {
+  font-size: 12px;
+  line-height: 1.9;
+}
+.equations-source {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 6px;
+  background: var(--surface);
+  font-size: 12px;
+  line-height: 1.9;
+}
+.equations-source p {
+  margin: 6px 0;
+  color: var(--muted);
+}
+.result-tabs {
+  scroll-margin-top: 85px;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.result-tabs > button {
+  flex-shrink: 0;
+}
+@media (max-width: 1100px) {
+  .equations-grid,
+  .assessment-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+  .spec-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .quality-summary {
+    flex-wrap: wrap;
+  }
+  .quality-summary > div {
+    flex-basis: 100%;
+  }
+}
+@media (max-width: 740px) {
+  .assessment-verdict {
+    flex-wrap: wrap;
+    padding: 16px;
+    gap: 10px;
+  }
+  .assessment-verdict .button {
+    width: 100%;
+    margin-top: 5px;
+  }
+  .assessment-panel h2 {
+    font-size: 19px;
+  }
+  .spec-editor summary span {
+    display: block;
+    margin: 6px 0 0;
+  }
+  .spec-fields {
+    grid-template-columns: 1fr;
+  }
+  .assessment-table {
+    font-size: 11px;
+  }
+  .assessment-table th,
+  .assessment-table td {
+    padding: 12px 9px;
+  }
+  .equation-card {
+    padding: 16px;
+  }
+  .equation-card pre {
+    font-size: 15px;
+    padding: 10px;
+  }
+  .quality-summary .button {
+    flex: 1;
+    justify-content: center;
+  }
+}
 * {
   box-sizing: border-box;
 }

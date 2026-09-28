@@ -22,6 +22,10 @@ CASES = [
     ("etch_rf_mismatch", {"model": "etch", "fault": "rf_mismatch"}),
     ("etch_delivery_restored", {"model": "etch", "fault": "rf_mismatch",
                                 "params": {"fault_severity": 0}}),
+    ("etch_time_compensation", {"model": "etch", "fault": "rf_mismatch",
+                                "params": {"process_time_s": 70}}),
+    ("etch_high_bias", {"model": "etch", "fault": "none",
+                        "params": {"bias_voltage_v": 250}}),
 ]
 
 
@@ -48,6 +52,9 @@ def run(out: Path) -> list[dict]:
         "Etch: compare normal operation, reflected-power fault, and restoring the "
         "injected fault severity to zero. Restoration represents a known model-state "
         "intervention, not an independently diagnosed or physically performed repair.\n\n"
+        "The 70 s exposure case compensates depth while the RF fault remains present; "
+        "this is not a repaired RF system. The 250 V bias case illustrates that higher "
+        "target removal can accompany more mask loss and lower selectivity.\n\n"
         "The model version, all requested parameters and effective internal state are in each JSON.\n",
         encoding="utf-8")
     return rows

@@ -46,12 +46,17 @@ import { Modal } from "./components/Modal";
 import { Reactor } from "./components/Reactor";
 import { SweepPanel } from "./components/SweepPanel";
 import { Playback } from "./components/Playback";
+import { AssessmentPanel } from "./components/AssessmentPanel";
+import { Equations } from "./components/Equations";
+import { evaluate, loadSpecs, STATUS_LABELS } from "./assessment";
+import type { AssessmentBaseline, ProcessSpec } from "./assessment";
 import { durationOf, isTimeSeries } from "./playback";
 import { usePlayback } from "./usePlayback";
 import "./styles.css";
 
 type View = "simulate" | "sweep" | "recipes";
-type PlotTab = "process" | "physics" | "troubleshooting";
+type PlotTab =
+  "process" | "physics" | "troubleshooting" | "assessment" | "equations";
 
 export default function App() {
   const [schema, setSchema] = useState<Schema | null>(null);
@@ -71,12 +76,17 @@ export default function App() {
   const [modal, setModal] = useState<"save" | "notes" | null>(null);
   const [recipeName, setRecipeName] = useState("");
   const [notes, setNotes] = useState("");
+  const [specs, setSpecs] = useState(loadSpecs);
   const importRef = useRef<HTMLInputElement>(null);
+  const resultTabsRef = useRef<HTMLDivElement>(null);
   const requestId = useRef(0);
   const playbackDuration = durationOf(run?.result);
   const playback = usePlayback(
     playbackDuration,
-    view === "simulate" && !busy && modal === null,
+    view === "simulate" &&
+      (tab === "process" || tab === "physics") &&
+      !busy &&
+      modal === null,
   );
 
   function record(response: Simulation) {
@@ -196,6 +206,23 @@ export default function App() {
       run.fault !== fault ||
       Object.keys(params).some((key) => params[key] !== run.params[key]));
   const result = run?.model === model ? run.result : undefined;
+  const review = evaluate(model, result, run?.params ?? {}, specs[model]);
+  const comparisonRun = compatibleHistory.find(
+    (item) => item.run_id === baselineId,
+  );
+  const assessmentBaseline: AssessmentBaseline | null =
+    baseline && run
+      ? {
+          label:
+            baselineId === "auto"
+              ? "동일 레시피 · 고장 없음"
+              : `실행 ${baselineId.slice(0, 8)}`,
+          run_id: baselineId === "auto" ? null : baselineId,
+          params:
+            baselineId === "auto" ? run.params : (comparisonRun?.params ?? {}),
+          result: baseline,
+        }
+      : null;
   const invalid = result?.effective.status === "outside_rate_fit";
   const currentFault = modelSchema.faults.find((item) => item.id === fault);
   const displayedParams = run?.model === model ? run.params : params;
@@ -283,6 +310,31 @@ export default function App() {
     setFault("none");
     setError("");
     setToast("기본 레시피로 복원했습니다. Run simulation으로 다시 계산하세요.");
+  }
+
+  function applySpec(spec: ProcessSpec) {
+    const next = { ...specs, [spec.model]: spec };
+    setSpecs(next);
+    try {
+      localStorage.setItem("process-studio.specs.v1", JSON.stringify(next));
+      setToast(
+        "평가 규격을 적용했습니다. 계산 결과를 새 기준으로 재평가합니다.",
+      );
+    } catch {
+      setToast(
+        "규격은 적용됐지만 브라우저에 저장하지 못했습니다. 평가 보고서를 내보내세요.",
+      );
+    }
+  }
+
+  function inspectTab(next: PlotTab) {
+    setTab(next);
+    requestAnimationFrame(() =>
+      resultTabsRef.current?.scrollIntoView({
+        block: "start",
+        behavior: "smooth",
+      }),
+    );
   }
 
   function loadRecipe(recipe: Recipe) {
@@ -536,7 +588,7 @@ export default function App() {
                 진단과 레시피를 확인하세요.
               </div>
             )}
-            {result && !invalid && (
+            {result && !invalid && (tab === "process" || tab === "physics") && (
               <Playback
                 model={model}
                 result={result}
@@ -557,6 +609,29 @@ export default function App() {
                 playing={playback.playing && !playback.reduceMotion}
               />
               <Metrics model={model} result={result} baseline={baseline} />
+            </div>
+            <div className={`quality-summary ${review.status}`}>
+              <div>
+                <strong>{STATUS_LABELS[review.status]}</strong>
+                <span>
+                  {specs[model].origin === "project-example"
+                    ? "예제 규격"
+                    : "사용자 규격"}{" "}
+                  · 종점 기준 · 미계산 품질 별도
+                </span>
+              </div>
+              <button
+                className="button secondary small"
+                onClick={() => inspectTab("assessment")}
+              >
+                공정 평가 보기
+              </button>
+              <button
+                className="button secondary small"
+                onClick={() => inspectTab("equations")}
+              >
+                수식·계산 근거
+              </button>
             </div>
             <div className="fault-strip">
               <label htmlFor="fault-selection">
@@ -637,7 +712,12 @@ export default function App() {
                 </label>
               )}
             </div>
-            <div className="result-tabs" role="tablist" aria-label="결과 보기">
+            <div
+              className="result-tabs"
+              ref={resultTabsRef}
+              role="tablist"
+              aria-label="결과 보기"
+            >
               <button
                 role="tab"
                 aria-selected={tab === "process"}
@@ -645,6 +725,22 @@ export default function App() {
                 onClick={() => setTab("process")}
               >
                 Process response
+              </button>
+              <button
+                role="tab"
+                aria-selected={tab === "assessment"}
+                className={tab === "assessment" ? "active" : ""}
+                onClick={() => setTab("assessment")}
+              >
+                공정 평가
+              </button>
+              <button
+                role="tab"
+                aria-selected={tab === "equations"}
+                className={tab === "equations" ? "active" : ""}
+                onClick={() => setTab("equations")}
+              >
+                수식·원리
               </button>
               <button
                 role="tab"
@@ -678,7 +774,24 @@ export default function App() {
                 )}
               </span>
             </div>
-            {tab === "troubleshooting" ? (
+            {tab === "assessment" ? (
+              <AssessmentPanel
+                key={model}
+                model={model}
+                run={run?.model === model ? run : null}
+                spec={specs[model]}
+                baseline={assessmentBaseline}
+                notes={notes}
+                onApply={applySpec}
+                onNotes={() => setTab("troubleshooting")}
+              />
+            ) : tab === "equations" ? (
+              <Equations
+                model={model}
+                result={result}
+                params={displayedParams}
+              />
+            ) : tab === "troubleshooting" ? (
               <section className="troubleshooting">
                 <div className="diagnostics">
                   <h2>관측 → 가설 → 검증</h2>
@@ -955,7 +1068,7 @@ export default function App() {
             <Info size={13} />
             Reduced physical model · 실험 데이터 검증 전의 학습용 모델
           </button>
-          <span>PROCESS STUDIO v0.2.0</span>
+          <span>PROCESS STUDIO v0.3.0</span>
         </footer>
       </main>
       {modal === "save" && (
@@ -1015,6 +1128,16 @@ export default function App() {
               학습용 시뮬레이터입니다. 실제 장비의 레시피나 상용 TCAD와 동등한
               예측 정확도를 주장하지 않습니다.
             </p>
+            <button
+              className="button primary small"
+              onClick={() => {
+                setModal(null);
+                setView("simulate");
+                setTab("equations");
+              }}
+            >
+              수식·현재 계산값 보기
+            </button>
             {model === "ald" ? (
               <div className="equation-note">
                 <b>공급 응답 + 1D 반응·확산 + 표면 반응</b>

@@ -24,7 +24,7 @@ if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 APP_DIR = Path(__file__).resolve().parent
-APP_VERSION = "0.2.0"
+APP_VERSION = "0.3.0"
 DIST_DIR = APP_DIR / "frontend" / "dist"
 MAX_BODY_BYTES = 128 * 1024
 MAX_SWEEP_POINTS = 21
