@@ -1,6 +1,18 @@
 import type { ModelKey, Params, Schema, Simulation, Sweep } from "./types";
+import { browserRequest } from "./browserRuntime";
+
+export const usesBrowserPython = import.meta.env.MODE === "pages";
 
 async function request<T>(url: string, body?: unknown): Promise<T> {
+  if (usesBrowserPython) {
+    const operation =
+      url === "/api/schema"
+        ? "schema"
+        : url === "/api/simulate"
+          ? "simulate"
+          : "sweep";
+    return browserRequest<T>(operation, body);
+  }
   const response = await fetch(
     url,
     body === undefined

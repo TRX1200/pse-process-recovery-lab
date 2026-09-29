@@ -20,7 +20,7 @@ import {
   Trash2,
   TriangleAlert,
 } from "lucide-react";
-import { getSchema, simulate } from "./api";
+import { getSchema, simulate, usesBrowserPython } from "./api";
 import {
   defaults,
   exportJson,
@@ -57,6 +57,8 @@ import "./styles.css";
 type View = "simulate" | "sweep" | "recipes";
 type PlotTab =
   "process" | "physics" | "troubleshooting" | "assessment" | "equations";
+
+const studyGuideUrl = `${import.meta.env.BASE_URL}study/Process_Studio_Semiconductor_Study_KR.pdf`;
 
 export default function App() {
   const [schema, setSchema] = useState<Schema | null>(null);
@@ -178,9 +180,21 @@ export default function App() {
         ) : (
           <>
             <LoaderCircle className="spin" size={22} />
-            <small>Python 모델에 연결 중…</small>
+            <small>
+              {usesBrowserPython
+                ? "브라우저 계산 엔진 준비 중… 첫 접속 시 다운로드에 잠시 시간이 걸립니다."
+                : "Python 모델에 연결 중…"}
+            </small>
           </>
         )}
+        <a
+          className="button secondary study-link"
+          href={studyGuideUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <BookOpen size={16} /> 공부용 PDF 열기
+        </a>
       </div>
     );
 
@@ -457,6 +471,17 @@ export default function App() {
           </button>
         </div>
         <div className="header-actions">
+          <a
+            className="button secondary study-link"
+            href={studyGuideUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="공부용 PDF 열기"
+            title="2주 학습 가이드 PDF"
+          >
+            <BookOpen size={16} />
+            <span>Study PDF</span>
+          </a>
           <button
             aria-label="Save recipe"
             className="button secondary"
@@ -1068,7 +1093,10 @@ export default function App() {
             <Info size={13} />
             Reduced physical model · 실험 데이터 검증 전의 학습용 모델
           </button>
-          <span>PROCESS STUDIO v0.3.0</span>
+          <span>
+            PROCESS STUDIO v0.4.0 ·{" "}
+            {usesBrowserPython ? "Browser Python" : "Local Python"}
+          </span>
         </footer>
       </main>
       {modal === "save" && (

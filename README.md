@@ -1,8 +1,12 @@
 # Process Studio — ALD / Plasma Etch Simulator
 
-**v0.3: 시간 재생·수식 설명·목표 규격 평가를 지원하는 로컬 ALD / Plasma Etch Simulator.**
+**v0.4: 웹에서 실행하는 ALD / Plasma Etch Simulator와 2주 학습 가이드.**
 
-레시피와 장비 상태를 직접 바꾸고, 계산된 공정 결과를 비교하는 로컬 시뮬레이터입니다.
+- [시뮬레이터 실행](https://trx1200.github.io/pse-process-recovery-lab/)
+- [한국어 공부용 PDF](output/pdf/Process_Studio_Semiconductor_Study_KR.pdf)
+- [웹 배포와 계산 환경](docs/WEB_DEPLOYMENT_KR.md)
+
+레시피와 장비 상태를 직접 바꾸고, 계산된 공정 결과를 비교하는 시뮬레이터입니다.
 AMK PSE 준비를 위해 공정 원리 → 관측 → 가설 → 평가 → 조치 검증을 공부하는 프로젝트입니다.
 Python 모델과 React 화면은 AI 도구의 지원으로 구현했으며, 직접 검토한 가정·실험·해석을 별도 기록합니다.
 
@@ -28,7 +32,9 @@ ALD 총 두께는 첫 사이클 × N 투영이며, Etch는 0D 플라즈마와 �
 
 ## 실행
 
-Python 3.10+, Node.js 22.12+, pnpm이 필요합니다.
+공개 웹 버전은 설치 없이 실행됩니다. 첫 접속 때 Python/NumPy/SciPy를 내려받으므로 인터넷 연결이 필요합니다. 이후 계산은 브라우저 안에서 수행하며 레시피를 외부 계산 서버로 전송하지 않습니다. 아래 명령은 PC의 Python으로 실행하는 로컬 버전입니다.
+
+Python 3.10+, Node.js 22.13+, pnpm이 필요합니다.
 
 ```powershell
 python -m pip install -r sim_app/requirements.txt
@@ -53,7 +59,7 @@ python -m unittest discover -s sim_app/tests -v
 python sim_app/run_reference_cases.py --out outputs/process_studio/reference_cases
 ```
 
-ALD 18개·Etch 14개·API 9개의 테스트가 있습니다. 무주입/무전력, 포화, 수지 잔차, 단위, 입력 경계, 고장·복구, ALD 격자/시간 민감도, 재현성 및 API 동작을 확인합니다. 재생용 공간 프레임은 원래 해의 해당 시각 및 종점과 비교합니다. 프런트엔드 디렉터리의 `pnpm test`는 19개 테스트로 레시피 검증·CSV 무효값 처리·그래프 숫자 표시·재생 보간·단계 경계·시간 단위·규격 경계·평가 불가 처리·비교 기준의 독립 조건·보고서 규격 보존을 확인합니다. 테스트 통과는 수치·구현 검증이며 실제 공정 정확도의 증거는 아닙니다.
+ALD 18개·Etch 14개·API 9개의 테스트가 있습니다. 무주입/무전력, 포화, 수지 잔차, 단위, 입력 경계, 고장·복구, ALD 격자/시간 민감도, 재현성 및 API 동작을 확인합니다. 재생용 공간 프레임은 원래 해의 해당 시각 및 종점과 비교합니다. 프런트엔드 디렉터리의 `pnpm test`는 22개 테스트로 레시피 검증·CSV 무효값 처리·그래프 숫자 표시·재생 보간·단계 경계·시간 단위·규격 경계·평가 불가 처리·비교 기준의 독립 조건·보고서 규격 보존·브라우저 계산 요청 분리·오류 후 재시도를 확인합니다. 테스트 통과는 수치·구현 검증이며 실제 공정 정확도의 증거는 아닙니다.
 조건과 모델 버전을 포함한 JSON, 비교 지표 CSV를 재생성할 수 있습니다. 생성 결과는 `outputs/`에 저장하며 Git에서 제외합니다.
 
 ## 저장소 구조
@@ -62,8 +68,11 @@ ALD 18개·Etch 14개·API 9개의 테스트가 있습니다. 무주입/무전�
 sim_app/models/       Python ALD / Etch models
 sim_app/frontend/     React + TypeScript interface
 sim_app/server.py     Local model API and UI server
+sim_app/service.py    Shared operations for local and browser Python
 sim_app/tests/        Numerical and API checks
 docs/                Model assumptions, sources and usage
+docs/study/          Reproducible study PDF source and build notes
+output/pdf/          Korean study guide
 learning/            Earlier introductory learning notes
 study_lab/           Earlier synthetic-data exercises
 ```
