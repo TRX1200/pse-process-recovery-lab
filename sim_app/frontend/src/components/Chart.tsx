@@ -3,7 +3,7 @@ import { interpolate } from "../playback";
 import { useId } from "react";
 import type { Series } from "../types";
 
-const COLORS = ["#008b95", "#9364d7", "#dd9850", "#5284b7"];
+const COLORS = ["#344b5b", "#ae492f", "#728d9c", "#997849"];
 
 function pathData(
   x: number[],
@@ -176,7 +176,9 @@ export function Chart({
               fill="none"
               stroke={line.color}
               strokeWidth={line.baseline ? 1.7 : 2.6}
-              strokeDasharray={line.baseline ? "7 5" : undefined}
+              strokeDasharray={
+                line.baseline ? "7 5" : index === 2 ? "3 4" : undefined
+              }
               opacity={line.baseline ? 0.55 : 1}
               strokeLinejoin="round"
             >
@@ -211,7 +213,7 @@ export function Chart({
               x2={px(time)}
               y1={pad.top}
               y2={height - pad.bottom}
-              stroke="#008b95"
+              stroke="#ae492f"
               strokeWidth="1.4"
               strokeDasharray="3 4"
             />

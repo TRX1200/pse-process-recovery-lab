@@ -1,6 +1,8 @@
 import { metricValue } from "../assessment";
 import { metricNumber } from "../storage";
+import { modelEquations } from "../modelEquations";
 import type { ModelKey, ModelResult, Params } from "../types";
+import { MathBlock } from "./MathBlock";
 
 export function Equations({
   model,
@@ -23,7 +25,7 @@ export function Equations({
       ? [
           {
             title: "흡수 전력: RF 전달이 출발점",
-            equation: "Pabs = Pfwd (1 − r) η D",
+            equations: modelEquations.etch.absorbedPower,
             variables:
               "Pfwd: 소스 순방향 전력 [W] · r: 실제 반사율 · η: 결합 효율 · D: 듀티. 바이어스 전원은 별도입니다.",
             reading: `${format(params.source_power_w)} × (1 − ${state("reflected_fraction")}) × ${format(params.coupling_efficiency)} × ${format(params.source_duty)} = ${metric("absorbed_power_w")} W`,
@@ -32,7 +34,7 @@ export function Equations({
           },
           {
             title: "입자 수지 → 전자온도",
-            equation: "nAr kiz(Te) = uB Aeff / V\nuB = √(e Te / mAr)",
+            equations: modelEquations.etch.particleBalance,
             variables:
               "nAr: Ar 밀도 [m⁻³] · kiz: 이온화 속도 계수 [m³/s] · uB: Bohm 속도 [m/s] · Aeff: 유효 손실 면적 [m²] · V: 체적 [m³] · Te: eV 단위.",
             reading: `Te = ${metric("electron_temperature_ev")} eV · 입자 수지 상대 잔차 = ${state("particle_balance_relative_residual")}`,
@@ -41,7 +43,7 @@ export function Equations({
           },
           {
             title: "전력 수지 → 전자밀도",
-            equation: "Pabs = ne e uB Aeff (Ec + 7.2Te) + Pdiss",
+            equations: modelEquations.etch.powerBalance,
             variables:
               "ne: 전자밀도 [m⁻³] · e: 기본 전하 [C] · Ec: 충돌 손실 [eV/pair] · 7.2Te: 벽의 전자·이온 손실 근사 · Pdiss: 가상 X₂ 해리 전력 [W].",
             reading: `ne = ${metric("electron_density_m3")} m⁻³ · Pdiss = ${state("dissociation_power_w")} W · 전력 수지 상대 잔차 = ${state("power_balance_relative_residual")}`,
@@ -50,8 +52,7 @@ export function Equations({
           },
           {
             title: "바이어스와 충돌 → 이온 에너지",
-            equation:
-              "Vs = |Vbias| + 0.5Te ln(mAr / (2πme))\nEi = 0.5Te + Vs / (1 + sCL/λi)",
+            equations: modelEquations.etch.ionEnergy,
             variables:
               "Vs: 쉬스 전위 강하 [V] · sCL: DC Child–Langmuir 쉬스 길이 [m] · λi: 유효 평균자유행로 [m] · Te, Ei: eV 단위. 단일 전하 이온이며 V의 전위 강하를 eV로 환산한 식입니다.",
             reading: `|Vbias| = ${format(params.bias_voltage_v)} V · sCL = ${state("sheath_scale_mm")} mm · λi = ${state("mean_free_path_mm")} mm · Ei = ${metric("ion_energy_ev")} eV`,
@@ -60,8 +61,7 @@ export function Equations({
           },
           {
             title: "표면 반응 → 시간별 식각량",
-            equation:
-              "a = s ΓX / Ns\nb = kdes + kchem + Γi Yassist / Ns\ndθ/dt = a(1 − θ) − bθ;  θ(0) = 0\nJ(t) = (Ns kchem + Γi Yassist) θ(t) + Γi Ysputter\nd(t) = 10⁹ ∫₀ᵗ J(τ) dτ / Ntarget",
+            equations: modelEquations.etch.surfaceRemoval,
             variables:
               "θ: 피복률 · s: 부착 확률 · ΓX, Γi: 라디칼/이온 플럭스 [m⁻²s⁻¹] · Ns: 표면 자리 밀도 [m⁻²] · kdes, kchem: 속도 [s⁻¹] · Y: 수율 · Ntarget: 원자밀도 [m⁻³] · d: nm.",
             reading: `Γi = ${metric("ion_flux_m2_s")} m⁻²s⁻¹ · ΓX = ${metric("radical_flux_m2_s")} m⁻²s⁻¹ · 최종 면적 평균 깊이 = ${metric("etch_depth_nm")} nm`,
@@ -70,8 +70,7 @@ export function Equations({
           },
           {
             title: "선택비: 타깃과 마스크를 함께 보기",
-            equation:
-              "Y(E) = Yscale max(√(E/Eth) − 1, 0)\ndmask(t) = 10⁹ Γi Ymask t / Nmask\nS = Rtarget,ss / Rmask,ss",
+            equations: modelEquations.etch.selectivity,
             variables:
               "E, Eth: 이온 에너지와 반응 문턱 [eV] · Nmask: 마스크 원자밀도 [m⁻³] · R: 정상 제거율 [nm/min]. 수율 함수와 계수는 이 프로젝트의 가정입니다.",
             reading: `타깃 ${metric("etch_rate_nm_min")} / 마스크 ${state("mask_rate_nm_min")} nm/min → S = ${result?.effective.selectivity_defined === true ? metric("selectivity") : "정의되지 않음"}`,
@@ -80,8 +79,7 @@ export function Equations({
           },
           {
             title: "공간 균일도: 평균만으로는 부족",
-            equation:
-              "q = r² / Rw²\nΓi(q) = Γ̄i [1 + aradial (0.5 − q)]\nNU = (dmax − dmin) / (2 d̄area) × 100%",
+            equations: modelEquations.etch.uniformity,
             variables:
               "q: 면적에 균등한 좌표 · aradial: 입력한 비균일 분포 계수 · d̄area: 면적 평균 깊이. 평균 깊이가 0이면 NU는 정의되지 않습니다.",
             reading: `aradial = ${format(params.radial_nonuniformity)} · NU = ${(metricValue(result, "etch_depth_nm") ?? 0) > 0 ? metric("nonuniformity_pct") : "정의되지 않음"} %`,
@@ -92,7 +90,7 @@ export function Equations({
       : [
           {
             title: "주입과 퍼지 → 챔버 분압",
-            equation: "dPi/dt = (ui − Pi) / τi",
+            equations: modelEquations.ald.chamberPressure,
             variables:
               "i = A 또는 B · ui: 밸브가 요구하는 분압 [Pa] · Pi: 실제 챔버 분압 [Pa] · τi: 공급/배기 응답 시간 [s].",
             reading: `공급 τ = ${state("fill_tau_s")} s · 배기 τ = ${state("pump_tau_s")} s · 실제 A 목표 분압 = ${state("pressure_a_pa")} Pa`,
@@ -101,8 +99,7 @@ export function Equations({
           },
           {
             title: "Knudsen 수송 → 깊은 곳의 노출",
-            equation:
-              "vᵢ = √(8 kBoltz T / (π mi))\nDi = (2H/3) vᵢ\n∂pi/∂t = Di ∂²pi/∂x² − (2q kBoltz T/H) ri",
+            equations: modelEquations.ald.transport,
             variables:
               "H: 슬릿 간격 [m] · q: 표면 자리 밀도 [m⁻²] · pi: 채널 분압 [Pa] · Di: 확산계수 [m²/s] · kBoltz: 볼츠만 상수. 입구 pi=Pi, 막힌 끝 ∂pi/∂x=0.",
             reading: `DA = ${state("diffusivity_a_m2_s")} m²/s · DB = ${state("diffusivity_b_m2_s")} m²/s · ${state("cells")} 셀`,
@@ -111,8 +108,7 @@ export function Equations({
           },
           {
             title: "표면 피복과 성장",
-            equation:
-              "ki = si(T) / [q √(2π mi kBoltz T)]\nrA = kA pA(1 − θ),  rB = kB pB θ\ndθ/dt = rA − rB;  dz/dt = rB\nh₁(x) = gsat z(x)",
+            equations: modelEquations.ald.surfaceGrowth,
             variables:
               "ki: 반응 계수 [Pa⁻¹s⁻¹] · θ: A 종결 비율 · z: B에 의한 누적 전환 횟수 · gsat: 완전 전환당 성장 환산량 [nm]. 여기서 kB는 B 반응 계수이며 볼츠만 상수 kBoltz와 다릅니다.",
             reading: `유효 sA = ${state("sticking_a")} · sB = ${state("sticking_b")} · 입구 쪽 h₁ = ${metric("gpc_nm")} nm`,
@@ -121,7 +117,7 @@ export function Equations({
           },
           {
             title: "온도와 반응 확률",
-            equation: "si(T) = si(Tref) exp[−Ea/kBoltz (1/T − 1/Tref)]",
+            equations: modelEquations.ald.temperature,
             variables:
               "Tref=473.15 K · Ea는 입력 eV를 J로 환산 · T는 절대온도 [K].",
             reading: `실제 온도 = ${state("temperature_c")} °C`,
@@ -130,7 +126,7 @@ export function Equations({
           },
           {
             title: "총 두께와 깊이 방향 피복",
-            equation: "hN(x) = N h₁(x)\nC = 100 × h₁(deep) / h₁(near)",
+            equations: modelEquations.ald.thickness,
             variables:
               "N: 반복 횟수 · near/deep: 첫/마지막 셀 중심 · C: 두께비 [%]. near 성장이 거의 0이면 두께비는 정의되지 않습니다.",
             reading: `${metric("gpc_nm")} nm × ${format(params.cycles)}회 = ${metric("top_thickness_nm")} nm · C = ${(metricValue(result, "gpc_nm") ?? 0) >= 1e-12 ? metric("conformality_pct") : "정의되지 않음"} %`,
@@ -139,9 +135,9 @@ export function Equations({
           },
           {
             title: "퍼지 평가: 중첩과 잔류",
-            equation: "O = ∫₀ᵀ min(PA, PB) dt\nPresidual = PA(T) + PB(T)",
+            equations: modelEquations.ald.purge,
             variables:
-              "O: 분압 중첩 적분 [Pa·s] · T: 한 사이클 종료 시각 [s] · Presidual: 종료 잔류 분압 [Pa].",
+              "O: 분압 중첩 적분 [Pa·s] · t_end: 한 사이클 종료 시각 [s] · Presidual: 종료 잔류 분압 [Pa]. 종료 시각은 온도 T와 구분합니다.",
             reading: `O = ${metric("overlap_pa_s")} Pa·s · 잔류 = ${metric("residual_pressure_pa")} Pa · 사이클 = ${metric("cycle_time_s")} s`,
             meaning:
               "퍼지 연장으로 잔류를 줄일 수 있지만 사이클 시간이 늘어납니다. 기준치는 프로젝트 규격으로 설정하며 실제 오염·결함의 합격 기준으로 해석하지 않습니다.",
@@ -164,7 +160,7 @@ export function Equations({
               <span>{String(index + 1).padStart(2, "0")}</span>
               <h3>{card.title}</h3>
             </div>
-            <pre aria-label={`${card.title} 수식`}>{card.equation}</pre>
+            <MathBlock expressions={card.equations} label={`${card.title} 수식`} />
             <p className="equation-variables">{card.variables}</p>
             <div className="equation-reading">
               <b>현재 계산</b>

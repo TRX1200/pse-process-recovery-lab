@@ -46,7 +46,7 @@ export function SweepPanel({
     result && metric
       ? {
           key: "sweep",
-          title: `${metric.label} · Parameter sweep`,
+          title: `${metric.label} · 단일 변수 스윕`,
           x_label: `${schema.params.find((item) => item.key === result.parameter)?.label ?? result.parameter} (${result.unit})`,
           y_label: metric.unit,
           x: result.runs.map((run) => run.input),
@@ -88,7 +88,7 @@ export function SweepPanel({
     <section className="sweep-panel">
       <div className="section-heading">
         <div>
-          <h2>Parameter sweep</h2>
+          <h2>단일 변수 스윕</h2>
           <p>다른 조건을 고정하고, 한 파라미터의 영향을 비교합니다.</p>
         </div>
         {result && (
@@ -172,7 +172,7 @@ export function SweepPanel({
             ) : (
               <ArrowRight size={16} />
             )}
-            {busy ? "계산 중…" : "Run sweep"}
+            {busy ? "계산 중…" : "스윕 계산"}
           </button>
         </fieldset>
       </form>
@@ -274,7 +274,7 @@ export function SweepPanel({
             <i />
             <i />
           </div>
-          <h3>한 번의 실험에서, 민감도까지.</h3>
+          <h3>아직 스윕 결과가 없습니다.</h3>
           <p>시작 · 끝 값과 계산 지점을 정해 첫 sweep을 실행하세요.</p>
         </div>
       )}

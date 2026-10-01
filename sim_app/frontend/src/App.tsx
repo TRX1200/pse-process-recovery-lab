@@ -5,13 +5,9 @@ import {
   ArrowUpFromLine,
   Beaker,
   BookOpen,
-  ChartNoAxesCombined,
   Check,
   ChevronDown,
-  CircleHelp,
   FileJson,
-  FlaskConical,
-  FolderOpen,
   Info,
   Layers3,
   LoaderCircle,
@@ -52,15 +48,21 @@ import { evaluate, loadSpecs, STATUS_LABELS } from "./assessment";
 import type { AssessmentBaseline, ProcessSpec } from "./assessment";
 import { durationOf, isTimeSeries } from "./playback";
 import { usePlayback } from "./usePlayback";
+import { Investigation } from "./components/Investigation";
+import type { InvestigationRecord } from "./investigation";
 import "./styles.css";
+import "./lab.css";
 
-type View = "simulate" | "sweep" | "recipes";
+type View = "investigation" | "simulate" | "sweep" | "recipes";
 type PlotTab =
   "process" | "physics" | "troubleshooting" | "assessment" | "equations";
 
 const studyGuideUrl = `${import.meta.env.BASE_URL}study/Process_Studio_Semiconductor_Study_KR.pdf`;
 
 export default function App() {
+  const [investigations, setInvestigations] = useState<
+    Partial<Record<ModelKey, InvestigationRecord>>
+  >({});
   const [schema, setSchema] = useState<Schema | null>(null);
   const [model, setModel] = useState<ModelKey>("etch");
   const [params, setParams] = useState<Params>({});
@@ -69,7 +71,7 @@ export default function App() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [toast, setToast] = useState("");
-  const [view, setView] = useState<View>("simulate");
+  const [view, setView] = useState<View>("investigation");
   const [tab, setTab] = useState<PlotTab>("process");
   const [showBaseline, setShowBaseline] = useState(true);
   const [baselineId, setBaselineId] = useState("auto");
@@ -80,6 +82,7 @@ export default function App() {
   const [notes, setNotes] = useState("");
   const [specs, setSpecs] = useState(loadSpecs);
   const importRef = useRef<HTMLInputElement>(null);
+  const workspaceRef = useRef<HTMLElement>(null);
   const resultTabsRef = useRef<HTMLDivElement>(null);
   const requestId = useRef(0);
   const playbackDuration = durationOf(run?.result);
@@ -157,14 +160,18 @@ export default function App() {
     }
   }, [run?.run_id]);
 
+  useEffect(() => {
+    workspaceRef.current?.scrollTo({ top: 0 });
+  }, [view, model]);
+
   if (!schema)
     return (
       <div className="boot-screen">
         <div className="brand-symbol">
           <Layers3 size={28} />
         </div>
-        <h1>PROCESS STUDIO</h1>
-        <p>ALD / Etch Simulator</p>
+        <h1>ALD / Etch Lab</h1>
+        <p>공정 실험 노트를 준비합니다.</p>
         {error ? (
           <>
             <div className="error-banner" role="alert">
@@ -415,62 +422,81 @@ export default function App() {
     }
   }
 
+  function openInvestigationRun(
+    item: Simulation,
+    nextTab: "process" | "assessment" | "equations" = "process",
+  ) {
+    requestId.current += 1;
+    setModel(item.model);
+    setParams(item.params);
+    setFault(item.fault);
+    setRun(item);
+    setBaselineId("auto");
+    setView("simulate");
+    setTab(nextTab);
+    playback.reset();
+    playback.setSpeed(item.model === "ald" ? 0.5 : 5);
+  }
+
+  function completeInvestigation(value: InvestigationRecord) {
+    setInvestigations((current) => ({ ...current, [model]: value }));
+    setHistory((current) => {
+      const ids = new Set(value.runs.map((item) => item.run_id));
+      const next = [
+        ...value.runs,
+        ...current.filter((item) => !ids.has(item.run_id)),
+      ].slice(0, 10);
+      try {
+        saveRuns(next);
+      } catch {
+        setToast(
+          "계산 결과를 저장하지 못했습니다. 실험 JSON으로 내려받아 주세요.",
+        );
+      }
+      return next;
+    });
+  }
+
   const navItems = [
-    { key: "simulate" as const, label: "Simulate", icon: FlaskConical },
-    { key: "sweep" as const, label: "Sweep", icon: ChartNoAxesCombined },
-    { key: "recipes" as const, label: "Recipes", icon: FolderOpen },
+    { key: "investigation" as const, label: "실험 노트" },
+    { key: "simulate" as const, label: "레시피 실험" },
+    { key: "sweep" as const, label: "조건 스윕" },
+    { key: "recipes" as const, label: "실행 기록" },
   ];
 
   return (
-    <div className="app-shell">
-      <nav className="nav-rail" aria-label="주 메뉴">
-        <div className="rail-brand" title="Process Studio">
-          <Layers3 size={27} />
-        </div>
-        <div className="rail-main">
+    <div
+      className={`app-shell lab-shell ${view === "investigation" || view === "recipes" ? "notebook-layout" : ""}`}
+    >
+      <header className="topbar">
+        <button
+          className="lab-brand"
+          disabled={busy}
+          onClick={() => setView("investigation")}
+        >
+          ALD / Etch Lab
+        </button>
+        <nav className="lab-nav" aria-label="주 메뉴">
           {navItems.map((item) => (
             <button
               key={item.key}
-              className={`rail-item ${view === item.key ? "active" : ""}`}
               aria-current={view === item.key ? "page" : undefined}
               disabled={busy}
               onClick={() => setView(item.key)}
             >
-              <item.icon size={22} strokeWidth={1.7} />
-              <span>{item.label}</span>
+              {item.label}
             </button>
           ))}
-        </div>
-        <button
-          className="rail-item rail-help"
-          onClick={() => setModal("notes")}
-        >
-          <CircleHelp size={22} />
-          <span>Model notes</span>
-        </button>
-      </nav>
-      <header className="topbar">
-        <div className="brand">
-          <strong>PROCESS STUDIO</strong>
-          <span>ALD / Etch Simulator</span>
-        </div>
-        <div className="model-switch" aria-label="공정 모델">
-          <button
-            className={model === "ald" ? "selected" : ""}
-            onClick={() => selectModel("ald")}
-            disabled={busy}
-          >
-            ALD
-          </button>
-          <button
-            className={model === "etch" ? "selected" : ""}
-            onClick={() => selectModel("etch")}
-            disabled={busy}
-          >
-            Plasma Etch
-          </button>
-        </div>
+        </nav>
         <div className="header-actions">
+          <a
+            className="lab-source"
+            href="https://github.com/TRX1200/pse-process-recovery-lab"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub ↗
+          </a>
           <a
             className="button secondary study-link"
             href={studyGuideUrl}
@@ -480,102 +506,131 @@ export default function App() {
             title="2주 학습 가이드 PDF"
           >
             <BookOpen size={16} />
-            <span>Study PDF</span>
+            <span>학습 PDF</span>
           </a>
-          <button
-            aria-label="Save recipe"
-            className="button secondary"
-            onClick={() => {
-              setRecipeName("");
-              setModal("save");
-            }}
-            disabled={busy}
-          >
-            <Save size={16} />
-            <span>Save recipe</span>
-          </button>
-          <details className="export-menu">
-            <summary
-              aria-label="Export recipe or run"
-              className="button secondary"
-            >
-              <ArrowUpFromLine size={16} />
-              <span>Export</span>
-              <ChevronDown size={13} />
-            </summary>
-            <div>
+          {view !== "investigation" && (
+            <>
               <button
-                onClick={() =>
-                  exportJson(`${model}-recipe.json`, currentRecipe())
-                }
+                aria-label="Save recipe"
+                className="button secondary"
+                onClick={() => {
+                  setRecipeName("");
+                  setModal("save");
+                }}
+                disabled={busy}
               >
-                <FileJson size={16} />
-                Recipe JSON
+                <Save size={16} />
+                <span>Save recipe</span>
               </button>
-              <button
-                disabled={!run}
-                onClick={() =>
-                  run &&
-                  exportJson(`${run.run_id}.json`, {
-                    ...run,
-                    user_notes: notes,
-                  })
-                }
-              >
-                <ArrowDownToLine size={16} />
-                Run JSON + notes
-              </button>
-              <button disabled={!run} onClick={() => run && exportRunCsv(run)}>
-                <ArrowDownToLine size={16} />
-                Run data CSV
-              </button>
-            </div>
-          </details>
+              <details className="export-menu">
+                <summary
+                  aria-label="Export recipe or run"
+                  className="button secondary"
+                >
+                  <ArrowUpFromLine size={16} />
+                  <span>Export</span>
+                  <ChevronDown size={13} />
+                </summary>
+                <div>
+                  <button
+                    onClick={() =>
+                      exportJson(`${model}-recipe.json`, currentRecipe())
+                    }
+                  >
+                    <FileJson size={16} />
+                    Recipe JSON
+                  </button>
+                  <button
+                    disabled={!run}
+                    onClick={() =>
+                      run &&
+                      exportJson(`${run.run_id}.json`, {
+                        ...run,
+                        user_notes: notes,
+                      })
+                    }
+                  >
+                    <ArrowDownToLine size={16} />
+                    Run JSON + notes
+                  </button>
+                  <button
+                    disabled={!run}
+                    onClick={() => run && exportRunCsv(run)}
+                  >
+                    <ArrowDownToLine size={16} />
+                    Run data CSV
+                  </button>
+                </div>
+              </details>
+            </>
+          )}
         </div>
       </header>
-      <Controls
-        schema={modelSchema}
-        params={params}
-        onChange={(key, value) =>
-          setParams((current) => ({ ...current, [key]: value }))
-        }
-        busy={busy}
-        onRun={() => void execute()}
-        onReset={reset}
-        recipes={modelRecipes}
-        onLoadRecipe={loadRecipe}
-      />
-      <main className="workspace">
-        <div className="workspace-heading">
-          <div>
-            <h1>
-              {view === "recipes"
-                ? "Recipe library"
-                : view === "sweep"
-                  ? "Explore the process window"
-                  : modelSchema.label}
-            </h1>
-            <p>
-              {view === "recipes"
-                ? "레시피와 실행 기록을 저장하고, 다음 실험으로 이어갑니다."
-                : view === "sweep"
-                  ? "조건을 바꾸고, 공정 응답의 방향과 민감도를 확인하세요."
-                  : "레시피에서 물리 모델로, 물리 모델에서 공정 응답으로."}
-            </p>
-          </div>
-          <div className="model-caption">
-            {model === "etch"
-              ? "Ar 기반 입자·전력 수지 / 유효 반응종"
-              : "열 ALD / 반응·확산 모델"}
-            <button
-              onClick={() => setModal("notes")}
-              title="모델 가정과 한계 보기"
-              aria-label="모델 가정과 한계 보기"
-            >
-              <Info size={16} />
-            </button>
-          </div>
+      {(view === "simulate" || view === "sweep") && (
+        <Controls
+          schema={modelSchema}
+          params={params}
+          onChange={(key, value) =>
+            setParams((current) => ({ ...current, [key]: value }))
+          }
+          busy={busy}
+          onRun={() => void execute()}
+          onReset={reset}
+          recipes={modelRecipes}
+          onLoadRecipe={loadRecipe}
+        />
+      )}
+      <main className="workspace" ref={workspaceRef}>
+        <div className="process-navigation" aria-label="공정 모델">
+          <button
+            className={model === "etch" ? "active" : ""}
+            aria-pressed={model === "etch"}
+            disabled={busy}
+            onClick={() => selectModel("etch")}
+          >
+            01 <span>Plasma Etch</span>
+          </button>
+          <button
+            className={model === "ald" ? "active" : ""}
+            aria-pressed={model === "ald"}
+            disabled={busy}
+            onClick={() => selectModel("ald")}
+          >
+            02 <span>Thermal ALD</span>
+          </button>
         </div>
+        {view !== "investigation" && (
+          <div className="workspace-heading">
+            <div>
+              <h1>
+                {view === "recipes"
+                  ? "레시피와 실행 기록"
+                  : view === "sweep"
+                    ? "조건에 따른 응답 비교"
+                    : `${modelSchema.label} · 레시피 실험`}
+              </h1>
+              <p>
+                {view === "recipes"
+                  ? "레시피와 실행 기록을 저장하고, 다음 실험으로 이어갑니다."
+                  : view === "sweep"
+                    ? "조건을 바꾸고, 공정 응답의 방향과 민감도를 확인하세요."
+                    : "조건을 바꿔 계산한 뒤, 목표 규격과 수식으로 결과를 해석합니다."}
+              </p>
+            </div>
+            <div className="model-caption">
+              {model === "etch"
+                ? "Ar 기반 입자·전력 수지 / 유효 반응종"
+                : "열 ALD / 반응·확산 모델"}
+              <button
+                onClick={() => setModal("notes")}
+                title="모델 가정과 한계 보기"
+                aria-label="모델 가정과 한계 보기"
+              >
+                <Info size={16} />
+              </button>
+            </div>
+          </div>
+        )}
         {error && (
           <div className="error-banner" role="alert">
             <TriangleAlert size={18} />
@@ -591,7 +646,23 @@ export default function App() {
             {toast}
           </div>
         )}
-        {view === "simulate" ? (
+        {view === "investigation" ? (
+          <Investigation
+            key={model}
+            model={model}
+            schema={modelSchema}
+            busy={busy}
+            setBusy={setBusy}
+            record={investigations[model]}
+            onComplete={completeInvestigation}
+            onOpenRun={openInvestigationRun}
+            onExplore={(nextTab = "process") => {
+              setView("simulate");
+              setTab(nextTab);
+            }}
+            spec={specs[model]}
+          />
+        ) : view === "simulate" ? (
           <>
             {pending && (
               <div className="pending-banner">
@@ -622,19 +693,24 @@ export default function App() {
                 controller={playback}
               />
             )}
-            <div
-              className={`simulation-overview ${result && !invalid ? "playback-overview" : ""}`}
-            >
-              <Reactor
-                model={model}
-                result={invalid ? undefined : result}
-                params={displayedParams}
-                time={playback.time}
-                motion={playback.motion}
-                playing={playback.playing && !playback.reduceMotion}
-              />
-              <Metrics model={model} result={result} baseline={baseline} />
-            </div>
+            {(tab === "process" || tab === "physics") && (
+              <details className="reactor-details">
+                <summary>반응기 개념도와 계산 상태</summary>
+                <div
+                  className={`simulation-overview ${result && !invalid ? "playback-overview" : ""}`}
+                >
+                  <Reactor
+                    model={model}
+                    result={invalid ? undefined : result}
+                    params={displayedParams}
+                    time={playback.time}
+                    motion={playback.motion}
+                    playing={playback.playing && !playback.reduceMotion}
+                  />
+                  <Metrics model={model} result={result} baseline={baseline} />
+                </div>
+              </details>
+            )}
             <div className={`quality-summary ${review.status}`}>
               <div>
                 <strong>{STATUS_LABELS[review.status]}</strong>
@@ -1094,7 +1170,7 @@ export default function App() {
             Reduced physical model · 실험 데이터 검증 전의 학습용 모델
           </button>
           <span>
-            PROCESS STUDIO v0.4.0 ·{" "}
+            ALD / Etch Lab v0.5.0 ·{" "}
             {usesBrowserPython ? "Browser Python" : "Local Python"}
           </span>
         </footer>

@@ -102,7 +102,7 @@ export function Controls({
   return (
     <aside className="control-panel">
       <div className="control-title">
-        <h2>Recipe controls</h2>
+        <h2>레시피 입력</h2>
         <SlidersHorizontal size={17} />
       </div>
       <form
@@ -177,7 +177,7 @@ export function Controls({
             ) : (
               <Play size={17} fill="currentColor" />
             )}{" "}
-            {busy ? "계산 중…" : "Run simulation"}
+            {busy ? "계산 중…" : "레시피 계산 · 재생"}
           </button>
           <button
             className="button secondary"
