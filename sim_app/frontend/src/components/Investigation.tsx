@@ -425,7 +425,7 @@ function InvestigationNotebook({
                           onClick={() => onOpenRun(runs[index], "process")}
                           title={`${runs[index].run_id} · ${runs[index].result.model_version}`}
                         >
-                          run {runs[index].run_id}
+                          표면 변화 보기 ↗
                         </button>
                       )}
                     </th>

@@ -42,6 +42,7 @@ import { Modal } from "./components/Modal";
 import { Reactor } from "./components/Reactor";
 import { SweepPanel } from "./components/SweepPanel";
 import { Playback } from "./components/Playback";
+import { SurfaceSection } from "./components/SurfaceSection";
 import { AssessmentPanel } from "./components/AssessmentPanel";
 import { Equations } from "./components/Equations";
 import { evaluate, loadSpecs, STATUS_LABELS } from "./assessment";
@@ -696,6 +697,9 @@ export default function App() {
                 duration={playbackDuration}
                 controller={playback}
               />
+            )}
+            {run && result && !invalid && (tab === "process" || tab === "physics") && (
+              <SurfaceSection run={run} time={playback.time} />
             )}
             {(tab === "process" || tab === "physics") && (
               <details className="reactor-details">
