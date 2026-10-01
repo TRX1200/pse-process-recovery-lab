@@ -657,8 +657,12 @@ export default function App() {
             onComplete={completeInvestigation}
             onOpenRun={openInvestigationRun}
             onExplore={(nextTab = "process") => {
-              setView("simulate");
-              setTab(nextTab);
+              const reference = investigations[model]?.runs[0];
+              if (reference) openInvestigationRun(reference, nextTab);
+              else {
+                setView("simulate");
+                setTab(nextTab);
+              }
             }}
             spec={specs[model]}
           />
