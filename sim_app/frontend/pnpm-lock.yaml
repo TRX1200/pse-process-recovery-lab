@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       katex:
-        specifier: 0.18.10
-        version: 0.18.10
+        specifier: 0.18.9
+        version: 0.18.9
       lucide-react:
         specifier: ^0.468.0
         version: 0.468.0(react@19.3.0)
@@ -546,8 +546,8 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
-  katex@0.18.10:
-    resolution: {integrity: sha512-/B6p9eY9DX7aHBfpkHdpirDTZ5QH9xTwL9y837PWuzuv41O5jFdqNQwVQEQsimY0/iVNkwBY4+4hMfhQ7d4Dbw==}
+  katex@0.18.9:
+    resolution: {integrity: sha512-8ad9RyoKsb/g8/yLFE+KAlP+DhbCTRUNi/V9XGsxn0R+trJJltNwzcDNo0q/DEkOy5fQUQTAQyCXCYSE+OakTQ==}
     hasBin: true
 
   lru-cache@5.1.1:
@@ -1072,7 +1072,7 @@ snapshots:
 
   json5@2.2.3: {}
 
-  katex@0.18.10:
+  katex@0.18.9:
     dependencies:
       commander: 15.0.0
 
