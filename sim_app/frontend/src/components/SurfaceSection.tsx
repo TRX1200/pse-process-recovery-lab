@@ -15,14 +15,14 @@ const TOP = 98;
 const BOTTOM = 272;
 const fmt = (v: number) => metricNumber(v, 4);
 
-export function SurfaceSection({ run, time }: { run: Simulation; time: number | null }) {
+export function SurfaceSection({ run, time, focus = false }: { run: Simulation; time: number | null; focus?: boolean }) {
   const { model, result, params } = run;
   const svg = useRef<SVGSVGElement>(null);
   const domain = useMemo(() => surfaceDomain(model, result, params), [model, result, params]);
   const currentTime = time ?? durationOf(result);
   const values = domain ? surfaceFrame(result, domain, currentTime) : null;
   if (!domain || !values) return (
-    <section className="surface-panel" aria-label="표면 변화">
+    <section className={`surface-panel ${focus ? "surface-focus" : ""}`} aria-label="표면 변화">
       <h2>표면 변화</h2>
       <p>이 실행에는 표시 가능한 시간별 표면 데이터가 없습니다. 레시피를 다시 계산해 주세요.</p>
     </section>
@@ -61,7 +61,7 @@ export function SurfaceSection({ run, time }: { run: Simulation; time: number | 
   }
 
   return (
-    <section className="surface-panel" aria-label="표면 변화">
+    <section className={`surface-panel ${focus ? "surface-focus" : ""}`} aria-label="표면 변화">
       <header className="surface-heading">
         <div><span className="surface-eyebrow">SURFACE / {ald ? "DEPOSITION" : "REMOVAL"}</span>
           <h2>{ald ? "채널 안쪽에 막이 자라는 과정" : "웨이퍼 표면이 깎이는 과정"}</h2></div>
@@ -126,10 +126,10 @@ export function SurfaceSection({ run, time }: { run: Simulation; time: number | 
         {probes.map(({ label, index }) => <div key={label}><span>{label} <small>{fmt(domain.x[index])} {ald ? "µm" : "mm"}</small></span>
           <strong>{fmt(values[index])} <small>nm</small></strong></div>)}
       </div>
-      <p className="surface-caption">{ald
+      <details className="surface-explanation" open={!focus}><summary>표시 방법과 계산 범위</summary><p className="surface-caption">{ald
         ? "초록 영역은 누적 성장량입니다. 기본 100배 표시이며 영역을 넘으면 배율을 낮춥니다. 비교할 때 표시 배율과 실제 nm 값을 확인하세요. 계단 모양은 셀별 표시이며 거칠기 예측이 아닙니다. A 피복률은 아래 그래프에 표시하고, 계산에 쓰는 채널 형상은 고정합니다."
         : "붉은 영역은 제거된 재료, 회색은 남은 재료입니다. 거의 평평하게 보이면 위치별 차이가 작은 것입니다. 깊이 축은 한 실행의 모든 시각에 동일하게 적용됩니다."}
-        {" "}위 재생 막대로 시각을 바꾸면 단면과 시간 그래프가 함께 갱신됩니다.</p>
+        {" "}위 재생 막대로 시각을 바꾸면 단면과 시간 그래프가 함께 갱신됩니다.</p></details>
     </section>
   );
 }

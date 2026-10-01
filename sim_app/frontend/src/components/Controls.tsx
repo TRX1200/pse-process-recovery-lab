@@ -6,7 +6,8 @@ import {
   SlidersHorizontal,
   Box,
 } from "lucide-react";
-import type { ModelSchema, Parameter, Params, Recipe } from "../types";
+import type { ModelKey, ModelSchema, Parameter, Params, Recipe } from "../types";
+import { QUICK_KEYS } from "../userGuide";
 
 function ParameterControl({
   parameter,
@@ -69,6 +70,7 @@ function ParameterControl({
 }
 
 export function Controls({
+  model,
   schema,
   params,
   onChange,
@@ -78,6 +80,7 @@ export function Controls({
   recipes,
   onLoadRecipe,
 }: {
+  model: ModelKey;
   schema: ModelSchema;
   params: Params;
   onChange: (key: string, value: number) => void;
@@ -88,6 +91,7 @@ export function Controls({
   onLoadRecipe: (recipe: Recipe) => void;
 }) {
   const groups = [
+    "Quick",
     ...new Set(
       schema.params
         .filter((parameter) => parameter.key !== "fault_severity")
@@ -95,7 +99,8 @@ export function Controls({
     ),
   ];
   const groupLabels: Record<string, string> = {
-    Recipe: "공정 파라미터",
+    Quick: "먼저 조절할 조건 4개",
+    Recipe: "추가 레시피 조건",
     Chamber: "챔버 · 수송 조건",
     Advanced: "물리 모델 파라미터",
   };
@@ -151,7 +156,7 @@ export function Controls({
                 {schema.params
                   .filter(
                     (parameter) =>
-                      parameter.group === group &&
+                      (group === "Quick" ? QUICK_KEYS[model].includes(parameter.key) : parameter.group === group && !QUICK_KEYS[model].includes(parameter.key)) &&
                       parameter.key !== "fault_severity",
                   )
                   .map((parameter) => (

@@ -10,12 +10,14 @@ export function Playback({
   params,
   duration,
   controller,
+  compact = false,
 }: {
   model: ModelKey;
   result: ModelResult;
   params: Params;
   duration: number;
   controller: ReturnType<typeof usePlayback>;
+  compact?: boolean;
 }) {
   const time = controller.time ?? duration;
   const stage = stageAt(model, params, time, duration);
@@ -61,7 +63,7 @@ export function Playback({
           },
         ];
   return (
-    <section className="playback-panel" aria-label="시뮬레이션 시간 재생">
+    <section className={`playback-panel ${compact ? "compact-playback" : ""}`} aria-label="시뮬레이션 시간 재생">
       <div className="playback-heading">
         <span
           className={`playback-status ${controller.playing ? "is-playing" : ""}`}

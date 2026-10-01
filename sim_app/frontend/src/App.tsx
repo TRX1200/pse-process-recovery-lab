@@ -43,6 +43,8 @@ import { Reactor } from "./components/Reactor";
 import { SweepPanel } from "./components/SweepPanel";
 import { Playback } from "./components/Playback";
 import { SurfaceSection } from "./components/SurfaceSection";
+import { SurfaceWorkspace } from "./components/SurfaceWorkspace";
+import { UserGuide } from "./components/UserGuide";
 import { AssessmentPanel } from "./components/AssessmentPanel";
 import { Equations } from "./components/Equations";
 import { evaluate, loadSpecs, STATUS_LABELS } from "./assessment";
@@ -53,8 +55,9 @@ import { Investigation } from "./components/Investigation";
 import type { InvestigationRecord } from "./investigation";
 import "./styles.css";
 import "./lab.css";
+import "./guide.css";
 
-type View = "investigation" | "simulate" | "sweep" | "recipes";
+type View = "investigation" | "simulate" | "surface" | "manual" | "sweep" | "recipes";
 type PlotTab =
   "process" | "physics" | "troubleshooting" | "assessment" | "equations";
 
@@ -89,8 +92,8 @@ export default function App() {
   const playbackDuration = durationOf(run?.result);
   const playback = usePlayback(
     playbackDuration,
-    view === "simulate" &&
-      (tab === "process" || tab === "physics") &&
+    (view === "surface" || (view === "simulate" &&
+      (tab === "process" || tab === "physics"))) &&
       !busy &&
       modal === null,
   );
@@ -163,6 +166,7 @@ export default function App() {
 
   useEffect(() => {
     workspaceRef.current?.scrollTo({ top: 0 });
+    window.scrollTo({ top: 0 });
   }, [view, model]);
 
   if (!schema)
@@ -312,10 +316,14 @@ export default function App() {
       const response = await simulate(model, params, fault);
       if (token === requestId.current) {
         record(response);
-        setView("simulate");
+        setView(view === "surface" ? "surface" : "simulate");
         setTab("process");
         if (durationOf(response.result) > 0) playback.start();
         else playback.reset();
+        if (view === "surface") requestAnimationFrame(() => {
+          workspaceRef.current?.scrollTo({ top: 0 });
+          window.scrollTo({ top: 0 });
+        });
       }
     } catch (error) {
       if (token === requestId.current)
@@ -426,6 +434,7 @@ export default function App() {
   function openInvestigationRun(
     item: Simulation,
     nextTab: "process" | "assessment" | "equations" = "process",
+    focusSurface = false,
   ) {
     requestId.current += 1;
     setModel(item.model);
@@ -433,7 +442,7 @@ export default function App() {
     setFault(item.fault);
     setRun(item);
     setBaselineId("auto");
-    setView("simulate");
+    setView(focusSurface ? "surface" : "simulate");
     setTab(nextTab);
     playback.reset();
     playback.setSpeed(item.model === "ald" ? 0.5 : 5);
@@ -460,14 +469,16 @@ export default function App() {
 
   const navItems = [
     { key: "investigation" as const, label: "실험 노트" },
+    { key: "surface" as const, label: "표면 관찰" },
     { key: "simulate" as const, label: "레시피 실험" },
     { key: "sweep" as const, label: "조건 스윕" },
     { key: "recipes" as const, label: "실행 기록" },
+    { key: "manual" as const, label: "사용 설명서" },
   ];
 
   return (
     <div
-      className={`app-shell lab-shell ${view === "investigation" || view === "recipes" ? "notebook-layout" : ""}`}
+      className={`app-shell lab-shell ${view !== "simulate" && view !== "sweep" ? "notebook-layout" : ""} ${view === "surface" ? "surface-layout" : ""}`}
     >
       <header className="topbar">
         <button
@@ -509,7 +520,7 @@ export default function App() {
             <BookOpen size={16} />
             <span>학습 PDF</span>
           </a>
-          {view !== "investigation" && (
+          {view !== "investigation" && view !== "manual" && view !== "surface" && (
             <>
               <button
                 aria-label="Save recipe"
@@ -569,6 +580,7 @@ export default function App() {
       </header>
       {(view === "simulate" || view === "sweep") && (
         <Controls
+          model={model}
           schema={modelSchema}
           params={params}
           onChange={(key, value) =>
@@ -606,6 +618,10 @@ export default function App() {
               <h1>
                 {view === "recipes"
                   ? "레시피와 실행 기록"
+                  : view === "surface"
+                    ? `${modelSchema.label} · 표면 관찰`
+                  : view === "manual"
+                    ? "사용 설명서"
                   : view === "sweep"
                     ? "조건에 따른 응답 비교"
                     : `${modelSchema.label} · 레시피 실험`}
@@ -613,6 +629,10 @@ export default function App() {
               <p>
                 {view === "recipes"
                   ? "레시피와 실행 기록을 저장하고, 다음 실험으로 이어갑니다."
+                  : view === "surface"
+                    ? "시간을 움직이며 공정 표면과 실제 계산값을 읽습니다."
+                  : view === "manual"
+                    ? "처음 조절할 조건부터 전체 파라미터의 의미까지."
                   : view === "sweep"
                     ? "조건을 바꾸고, 공정 응답의 방향과 민감도를 확인하세요."
                     : "조건을 바꿔 계산한 뒤, 목표 규격과 수식으로 결과를 해석합니다."}
@@ -656,7 +676,7 @@ export default function App() {
             setBusy={setBusy}
             record={investigations[model]}
             onComplete={completeInvestigation}
-            onOpenRun={openInvestigationRun}
+            onOpenRun={(item, nextTab) => openInvestigationRun(item, nextTab, nextTab === "process")}
             onExplore={(nextTab = "process") => {
               const reference = investigations[model]?.runs[0];
               if (reference) openInvestigationRun(reference, nextTab);
@@ -666,6 +686,18 @@ export default function App() {
               }
             }}
             spec={specs[model]}
+          />
+        ) : view === "manual" ? (
+          <UserGuide key={model} schema={schema} model={model} onStart={() => setView("surface")} />
+        ) : view === "surface" ? (
+          <SurfaceWorkspace
+            model={model} schema={modelSchema} params={params} fault={fault}
+            run={run} pending={pending} busy={busy} controller={playback}
+            onChange={(key, value) => setParams(current => ({ ...current, [key]: value }))}
+            onFault={value => { setFault(value); setBaselineId("auto"); }}
+            onRun={() => void execute()}
+            onEditAll={() => { setView("simulate"); setTab("process"); }}
+            onGuide={() => setView("manual")}
           />
         ) : view === "simulate" ? (
           <>
