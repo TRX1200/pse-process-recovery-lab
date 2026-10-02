@@ -1,0 +1,6 @@
+# Tested Windows CPython 3.12 wheel pair. ViennaLS 5.9.0 cannot load with
+# ViennaPS 4.6.2 (BoundaryType pybind registration mismatch).
+ViennaPS==4.6.2
+ViennaLS==5.8.5
+numpy==2.5.3
+scipy==1.18.1

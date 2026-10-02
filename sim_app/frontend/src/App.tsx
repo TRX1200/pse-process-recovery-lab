@@ -45,6 +45,7 @@ import { Playback } from "./components/Playback";
 import { SurfaceSection } from "./components/SurfaceSection";
 import { SurfaceWorkspace } from "./components/SurfaceWorkspace";
 import { UserGuide } from "./components/UserGuide";
+import { NativeWorkbench } from "./components/NativeWorkbench";
 import { AssessmentPanel } from "./components/AssessmentPanel";
 import { Equations } from "./components/Equations";
 import { evaluate, loadSpecs, STATUS_LABELS } from "./assessment";
@@ -57,7 +58,7 @@ import "./styles.css";
 import "./lab.css";
 import "./guide.css";
 
-type View = "investigation" | "simulate" | "surface" | "manual" | "sweep" | "recipes";
+type View = "native" | "investigation" | "simulate" | "surface" | "manual" | "sweep" | "recipes";
 type PlotTab =
   "process" | "physics" | "troubleshooting" | "assessment" | "equations";
 
@@ -75,7 +76,7 @@ export default function App() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [toast, setToast] = useState("");
-  const [view, setView] = useState<View>("investigation");
+  const [view, setView] = useState<View>("native");
   const [tab, setTab] = useState<PlotTab>("process");
   const [showBaseline, setShowBaseline] = useState(true);
   const [baselineId, setBaselineId] = useState("auto");
@@ -117,6 +118,7 @@ export default function App() {
   }
 
   useEffect(() => {
+    if (view === "native" || schema) return;
     let active = true;
     async function initialize() {
       setBusy(true);
@@ -143,7 +145,9 @@ export default function App() {
     return () => {
       active = false;
     };
-  }, []);
+  // Initialize the earlier teaching engine only when its workspace is opened.
+  // The native viewer needs neither a Pyodide download nor a legacy model run.
+  }, [view]);
 
   useEffect(() => {
     if (!toast) return;
@@ -168,6 +172,20 @@ export default function App() {
     workspaceRef.current?.scrollTo({ top: 0 });
     window.scrollTo({ top: 0 });
   }, [view, model]);
+
+  if (view === "native")
+    return <div className="app-shell lab-shell notebook-layout">
+      <header className="topbar">
+        <button className="lab-brand" onClick={() => setView("native")}>ALD / Etch Lab</button>
+        <nav className="lab-nav" aria-label="주 메뉴">
+          <button aria-current="page">형상 시뮬레이터</button>
+          <button disabled={busy} onClick={() => setView("investigation")}>기존 학습 도구</button>
+          <a className="native-manual-link" href="https://github.com/TRX1200/pse-process-recovery-lab/blob/main/docs/NATIVE_SIMULATOR_KR.md" target="_blank" rel="noreferrer">형상 해석 설명서 ↗</a>
+        </nav>
+        <div className="header-actions"><a className="lab-source" href="https://github.com/TRX1200/pse-process-recovery-lab" target="_blank" rel="noreferrer">GitHub ↗</a></div>
+      </header>
+      <main className="workspace"><NativeWorkbench setBusy={setBusy} /></main>
+    </div>;
 
   if (!schema)
     return (
@@ -468,6 +486,7 @@ export default function App() {
   }
 
   const navItems = [
+    { key: "native" as const, label: "형상 시뮬레이터" },
     { key: "investigation" as const, label: "실험 노트" },
     { key: "surface" as const, label: "표면 관찰" },
     { key: "simulate" as const, label: "레시피 실험" },
@@ -484,7 +503,7 @@ export default function App() {
         <button
           className="lab-brand"
           disabled={busy}
-          onClick={() => setView("investigation")}
+          onClick={() => setView("native")}
         >
           ALD / Etch Lab
         </button>

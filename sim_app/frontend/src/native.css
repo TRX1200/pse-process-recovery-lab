@@ -1,0 +1,44 @@
+.native-workbench { color: #24323b; max-width: 1620px; margin: 0 auto; }
+.lab-nav .native-manual-link { padding: 22px 8px; color: inherit; font-size: 13px; text-decoration: none; white-space: nowrap; }
+.native-heading { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 8px 0 22px; }
+.native-eyebrow { font: 11px var(--font-mono, monospace); letter-spacing: .12em; color: #64737a; }
+.native-heading h1 { font-size: 28px; letter-spacing: -.045em; margin: 7px 0; }
+.native-heading p { margin: 0; color: #647079; font-size: 13px; }
+.native-connection { font-size: 12px; white-space: nowrap; }
+.native-connection small { display: block; color: #76818a; margin-top: 7px; font: 10px monospace; }
+.native-connection i { display: inline-block; width: 7px; height: 7px; background: #9c8d6d; border-radius: 50%; margin-right: 7px; }
+.native-connection.connected i { background: #47806e; }
+.native-launch { display: flex; gap: 10px 20px; flex-wrap: wrap; align-items: center; padding: 13px 16px; background: #f1eee6; border: 1px solid #ded7c9; font-size: 12px; margin-bottom: 18px; }
+.native-launch span { color: #69736f; }.native-launch a { margin-left: auto; }
+.native-model-switch { display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #ccd2d2; padding-bottom: 15px; margin-bottom: 18px; flex-wrap: wrap; }
+.native-model-switch button, .native-tabs button { border: none; padding: 10px 15px; color: #69757d; background: transparent; font-weight: 600; font-size: 13px; cursor: pointer; }
+.native-model-switch button[aria-pressed=true] { background: #253b49; color: white; }.native-model-switch span { margin-left: auto; font-size: 11px; color: #7b8589; }
+.native-layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 24px; align-items: start; }
+.native-controls { background: #f6f7f5; border: 1px solid #d7dcdb; min-width: 0; }
+.native-control-heading { display: flex; align-items: center; justify-content: space-between; padding: 14px; }
+.native-control-heading h2 { font-size: 13px; margin: 0; }.native-control-heading button { padding: 3px; border: 0; background: none; cursor: pointer; }
+.native-input-hint { font-size: 11px; line-height: 1.65; color: #6d797e; padding: 0 14px 12px; margin: 0; }
+.native-controls details { border-top: 1px solid #d7dcdb; }.native-controls summary { font-size: 12px; font-weight: 650; padding: 12px 14px; cursor: pointer; }
+.native-field { display: block; padding: 0 14px 15px; }.native-field > span { display: flex; justify-content: space-between; align-items: center; font-size: 12px; margin-bottom: 6px; gap: 6px; }
+.native-field > span small { font-size: 10px; color: #73818a; text-align: right; }
+.native-field input { width: 100%; background: #fff; border: 1px solid #cbd1d0; border-radius: 3px; padding: 7px 9px; font: 13px var(--font-mono, monospace); color: #263843; }
+.native-field input:disabled { background: #eef0ed; color: #647077; }.native-field > small { font-size: 10px; line-height: 1.55; color: #7b8589; display: block; margin-top: 4px; }
+.native-run-actions { border-top: 1px solid #d7dcdb; padding: 14px; display: grid; gap: 8px; }
+.native-main { min-width: 0; scroll-margin-top: 85px; }.native-tabs { display: flex; border-bottom: 1px solid #cdd4d4; margin-bottom: 12px; }.native-tabs button[aria-pressed=true] { color: #243b4a; box-shadow: inset 0 -2px #243b4a; }
+.native-result-toolbar { display: flex; align-items: center; gap: 12px; min-height: 36px; flex-wrap: wrap; font-size: 11px; margin: 0 0 9px; }.native-result-toolbar code { color: #849097; font-size: 10px; margin-right: auto; }
+.native-source-label { font-weight: 650; }.native-result-toolbar button, .native-view-options button, .native-examples button, .native-evidence button { display: inline-flex; align-items: center; gap: 5px; border: 1px solid #ccd4d4; padding: 6px 9px; background: #fff; font-size: 11px; color: #364c59; cursor: pointer; }
+.native-view-options { background: #253340; color: #d4dfe4; display: flex; gap: 18px; padding: 10px 14px; align-items: center; font-size: 11px; flex-wrap: wrap; }
+.native-view-options label { display: flex; align-items: center; gap: 5px; }.native-view-options input { accent-color: #e6b965; }.native-view-options select { background: #344654; color: #f1f4f4; border: 0; padding: 3px; }.native-view-options button { background: transparent; border-color: #72808a; color: #efb899; margin-left: auto; }
+.native-viewport { width: 100%; display: block; min-height: 300px; max-height: 690px; background: #17222d; }
+.native-legend { display: flex; gap: 17px; flex-wrap: wrap; background: #253340; color: #c5d2db; padding: 10px 14px; font-size: 10px; }.native-legend .silicon:before, .native-legend .mask:before, .native-legend .film:before { content: ''; display: inline-block; width: 9px; height: 9px; margin-right: 5px; background: #72808e; }.native-legend .mask:before { background: #5388a0; }.native-legend .film:before { background: #e6b965; }.native-legend .comparison { color: #f58e74; }
+.native-playback { display: flex; gap: 15px; align-items: center; padding: 13px 0 3px; }.native-playback input { flex: 1; min-width: 0; accent-color: #385866; }.native-playback output { font: 12px monospace; min-width: 85px; text-align: right; }.native-playback button { border: 1px solid #cad2d1; background: white; width: 33px; height: 30px; display: grid; place-content: center; cursor: pointer; }
+.native-frame-note { color: #7a858b; font-size: 10px; margin: 8px 0 18px; line-height: 1.6; }
+.native-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid #ccd4d4; border-bottom: 1px solid #ccd4d4; padding: 17px 0; margin-bottom: 17px; gap: 10px; }.native-metrics > div { border-right: 1px solid #dce1e0; padding-right: 10px; }.native-metrics > div:last-child { border: 0; }.native-metrics span, .native-metrics > div > small { display: block; font-size: 10px; color: #6d7d85; }.native-metrics strong { display: block; font: 23px var(--font-mono, monospace); margin: 7px 0; }.native-metrics strong small { font: 10px sans-serif; color: #6d7d85; }
+.native-examples { display: flex; align-items: center; gap: 8px; padding: 0 0 16px; flex-wrap: wrap; }.native-examples span { font-size: 11px; color: #6d7d85; margin-right: auto; }
+.native-pending, .native-warning { background: #f2ece0; color: #7b6034; border-left: 3px solid #b99a63; padding: 11px 14px; font-size: 12px; line-height: 1.6; }
+.native-progress { margin: 0 0 12px; background: #e7efea; color: #365b4e; padding: 12px 15px; display: grid; gap: 8px; font-size: 12px; }.native-progress progress { width: 100%; height: 7px; accent-color: #4e7c68; }.native-progress small { font-size: 10px; }
+.native-evidence { padding: 16px 12px; font-size: 13px; line-height: 1.85; }.native-evidence h2 { font-size: 20px; }.native-evidence h3 { margin-top: 26px; font-size: 14px; }.native-evidence a { color: #35647d; }.native-evidence table { border-collapse: collapse; width: 100%; font-size: 12px; }.native-evidence td, .native-evidence th { padding: 9px 10px; text-align: left; border-bottom: 1px solid #d9dfde; }.native-evidence th { background: #ecf0ed; }.native-evidence pre { overflow: auto; max-height: 420px; font-size: 11px; background: #e9eeeb; padding: 15px; }.native-equation { white-space: pre-wrap; font: 15px/2 monospace; background: #e9eeeb; padding: 18px; }
+.native-loading { min-height: 180px; display: grid; place-content: center; font-size: 13px; color: #718087; }
+@media (min-width: 1500px) { .native-layout { grid-template-columns: 280px minmax(0, 1fr); gap: 30px; } }
+@media (max-width: 1000px) { .native-layout { grid-template-columns: 210px minmax(0, 1fr); gap: 16px; }.native-heading { align-items: start; }.native-heading h1 { font-size: 24px; }.native-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }.native-model-switch span { display: none; } }
+@media (max-width: 720px) { .native-heading { display: block; }.native-connection { margin-top: 14px; }.native-layout { display: flex; flex-direction: column; }.native-controls { width: 100%; order: 2; }.native-main { width: 100%; order: 1; }.native-viewport { min-height: 240px; }.native-heading h1 { font-size: 23px; }.native-model-switch button { font-size: 11px; padding: 10px; }.native-result-toolbar { gap: 8px; }.native-metrics strong { font-size: 20px; }.native-tabs button { font-size: 12px; padding: 10px; }.native-evidence { padding: 10px 0; }.native-evidence table { font-size: 10px; }.native-evidence td, .native-evidence th { padding: 7px 5px; }.native-launch a { margin-left: 0; } }

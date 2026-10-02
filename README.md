@@ -1,10 +1,23 @@
 # ALD / Etch Lab — 공정 실험 노트
 
-**v0.5: RF 전달 손실과 ALD 배기 문제를 모델로 실험하고, 직접 해석을 남기는 공정 학습 프로젝트.**
+**v0.6: Python 네이티브 2D 형상 시뮬레이터 + 기존 공정 학습 도구.**
 
-- [시뮬레이터 실행](https://trx1200.github.io/pse-process-recovery-lab/)
-- [한국어 공부용 PDF](output/pdf/Process_Studio_Semiconductor_Study_KR.pdf)
-- [시뮬레이터 사용 설명서: 시작 방법·48개 파라미터](docs/SIMULATOR_USER_GUIDE_KR.md)
+**[네이티브 시뮬레이터 설치·실행 및 모델 설명](docs/NATIVE_SIMULATOR_KR.md)**
+
+새 첫 화면은 ViennaPS/ViennaLS 기반 형상 작업 공간입니다. Si의 SF₆/O₂ 식각과
+Al₂O₃의 TMA 제한 ALD를 입자 수송·표면 반응·level-set 이동 경계로 계산합니다.
+**로컬 Python에서 새 조건을 실행**하고, GitHub Pages에서는 실제 엔진으로 계산해 저장한 예제를 재생합니다.
+원시 프레임, VTK/level set, 난수 시드와 버전, 수치 검증 결과를 남깁니다.
+해석기는 ViennaTools의 외부 라이브러리이며, 실제 장비에 대한 정량 검증은 아직 수행하지 않았습니다.
+
+Windows: `.venv`에 `native_lab/requirements.txt` 설치 → 프런트엔드 `pnpm build` →
+저장소 루트에서 `START_NATIVE_LAB.ps1` → <http://127.0.0.1:8765>.
+기존 0D/1D 브라우저 모델은 **기존 학습 도구** 메뉴에 보존했습니다.
+
+- [공개 계산 예제 뷰어 / 기존 학습 도구](https://trx1200.github.io/pse-process-recovery-lab/)
+- [네이티브 시뮬레이터 검증 기록](docs/NATIVE_VALIDATION_KR.md)
+- [기존 학습용 한국어 PDF](output/pdf/Process_Studio_Semiconductor_Study_KR.pdf)
+- [기존 학습 도구 설명서: 시작 방법·48개 파라미터](docs/SIMULATOR_USER_GUIDE_KR.md)
 - [웹 배포와 계산 환경](docs/WEB_DEPLOYMENT_KR.md)
 
 레시피와 장비 상태를 직접 바꾸고, 계산된 공정 결과를 비교하는 시뮬레이터입니다.
@@ -12,6 +25,8 @@ AMK PSE와 Lam Research의 장비·데이터 분석 분야 지원을 준비하�
 Python 모델과 React 화면은 AI 도구의 지원으로 구현했으며, 직접 검토한 가정·실험·해석을 별도 기록합니다.
 
 ## 먼저 해볼 두 가지 실험
+
+아래는 **기존 학습 도구**에 대한 안내입니다. 새 2D 형상 시뮬레이터의 입력·가정은 위 전용 문서를 따릅니다.
 
 **표면 관찰** 탭은 옆 입력 패널 없이 단면을 중앙에 크게 표시합니다. 처음에는 공정별 핵심 조건 4개만 조절하고, 전체 레시피와 물리 계수는 **레시피 실험**에서 펼쳐 볼 수 있습니다. **사용 설명서** 탭에서 시작 방법·결과 해석·검색 가능한 전체 파라미터 사전을 제공하며, Markdown으로도 저장할 수 있습니다. 설명서 원본은 `sim_app/frontend/src/userGuide.ts`이고, 실제 Python 스키마를 반영한 문서는 프런트엔드 폴더에서 `node scripts/build-user-guide.mjs`로 재생성합니다. 필요하면 `PYTHON` 환경 변수로 실행 파일을 지정합니다.
 
