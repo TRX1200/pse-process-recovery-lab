@@ -121,7 +121,9 @@ class JobManager:
             return state
 
     def recent(self):
-        paths = sorted(self.root.glob("*/status.json"), key=lambda p: p.stat().st_mtime, reverse=True)[:20]
+        # CLI exports may share the output root but are not web-owned UUID jobs.
+        owned = (p for p in self.root.glob("*/status.json") if re.fullmatch(r"[0-9a-f]{32}", p.parent.name))
+        paths = sorted(owned, key=lambda p: p.stat().st_mtime, reverse=True)[:20]
         return [{k: v for k, v in self.status(p.parent.name).items() if k not in ("last_frame", "initial_frame")} for p in paths]
 
     def close(self):

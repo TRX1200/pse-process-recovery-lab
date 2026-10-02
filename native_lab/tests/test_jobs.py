@@ -55,6 +55,10 @@ class JobTests(unittest.TestCase):
                 self.assertTrue(list(directory.glob("final_surface*")))
                 self.assertTrue(list(directory.glob("final_levelset*")))
                 self.assertTrue((directory / "worker.log").is_file())
+                manual = Path(temp) / "manual-etch"
+                manual.mkdir()
+                (manual / "status.json").write_text('{"state":"complete"}')
+                self.assertEqual([r["id"] for r in manager.recent()], [job["id"]])
             finally:
                 manager.close()
 
