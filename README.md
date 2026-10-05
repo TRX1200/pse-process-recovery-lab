@@ -1,6 +1,17 @@
 # ALD / Etch Lab — 공정 실험 노트
 
-**v0.6: Python 네이티브 2D 형상 시뮬레이터 + 기존 공정 학습 도구.**
+**v0.7: RF 매칭 회로 실험실 + Apache Superset 분석 + Python 네이티브 2D 형상 시뮬레이터.**
+
+**[RF·플라즈마 학습 / 매칭 회로 / Superset 실행 안내](docs/RF_MATCHING_KR.md)**
+
+RF 탭에서는 50 Ω 급전선–매칭 네트워크–선형 플라즈마 등가 부하를 Python으로 계산합니다.
+가변 C 두 개, 코일 Q, 밀도·충돌·쉬스 조건을 바꾸며 Smith chart, 전력 분배, 전압과
+고정 매칭/재정합을 비교합니다. 실행 이력은 SQLite에 남고, 별도로 설치한 **실제 Apache Superset**에서 조회합니다.
+플라즈마 상태는 입력값이며 방전과 자가 일관적으로 결합한 TCAD 모델은 아닙니다.
+
+Windows: `START_RF_LAB.ps1` → <http://127.0.0.1:8767/#rf>.
+Superset 최초 설치 후 `START_SUPERSET.ps1` → <http://127.0.0.1:8088/superset/dashboard/rf-process-lab/>.
+공개 Pages의 RF 탭은 저장된 Python 계산 예제를 제공합니다. 새 RF 계산과 Superset은 로컬에서 실행합니다.
 
 **[네이티브 시뮬레이터 설치·실행 및 모델 설명](docs/NATIVE_SIMULATOR_KR.md)**
 
