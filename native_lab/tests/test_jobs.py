@@ -2,11 +2,31 @@ import tempfile
 import time
 import unittest
 from pathlib import Path
+from unittest.mock import Mock
 from native_lab.jobs import JobManager, BusyError
 from native_lab.storage import read_json
 
 
 class JobTests(unittest.TestCase):
+    def test_completion_waits_for_worker_exit(self):
+        with tempfile.TemporaryDirectory() as temp:
+            manager=JobManager(Path(temp))
+            job_id='a'*32
+            directory=Path(temp)/job_id
+            directory.mkdir()
+            (directory/'status.json').write_text('{"state":"complete","progress":1}')
+            process,log=Mock(),Mock()
+            process.poll.return_value=None
+            manager.active=(job_id,process,log,time.monotonic())
+            try:
+                self.assertEqual(manager.status(job_id)['state'],'running')
+                process.poll.return_value=0
+                self.assertEqual(manager.status(job_id)['state'],'complete')
+                log.close.assert_called_once()
+            finally:
+                process.poll.return_value=0
+                manager.close()
+
     def test_timeout_without_browser_polling(self):
         with tempfile.TemporaryDirectory() as temp:
             manager = JobManager(Path(temp), timeout_s=.05)

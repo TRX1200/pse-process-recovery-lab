@@ -1,15 +1,22 @@
 # ALD / Etch Lab — 공정 실험 노트
 
-**v0.7: RF 매칭 회로 실험실 + Apache Superset 분석 + Python 네이티브 2D 형상 시뮬레이터.**
+**v0.8: RF–Ar 수지 결합, ripple/scallop 형상 진화, 개인 실험 보고서.**
+
+**[지금 시작: RF·표면 실험 10개와 보고서 작성 안내](docs/PROJECT_REPORT_KR.md)**
+
+새 **매칭 ↔ 플라즈마**는 회로 흡수 전력과 Ar 전자밀도를 함께 계산합니다.
+표면의 ripple과 측벽 scallop은 초기 형상으로 주고 Etch/ALD로 변하는 단면·Rq를 계산합니다.
+**실험 보고서**에 실행 조건·결과를 담아 직접 해석하고 Markdown/CSV/JSON과 단면 SVG로 내보낼 수 있습니다.
+요철의 자발적 생성이나 Bosch 반복, 실제 장비 보정은 포함하지 않습니다.
 
 **[RF·플라즈마 학습 / 매칭 회로 / Superset 실행 안내](docs/RF_MATCHING_KR.md)**
 
 RF 탭에서는 50 Ω 급전선–매칭 네트워크–선형 플라즈마 등가 부하를 Python으로 계산합니다.
 가변 C 두 개, 코일 Q, 밀도·충돌·쉬스 조건을 바꾸며 Smith chart, 전력 분배, 전압과
 고정 매칭/재정합을 비교합니다. 실행 이력은 SQLite에 남고, 별도로 설치한 **실제 Apache Superset**에서 조회합니다.
-플라즈마 상태는 입력값이며 방전과 자가 일관적으로 결합한 TCAD 모델은 아닙니다.
+기존 고정 부하 모드는 플라즈마 상태를 입력합니다. 새 Ar 결합 모드는 정상 입자·전력 수지로 상태를 구하지만 쉬스는 고정 선형 C이며 장비 검증된 TCAD는 아닙니다.
 
-Windows: `START_RF_LAB.ps1` → <http://127.0.0.1:8767/#rf>.
+Windows: `START_RF_LAB.ps1` → <http://127.0.0.1:8768/#rf>.
 Superset 최초 설치 후 `START_SUPERSET.ps1` → <http://127.0.0.1:8088/superset/dashboard/rf-process-lab/>.
 공개 Pages의 RF 탭은 저장된 Python 계산 예제를 제공합니다. 새 RF 계산과 Superset은 로컬에서 실행합니다.
 

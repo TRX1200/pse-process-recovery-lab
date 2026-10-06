@@ -3,6 +3,7 @@ import type { ModelKey, Params } from "./types";
 export interface NativeParameter {
   key: string; label: string; unit: string; default: number; min: number; max: number;
   group: string; description: string; integer: boolean;
+  choices?:{value:number;label:string}[];
 }
 export interface NativeSchema {
   version: string;
@@ -13,7 +14,7 @@ export type Contour = number[][];
 export interface NativeFrame {
   at: number; label: string;
   layers: { material: string; paths_nm: Contour[] }[];
-  metrics: Record<string, number>;
+  metrics: Record<string, number|null>;
 }
 export interface NativeRun {
   format: "native-feature-run-v1";
@@ -32,10 +33,14 @@ export interface NativeJob {
 }
 
 export const GROUP_NAMES: Record<string, string> = {
+  surface: "초기 요철 / scallop",
   geometry: "구조", recipe: "공정 조건", boundary: "입사 경계조건",
   kinetics: "표면 반응 계수", numerics: "수치 해석 설정",
 };
 export const NATIVE_METRICS: Record<string, [string, string]> = {
+  mean_height_nm:["평균 표면 높이","nm"],roughness_rq_nm:["표면 RMS 거칠기 Rq","nm"],roughness_ra_nm:["표면 평균 거칠기 Ra","nm"],
+  peak_valley_nm:["최고–최저 높이","nm"],mean_advance_nm:["평균 제거 / 성장량","nm"],
+  left_wall_rq_nm:["왼쪽 측벽 Rq","nm"],right_wall_rq_nm:["오른쪽 측벽 Rq","nm"],etch_advance_nm:["추가 식각 깊이","nm"],
   center_depth_nm: ["중앙 식각 깊이", "nm"], width_half_depth_nm: ["절반 깊이의 폭", "nm"],
   mask_loss_nm: ["마스크 손실", "nm"], top_film_nm: ["상단 막 두께", "nm"],
   bottom_film_nm: ["바닥 막 두께", "nm"], bottom_top_pct: ["바닥 / 상단", "%"],
@@ -61,8 +66,12 @@ export function defaultNativeParams(schema: NativeSchema, model: ModelKey): Para
   return Object.fromEntries(schema.models[model].params.map(p => [p.key, p.default]));
 }
 export function compatibleGeometry(a: NativeRun, b: NativeRun): boolean {
-  return a.model === b.model && ["pitch_nm", "width_nm", a.model === "ald" ? "depth_nm" : "mask_nm"]
-    .every(key => a.params[key] === b.params[key]);
+  const profile=a.params.surface_profile??0;
+  if(a.model!==b.model||profile!==(b.params.surface_profile??0))return false;
+  const keys=profile===1?["pitch_nm","corrugation_amplitude_nm","corrugation_count"]:
+    profile===2?["pitch_nm","width_nm","depth_nm","corrugation_amplitude_nm","corrugation_count"]:
+    ["pitch_nm","width_nm",a.model==='ald'?'depth_nm':'mask_nm'];
+  return keys.every(key=>a.params[key]===b.params[key]);
 }
 export function extentOf(frames: NativeFrame[], pitch: number): [number, number, number, number] {
   let low = 0, high = 0;

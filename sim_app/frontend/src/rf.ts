@@ -19,6 +19,7 @@ export interface RFRun {
 }
 export function impedance(z: number[]): string {return `${z[0].toFixed(2)} ${z[1] < 0 ? '−' : '+'} j${Math.abs(z[1]).toFixed(2)} Ω`;}
 export const rfEquations = {
+  coupled: [String.raw`n_g K_{iz}(T_e)V=u_B(T_e)A_{eff}`,String.raw`P_{bulk}(n_e,C_p,C_s)=n_e e u_B A_{eff}\mathcal{E}_{pair,eV}`],
   wave: [String.raw`\Gamma=\frac{Z_{in}-Z_0}{Z_{in}+Z_0},\quad P_{ref}=|\Gamma|^2P_{fwd}`],
   plasma: [String.raw`L_b=\frac{m_e\ell_b}{n_e e^2 A},\quad R_b=\nu L_b`, String.raw`C_{sh}=\frac{\varepsilon_0 A}{s_1+s_2},\quad Z_p=R_b+j\omega L_b+\frac{1}{j\omega C_{sh}}`],
   balance: [String.raw`P_{fwd}=P_{ref}+P_{bulk}+P_L+P_C`, String.raw`P_{bulk}=|I_{bulk,rms}|^2R_b`],

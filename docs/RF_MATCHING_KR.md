@@ -9,7 +9,7 @@ Python 회로 계산과 공개된 등가회로 원리를 사용하고, 실행 �
 이미 설치한 PC에서는 저장소 루트의 `START_RF_LAB.ps1`과 `START_SUPERSET.ps1`을 각각 실행합니다.
 서비스가 이미 열려 있다면 다시 실행할 필요가 없습니다.
 
-1. [로컬 RF 실험실](http://127.0.0.1:8767/#rf)을 엽니다. 회로의 연결 순서와 전력 표시를 읽습니다.
+1. [로컬 RF 실험실](http://127.0.0.1:8768/#rf)을 엽니다. 회로의 연결 순서와 전력 표시를 읽습니다.
 2. 기본 조건에서 **회로 계산 · 기록**을 누릅니다. 이 실행의 ID가 분석 DB와 JSON에 저장됩니다.
 3. 수동 설정과 **자동 정합점 보기**를 비교합니다. 후자는 같은 입력에 대해 계산한 최적 C를 보는 기능이며 입력 칸을 바꾸지 않습니다.
 4. **자동 정합값 적용 · 계산**을 누르면 입력 C까지 바꾸고 새 실행으로 기록합니다.
@@ -53,7 +53,7 @@ Z_p=R_b+j\omega L_b+\frac{1}{j\omega C_{sh}}
 \]
 
 `nₑ`는 전자밀도, `ν`는 유효 충돌 빈도, `ℓᵦ`는 벌크 길이, `A`는 유효 전극 면적입니다.
-여기서는 이 값을 사용자가 지정합니다. 발생기 전력으로부터 밀도·전자온도를 역산하지 않습니다.
+**회로 · 매칭** 모드에서는 이 값을 사용자가 지정합니다. 새 **매칭 ↔ 플라즈마** 모드는 Ar 입자·전력 수지와 회로를 연결해 Te와 ne를 계산합니다. [결합식·가정·첫 보고서 실험](PROJECT_REPORT_KR.md)을 참고하세요.
 밀도를 절반으로 하면 다른 조건이 같을 때 Rᵦ와 Lᵦ는 두 배가 됩니다.
 
 계산 결과는 항상 다음 전력 수지를 함께 제공합니다.
@@ -143,7 +143,7 @@ Q, 케이블 손실, 오염, 접촉, 기생 성분, 센서 기준면 등은 별�
 모든 데이터는 **simulation**입니다. ALD와 Etch에 해당하지 않는 지표는 NULL입니다. 이를 0으로 바꿔 비교하지 않습니다.
 RF 결과와 ALD/Etch 결과는 독립 모델이므로 서로 다른 실행을 같은 공정의 인과 연결이라고 해석하지 않습니다.
 
-대시보드는 최신 반사율, 전력 분배, 주파수 응답, 전체 RF 실행 표, ALD/Etch 결과 표를 제공합니다.
+대시보드는 기존 다섯 차트에 **Ar 결합 수지·밀도**와 **초기 요철의 공정 전후 변화**를 더한 일곱 차트를 제공합니다. 새 테이블은 `rf_coupled_cases`, `surface_results`입니다.
 새 계산 뒤에는 **Refresh dashboard**를 누릅니다. ALD/Etch 새 결과는 RF 화면의 **결과 동기화** 버튼으로 가져옵니다.
 
 SQL Lab을 써 보려면 로컬 `local/superset/credentials.json`의 username/password로 로그인합니다.
@@ -185,7 +185,7 @@ cd ../..
 다른 터미널에서 아래 명령을 실행합니다. 최초 데이터가 있어야 대시보드에 차트가 나옵니다.
 
 ```powershell
-.\.venv\Scripts\python.exe -c "from rf_lab.service import run_request,import_process_results; run_request({'params':{}}); import_process_results()"
+.\.venv\Scripts\python.exe -c "from rf_lab.service import run_request,run_coupled,import_process_results; run_request({'params':{}}); run_coupled({'rf_params':{}}); import_process_results()"
 python -m venv local/superset-venv
 .\local\superset-venv\Scripts\python.exe -m pip install -r analytics_tools/requirements.txt
 .\local\superset-venv\Scripts\python.exe -m analytics_tools.bootstrap_superset
@@ -214,11 +214,11 @@ RF 테스트는 별도의 노달 어드미턴스 행렬과 회로 계산 대조,
 부품 Q에 따른 손실, 입력 검증, 분석 DB 저장을 확인합니다. 프런트엔드 테스트는 RF 수식 조판도 확인합니다.
 이것은 **구현·회로 수치 검증**입니다. 실제 장비나 측정 데이터에 대한 검증이 아닙니다.
 
-RF 회로·API 테스트는 12개입니다. 실행 저장/JSON 일치, 잘못된 입력과 외부 Origin 거부도 확인합니다.
+RF 회로·Ar 결합·API 테스트는 18개입니다. 결합 모델의 입자/전력 수지, 무전력, 밀도 탐색 간격도 확인합니다. 실행 저장/JSON 일치, 잘못된 입력과 외부 Origin 거부도 확인합니다.
 Superset이 켜져 있을 때 `.venv/Scripts/python.exe -m analytics_tools.verify_dashboard`를 실행하면
-실제 HTTP 차트 응답 5개를 원본 SQLite와 대조합니다. 대시보드 생성 재실행도 확인했습니다.
+실제 HTTP 차트 응답 7개를 원본 SQLite와 대조합니다. 대시보드 생성 재실행도 확인했습니다.
 
-현재 제외: 비선형 쉬스, DC self-bias, 점화, 고조파, 펄스 과도응답, 전자온도·밀도의 자가 일관 해,
+현재 제외: 비선형 쉬스, DC self-bias, 점화, 고조파, 펄스 과도응답, 공간 분포 및 비선형 쉬스와 결합된 전자온도·밀도 해,
 ICP 변압기 결합, 3D 전자기장, 분포정수 매칭 부품, 온도 의존 손실, 장비 기생 성분, 공정 반응과의 직접 결합.
 RF 흡수 전력을 ViennaPS 식각 플럭스에 임의 환산하지 않았습니다.
 

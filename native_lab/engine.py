@@ -18,6 +18,7 @@ import viennals as ls
 from native_lab import VERSION
 from native_lab.geometry import ordered_paths, measurements
 from native_lab.schema import validate, SOURCES
+from native_lab.profiles import make_profile, planar_metrics, sidewall_metrics
 
 KB = 1.380649e-23
 AMU = 1.66053906660e-27
@@ -49,8 +50,15 @@ def capture(domain, materials, model, params, value, label):
         ls.ToSurfaceMesh(level, mesh).apply()
         paths = ordered_paths(mesh.getNodes(), mesh.getLines())
         layers.append({"material": material, "paths_nm": paths})
-    return {"at": value, "label": label, "layers": layers,
-            "metrics": measurements(layers, model, params)}
+    profile = params.get('surface_profile',0)
+    if profile == 1:
+        metrics = planar_metrics(layers[-1]['paths_nm'],params['pitch_nm'])
+    else:
+        metrics = measurements(layers,model,params)
+        if profile == 2:
+            metrics.update(sidewall_metrics(layers[-1]['paths_nm'],params['depth_nm']))
+            metrics.pop('mask_loss_nm',None)
+    return {"at": value, "label": label, "layers": layers, "metrics": metrics}
 
 
 def ray_parameters(p, step):
@@ -69,7 +77,13 @@ def simulate(payload, output_dir=None, progress=None):
     model, p = request["model"], request["params"]
     started = time.perf_counter()
     domain = ps.Domain(gridDelta=p["grid_nm"] / 1000, xExtent=p["pitch_nm"] / 1000)
-    if model == "etch":
+    profile = p['surface_profile']
+    if profile:
+        make_profile(domain,p)
+        if model == 'ald':
+            domain.duplicateTopLevelSet(ps.Material.Al2O3)
+        materials = ['Si'] if model == 'etch' else ['Si','Al2O3']
+    elif model == "etch":
         ps.MakeTrench(domain, trenchWidth=p["width_nm"] / 1000, trenchDepth=0,
                       maskHeight=p["mask_nm"] / 1000).apply()
         materials = ["Si", "Mask"]
@@ -80,8 +94,12 @@ def simulate(payload, output_dir=None, progress=None):
         materials = ["Si", "Al2O3"]
     frames = [capture(domain, materials, model, p, 0, "initial")]
     initial_mask_offset = frames[0]["metrics"].get("mask_loss_nm", 0)
-    if model == "etch":
+    if model == "etch" and not profile:
         frames[0]["metrics"]["mask_loss_nm"] = 0.0
+    if profile == 1:
+        frames[0]['metrics']['mean_advance_nm'] = 0.0
+    elif profile == 2 and model == 'etch':
+        frames[0]['metrics']['etch_advance_nm'] = 0.0
     if progress:
         progress(0, frames[0])
     warnings = []
@@ -93,8 +111,14 @@ def simulate(payload, output_dir=None, progress=None):
 
     def record(step, total, value, label):
         frames.append(capture(domain, materials, model, p, value, label))
-        if model == "etch":
+        if model == "etch" and not profile:
             frames[-1]["metrics"]["mask_loss_nm"] = max(0, frames[-1]["metrics"]["mask_loss_nm"] - initial_mask_offset)
+        if profile == 1:
+            current, initial = frames[-1]['metrics']['mean_height_nm'], frames[0]['metrics']['mean_height_nm']
+            frames[-1]['metrics']['mean_advance_nm'] = ((current-initial)*(1 if model=='ald' else -1)
+                                                      if current is not None and initial is not None else None)
+        elif profile == 2 and model == 'etch':
+            frames[-1]['metrics']['etch_advance_nm'] = frames[-1]['metrics']['center_depth_nm']-frames[0]['metrics']['center_depth_nm']
         if progress:
             progress(step / total, frames[-1])
 
@@ -171,7 +195,7 @@ def simulate(payload, output_dir=None, progress=None):
                 process.apply()
             completed += count
             record(i + 1, steps, completed, "growth")
-            if frames[-1]["metrics"]["minimum_gap_nm"] < 2 * p["grid_nm"]:
+            if profile != 1 and frames[-1]["metrics"]["minimum_gap_nm"] < 2 * p["grid_nm"]:
                 warnings.append("통로가 2격자보다 좁아져 중단했습니다. 완전 폐쇄 이후의 성장은 해상도를 높여 검토해야 합니다.")
                 break
         axis_unit = "cycle"
@@ -182,6 +206,14 @@ def simulate(payload, output_dir=None, progress=None):
             "Cycle bundling advances at most 0.4 grid spacings at saturated growth per geometry update; chemistry is reinitialized for each representative pulse.",
             "Temperature changes thermal flux only; kinetic coefficients are held fixed. Knudsen-limit transport, no gas-phase collisions.",
         ]
+    if profile:
+        assumptions += [
+            'Corrugation is prescribed initial geometry, then evolved by the same native flux/coverage/level-set model.',
+            'No self-organized ripple instability or alternating Bosch etch/passivation generation is modeled. Nonzero profile modes have no mask.',
+            'Planar Rq/Ra use 256 uniform x midpoints after mean removal. Wall Rq uses 161 fixed 10%-90% initial-depth samples after linear detrending.',
+            'Measured profile change contains discretization and Monte Carlo error. Resolve input amplitude/wavelength and compare grid and seed before interpretation.',
+        ]
+        settings['initial_profile'] = {'mode':profile,'amplitude_nm':p['corrugation_amplitude_nm'],'count':p['corrugation_count']}
     if output_dir:
         domain.saveSurfaceMesh(str(Path(output_dir) / "final_surface"))
         domain.saveLevelSets(str(Path(output_dir) / "final_levelset"))

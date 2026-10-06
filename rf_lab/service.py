@@ -34,6 +34,17 @@ def connect(path=WAREHOUSE):
         source_id TEXT PRIMARY KEY, model TEXT, provenance TEXT, evidence TEXT,
         center_depth_nm REAL, width_half_depth_nm REAL, top_film_nm REAL,
         bottom_film_nm REAL, bottom_top_pct REAL, config_json TEXT);
+      CREATE TABLE IF NOT EXISTS rf_coupled_cases (
+        run_id TEXT, created_at TEXT, version TEXT, case_name TEXT, status TEXT,
+        density_m3 REAL, te_ev REAL, ion_flux_m2_s REAL, bulk_w REAL,
+        reflected_pct REAL, coil_loss_w REAL, cp_pf REAL, cs_pf REAL,
+        config_hash TEXT, source_sha256 TEXT, rf_json TEXT, gas_json TEXT);
+      CREATE TABLE IF NOT EXISTS surface_results (
+        source_id TEXT PRIMARY KEY, model TEXT, profile INTEGER, provenance TEXT,
+        grid_nm REAL, rays_per_point INTEGER, seed INTEGER, amplitude_nm REAL,
+        wavelength_nm REAL, mean_advance_nm REAL, rq_initial_nm REAL, rq_final_nm REAL,
+        left_rq_initial_nm REAL, left_rq_final_nm REAL,
+        right_rq_initial_nm REAL, right_rq_final_nm REAL, params_json TEXT);
     ''')
     con.execute('CREATE TABLE IF NOT EXISTS rf_cases (run_id TEXT REFERENCES rf_runs(run_id), '
                 'case_name TEXT, ' + ', '.join(c+' REAL' for c in CASE_COLUMNS) + ')')
@@ -81,10 +92,32 @@ def run_request(payload, database=WAREHOUSE, output_root=None):
     return result
 
 
+def run_coupled(payload, database=WAREHOUSE, output_root=None):
+    from rf_lab.coupled import simulate as solve_coupled
+    result = solve_coupled(payload)
+    run_id, now = uuid.uuid4().hex, datetime.now(timezone.utc).isoformat()
+    sources = ['rf_lab/coupled.py','rf_lab/model.py','sim_app/models/etch.py']
+    digest = hashlib.sha256(b''.join((ROOT/path).read_bytes() for path in sources)).hexdigest()
+    result.update(run_id=run_id, created_at=now, source_sha256=digest)
+    directory = (Path(output_root) if output_root is not None else ROOT/'outputs/rf_coupled')/run_id
+    directory.mkdir(parents=True, exist_ok=False)
+    write_json(directory/'result.json',result)
+    with closing(connect(database)) as con, con:
+        for name,label in [('manual','수동 C · 결합 수지'),('matched','재정합 · 결합 수지')]:
+            state = result[name]['selected'] or {}
+            circuit = state.get('circuit',{})
+            values = (run_id,now,result['version'],label,result[name]['status'],
+                      state.get('density_m3'),state.get('te_ev'),state.get('ion_flux_m2_s'),
+                      circuit.get('bulk_w'),circuit.get('reflected_pct'),circuit.get('coil_loss_w'),
+                      circuit.get('cp_pf'),circuit.get('cs_pf'),result['config_hash'],digest,
+                      json.dumps(result['rf_params']),json.dumps(result['gas']))
+            con.execute('INSERT INTO rf_coupled_cases VALUES ('+','.join('?' for _ in values)+')',values)
+    return result
+
+
 def import_process_results(database=WAREHOUSE):
     paths = list((ROOT/'outputs/native_lab').glob('*/result.json'))
-    paths += list((ROOT/'sim_app/frontend/public/native').glob('*-reference.json'))
-    paths += list((ROOT/'sim_app/frontend/public/native').glob('*-variant.json'))
+    paths += list((ROOT/'sim_app/frontend/public/native').glob('*.json'))
     with closing(connect(database)) as con, con:
         for path in paths:
             result = json.loads(path.read_text(encoding='utf-8'))
@@ -97,6 +130,18 @@ def import_process_results(database=WAREHOUSE):
                  'simulation', m.get('center_depth_nm'), m.get('width_half_depth_nm'),
                  m.get('top_film_nm'), m.get('bottom_film_nm'), m.get('bottom_top_pct'),
                  json.dumps(result['params'])))
+            p = result['params']
+            if p.get('surface_profile',0):
+                initial = result['frames'][0]['metrics']
+                extent = p['pitch_nm'] if p['surface_profile']==1 else p['depth_nm']
+                values = (source_id,result['model'],p['surface_profile'],
+                          'local run' if path.name=='result.json' else 'recorded example',
+                          p['grid_nm'],p['rays_per_point'],p['seed'],p['corrugation_amplitude_nm'],
+                          extent/p['corrugation_count'],m.get('mean_advance_nm',m.get('etch_advance_nm')),
+                          initial.get('roughness_rq_nm'),m.get('roughness_rq_nm'),
+                          initial.get('left_wall_rq_nm'),m.get('left_wall_rq_nm'),
+                          initial.get('right_wall_rq_nm'),m.get('right_wall_rq_nm'),json.dumps(p))
+                con.execute('INSERT OR REPLACE INTO surface_results VALUES ('+','.join('?' for _ in values)+')',values)
 
 
 def recent(database=WAREHOUSE):

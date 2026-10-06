@@ -8,7 +8,7 @@ from native_lab.server import Handler as NativeHandler
 from native_lab.jobs import JobManager
 from sim_app.server import MAX_BODY_BYTES
 from rf_lab.model import schema
-from rf_lab.service import run_request, recent, import_process_results
+from rf_lab.service import run_request, run_coupled, recent, import_process_results
 
 SLOTS = threading.BoundedSemaphore(2)
 
@@ -20,12 +20,15 @@ class Handler(NativeHandler):
             self.send_json(200, {**schema(), 'available': True})
         elif path == '/api/rf/runs':
             self.send_json(200, {'runs': recent()})
+        elif path == '/api/rf/coupled/schema':
+            from rf_lab.coupled import FIELDS, VERSION
+            self.send_json(200, {'fields':FIELDS,'version':VERSION})
         else:
             super().do_GET()
 
     def do_POST(self):
         path = urlsplit(self.path).path
-        if path not in ('/api/rf/simulate', '/api/rf/sync-process'):
+        if path not in ('/api/rf/simulate', '/api/rf/coupled', '/api/rf/sync-process'):
             return super().do_POST()
         origin = self.headers.get('Origin')
         if origin and urlsplit(origin).netloc != self.headers.get('Host'):
@@ -47,6 +50,8 @@ class Handler(NativeHandler):
                 if path == '/api/rf/sync-process':
                     import_process_results()
                     response = {'synced': True}
+                elif path == '/api/rf/coupled':
+                    response = run_coupled(payload)
                 else:
                     response = run_request(payload)
             finally:
@@ -60,7 +65,7 @@ class Handler(NativeHandler):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--port', type=int, default=8767)
+    parser.add_argument('--port', type=int, default=8768)
     args = parser.parse_args()
     from native_lab.engine import initialize
     initialize()

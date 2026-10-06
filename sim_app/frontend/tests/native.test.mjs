@@ -24,3 +24,9 @@ test("comparisons reject different geometry and processes", () => {
   assert.equal(compatibleGeometry(a, { ...a, params: { ...a.params, width_nm: 200 } }), false);
   assert.equal(compatibleGeometry(a, { ...a, model: "ald" }), false);
 });
+test("corrugated comparisons preserve the initial profile while allowing grid refinement", () => {
+  const a={model:'etch',params:{surface_profile:1,pitch_nm:400,corrugation_amplitude_nm:8,corrugation_count:3,grid_nm:2}};
+  assert.equal(compatibleGeometry(a,{...a,params:{...a.params,grid_nm:4}}),true);
+  assert.equal(compatibleGeometry(a,{...a,params:{...a.params,corrugation_count:4}}),false);
+  assert.equal(compatibleGeometry(a,{...a,params:{...a.params,surface_profile:2}}),false);
+});

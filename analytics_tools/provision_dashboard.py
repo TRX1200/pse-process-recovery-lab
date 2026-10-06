@@ -31,7 +31,7 @@ def main():
         database.allow_run_async = False
         db.session.commit()
         tables = {}
-        for name in ['rf_latest_cases', 'rf_latest_frequency', 'rf_cases', 'rf_case_history', 'rf_runs', 'process_results']:
+        for name in ['rf_latest_cases', 'rf_latest_frequency', 'rf_cases', 'rf_case_history', 'rf_runs', 'process_results', 'rf_coupled_cases', 'surface_results']:
             table = db.session.query(SqlaTable).filter_by(table_name=name, database_id=database.id).one_or_none()
             if table is None:
                 table = SqlaTable(table_name=name, database_id=database.id, owners=[admin])
@@ -51,6 +51,10 @@ def main():
              ['created_at','run_id','case_name','coil_q','frequency_mhz','density_1e15_m3','cp_pf','cs_pf','reflected_pct','bulk_w','coil_loss_w','series_cap_rms_v']),
             ('ALD / Etch · 계산 결과와 출처', 'process_results', 'table', None, [],
              ['source_id','model','provenance','evidence','center_depth_nm','width_half_depth_nm','top_film_nm','bottom_film_nm','bottom_top_pct']),
+            ('RF · Ar 결합 수지와 전자밀도', 'rf_coupled_cases', 'table', None, [],
+             ['run_id','case_name','status','density_m3','te_ev','ion_flux_m2_s','bulk_w','reflected_pct','coil_loss_w']),
+            ('ALD / Etch · 초기 요철의 공정 전후 변화', 'surface_results', 'table', None, [],
+             ['source_id','model','profile','provenance','grid_nm','rays_per_point','seed','rq_initial_nm','rq_final_nm','left_rq_initial_nm','left_rq_final_nm']),
         ]
         charts=[]
         for title, table_name, viz, xaxis, metrics, columns in specs:
@@ -93,7 +97,7 @@ def main():
         layout={'DASHBOARD_VERSION_KEY':'v2',
                 'ROOT_ID':{'id':'ROOT_ID','type':'ROOT','children':['GRID_ID']},
                 'GRID_ID':{'id':'GRID_ID','type':'GRID','children':[], 'parents':['ROOT_ID']}}
-        groups=[[0,1],[2],[3],[4]]
+        groups=[[0,1],[2],[3],[4],[5],[6]]
         for i, indexes in enumerate(groups):
             rid=f'ROW-lab-{i}'
             layout['GRID_ID']['children'].append(rid)

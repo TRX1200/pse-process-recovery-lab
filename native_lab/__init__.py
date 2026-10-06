@@ -1,3 +1,3 @@
 """Local, native feature-scale process simulation workbench."""
 
-VERSION = "0.1.0"
+VERSION = "0.2.0"

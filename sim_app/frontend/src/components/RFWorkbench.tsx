@@ -2,6 +2,8 @@ import {useEffect, useState} from 'react';
 import {Chart} from './Chart';
 import {MathBlock} from './MathBlock';
 import {RFCircuit, SmithChart, MatchMap} from './RFPlots';
+import {CoupledPlasma} from './CoupledPlasma';
+import {CaptureReport} from './ProjectReport';
 import {exportJson} from '../storage';
 import {impedance, rfEquations} from '../rf';
 import type {RFRun, RFSchema, RFParams, RFPoint} from '../rf';
@@ -20,7 +22,7 @@ export function RFWorkbench({setBusy}:{setBusy:(b:boolean)=>void}) {
   const [schema,setSchema]=useState<RFSchema|null>(null), [run,setRun]=useState<RFRun|null>(null);
   const [params,setParams]=useState<RFParams>({}), [available,setAvailable]=useState(false);
   const [working,setWorking]=useState(false), [error,setError]=useState(''), [notice,setNotice]=useState('');
-  const [panel,setPanel]=useState<'circuit'|'learn'|'data'>('circuit'), [selected,setSelected]=useState<'manual'|'matched'>('manual');
+  const [panel,setPanel]=useState<'circuit'|'coupled'|'learn'|'data'>('circuit'), [selected,setSelected]=useState<'manual'|'matched'>('manual');
   useEffect(()=>{let alive=true;
     void Promise.all([example<RFSchema>('schema'),example<RFRun>('reference')]).then(([s,r])=>{if(alive){setSchema(s);setRun(r);setParams(r.params);}}).catch(e=>{if(alive)setError(String(e));});
     if(local) void api('schema').then(()=>{if(alive)setAvailable(true);}).catch(()=>{});
@@ -34,16 +36,17 @@ export function RFWorkbench({setBusy}:{setBusy:(b:boolean)=>void}) {
   const line=(key:'s11_db'|'bulk_w',title:string,unit:string)=>({key,title,x_label:'MHz',y_label:unit,x:run.frequency.mhz,lines:[{name:'수동 설정',values:run.frequency.manual.map(p=>key==='s11_db'?Math.max(-60,p[key]):p[key])},{name:'자동 정합',values:run.frequency.matched.map(p=>key==='s11_db'?Math.max(-60,p[key]):p[key])}]});
   const cells:[string,keyof RFPoint,string][]=[['반사 전력','reflected_pct','%'],['벌크 흡수 전력','bulk_w','W'],['코일 손실','coil_loss_w','W'],['Cₛ 전압','series_cap_rms_v','V RMS']];
   return <section className="rf-workbench">
-    <header className="rf-heading"><div><span>RF ENGINEERING / PLASMA LOAD</span><h1>매칭 네트워크 실험실</h1><p>회로를 조정하고, 반사·흡수·손실을 함께 읽습니다.</p></div><div className="rf-status">{available?'Python 회로 엔진 연결됨':'공개 계산 예제'}<small>선형 정상상태 · 처방된 CCP 등가 부하</small></div></header>
+    <header className="rf-heading"><div><span>RF ENGINEERING / PLASMA LOAD</span><h1>매칭 네트워크 실험실</h1><p>회로를 조정하고, 반사·흡수·손실을 함께 읽습니다.</p></div><div className="rf-status">{available?'Python 회로 엔진 연결됨':'공개 계산 예제'}<small>{panel==='coupled'?'선형 회로 + Ar 정상 입자·전력 수지':'선형 정상상태 · 처방된 CCP 등가 부하'}</small></div></header>
     {!available&&<p className="native-launch">새 조건은 로컬 Python에서 계산합니다. 공개 화면에서는 저장된 예제와 학습 자료를 볼 수 있습니다.</p>}
     {error&&<p role="alert" className="error-banner">{error}</p>}{notice&&<p role="status" className="native-pending">{notice}</p>}
-    <div className="rf-layout"><form className="native-controls" onSubmit={e=>{e.preventDefault();void calculate();}}>
+    <div className="rf-layout"><form className="native-controls" onSubmit={e=>{e.preventDefault();if(panel!=='coupled'&&!working&&available)void calculate();}}>
       <div className="native-control-heading"><h2>회로 / 부하 설정</h2></div>
-      <div className="native-run-actions"><button className="button primary" disabled={!available||working}>{working?'회로 계산 중…':'회로 계산 · 기록'}</button><button type="button" className="button secondary" disabled={!available||working||pending} onClick={()=>void calculate({...params,cp_pf:run.matched.cp_pf,cs_pf:run.matched.cs_pf})}>자동 정합값 적용 · 계산</button></div>
-      {groups.map(g=><details key={g} open={g==='source'||g==='match'}><summary>{GROUPS[g]}</summary>{schema.fields.filter(f=>f.group===g).map(f=><label className="native-field" key={f.key}><span>{f.label}<small>{f.unit}</small></span><input aria-label={f.label} type="number" step="any" min={f.min} max={f.max} required disabled={!available||working} value={Number.isFinite(params[f.key])?params[f.key]:''} onChange={e=>setParams({...params,[f.key]:e.target.value===''?NaN:Number(e.target.value)})}/><small>{f.note}</small></label>)}</details>)}
-    </form><div className="rf-main"><nav className="native-tabs" aria-label="RF 작업 메뉴"><button onClick={()=>setPanel('circuit')} aria-pressed={panel==='circuit'}>회로 · 매칭</button><button onClick={()=>setPanel('learn')} aria-pressed={panel==='learn'}>플라즈마 학습</button><button onClick={()=>setPanel('data')} aria-pressed={panel==='data'}>Superset 분석</button></nav>
-      <div className="rf-run-label"><span>{run.run_id?'로컬 계산 · DB 기록 완료':'저장된 Python 계산 예제'}</span><code>{(run.run_id??run.config_hash).slice(0,12)}</code><button onClick={()=>exportJson(`rf-${run.config_hash.slice(0,10)}.json`,run)}>결과 JSON 저장</button></div>
-      {pending&&<p className="native-pending">입력이 바뀌었습니다. 아래 결과는 이전 조건입니다. ‘회로 계산 · 기록’을 눌러 반영하세요.</p>}
+      {panel!=='coupled'&&<div className="native-run-actions"><button className="button primary" disabled={!available||working}>{working?'회로 계산 중…':'회로 계산 · 기록'}</button><button type="button" className="button secondary" disabled={!available||working||pending} onClick={()=>void calculate({...params,cp_pf:run.matched.cp_pf,cs_pf:run.matched.cs_pf})}>자동 정합값 적용 · 계산</button></div>}
+      {groups.filter(g=>panel!=='coupled'||g!=='experiment').map(g=><details key={g} open={g==='source'||g==='match'}><summary>{GROUPS[g]}</summary>{schema.fields.filter(f=>f.group===g&&(panel!=='coupled'||!['density_1e15_m3','collision_1e8_s'].includes(f.key))).map(f=><label className="native-field" key={f.key}><span>{f.label}<small>{f.unit}</small></span><input aria-label={f.label} type="number" step="any" min={f.min} max={f.max} required disabled={!available||working} value={Number.isFinite(params[f.key])?params[f.key]:''} onChange={e=>setParams({...params,[f.key]:e.target.value===''?NaN:Number(e.target.value)})}/><small>{f.note}</small></label>)}</details>)}
+    </form><div className="rf-main"><nav className="native-tabs" aria-label="RF 작업 메뉴"><button disabled={working} onClick={()=>setPanel('circuit')} aria-pressed={panel==='circuit'}>회로 · 매칭</button><button disabled={working} onClick={()=>setPanel('coupled')} aria-pressed={panel==='coupled'}>매칭 ↔ 플라즈마</button><button disabled={working} onClick={()=>setPanel('learn')} aria-pressed={panel==='learn'}>플라즈마 학습</button><button disabled={working} onClick={()=>setPanel('data')} aria-pressed={panel==='data'}>Superset 분석</button></nav>
+      {panel!=='coupled'&&<div className="rf-run-label"><span>{run.run_id?'로컬 계산 · DB 기록 완료':'저장된 Python 계산 예제'}</span><code>{(run.run_id??run.config_hash).slice(0,12)}</code><button onClick={()=>exportJson(`rf-${run.config_hash.slice(0,10)}.json`,run)}>결과 JSON 저장</button><CaptureReport disabled={working} snapshot={{kind:'rf-fixed',label:`고정 플라즈마 부하 · ${selected==='manual'?'수동':'자동 정합'}`,source_id:run.run_id??run.config_hash,version:run.version,evidence:'simulation',provenance:run.run_id?'local calculation':'recorded example',inputs:{...run.params,selected_view:selected,evaluated_cp_pf:point.cp_pf,evaluated_cs_pf:point.cs_pf},metrics:cells.map(([label,key,unit])=>({key,label,unit,value:point[key] as number})),assumptions:run.assumptions}}/></div>}
+      {panel!=='coupled'&&pending&&<p className="native-pending">입력이 바뀌었습니다. 아래 결과는 이전 조건입니다. ‘회로 계산 · 기록’을 눌러 반영하세요.</p>}
+      {panel==='coupled'&&<CoupledPlasma params={params} onParams={setParams} setBusy={b=>{setWorking(b);setBusy(b);}}/>}
       {panel==='circuit'&&<>
         <div className="rf-mode"><button aria-pressed={selected==='manual'} onClick={()=>setSelected('manual')}>수동 설정 보기</button><button aria-pressed={selected==='matched'} onClick={()=>setSelected('matched')}>자동 정합점 보기</button><span>e⁺ʲωᵗ · 전압/전류 RMS</span></div>
         <div className="rf-circuit-viewport"><RFCircuit run={run} point={point}/></div>

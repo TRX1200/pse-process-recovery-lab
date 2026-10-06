@@ -94,6 +94,10 @@ class JobManager:
         with self.lock:
             self._refresh()
             state = read_json(self.directory(job_id) / "status.json")
+            # The worker writes its result before the native runtime finishes
+            # shutting down. Do not expose completion while its log is open.
+            if state["state"] == "complete" and self.active and self.active[0] == job_id:
+                return {**state, "state": "running", "phase": "finalizing"}
             # After an unclean server restart, do not claim an old worker is live.
             if state["state"] not in TERMINAL and (not self.active or self.active[0] != job_id):
                 state.update(state="failed", error="서버가 이 실행을 추적하지 않습니다. 저장된 로그를 확인하세요.")

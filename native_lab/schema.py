@@ -12,6 +12,10 @@ def field(key, label, unit, default, low, high, group, description, integer=Fals
 
 
 COMMON = [
+    {**field("surface_profile", "초기 표면 형상", "", 0, 0, 2, "surface", "입력한 요철 위의 공정 변화. ripple/Bosch 발생 기구를 계산하는 옵션은 아닙니다.", True),
+     "choices": [{"value":0,"label":"기존 마스크 / 평활 트렌치"},{"value":1,"label":"평면의 주기적 ripple"},{"value":2,"label":"측벽 scallop 트렌치"}]},
+    field("corrugation_amplitude_nm", "초기 요철 진폭", "nm", 8, 0, 80, "surface", "ripple은 중심선 대비 진폭, scallop은 측벽 최대 후퇴량. 0이면 평활 초기 형상."),
+    field("corrugation_count", "초기 요철 반복 수", "", 3, 1, 12, "surface", "ripple은 전체 폭, scallop은 초기 깊이 안의 반복 수. 생성 주기를 뜻하지 않습니다.", True),
     field("width_nm", "개구 폭", "nm", 100, 30, 1000, "geometry", "홈 또는 마스크 개구부의 초기 폭."),
     field("pitch_nm", "계산 영역 폭", "nm", 400, 120, 3000, "geometry", "좌우 반사 경계 사이 거리. 옆 패턴의 대칭 반복을 가정합니다."),
     field("grid_nm", "격자 간격", "nm", 5, 2, 30, "numerics", "작을수록 형상 해상도와 계산 비용이 증가합니다."),
@@ -19,6 +23,7 @@ COMMON = [
     field("seed", "난수 시드", "", 20261003, 0, 2147483647, "numerics", "동일 버전·단일 스레드·동일 조건에서 재현성 확인에 사용합니다.", True),
 ]
 ETCH = COMMON + [
+    field("depth_nm", "scallop 초기 홈 깊이", "nm", 600, 100, 3000, "surface", "측벽 scallop 형상에서만 쓰는 이미 식각된 홈의 초기 깊이."),
     field("mask_nm", "마스크 두께", "nm", 80, 20, 500, "geometry", "기판 위 보호 마스크. 기본 엔진의 유효 마스크 재료를 사용합니다."),
     field("duration_s", "식각 시간", "s", 5, 0, 30, "recipe", "정상 입사 플럭스를 유지하는 시간. 점화 과도응답은 포함하지 않습니다."),
     field("ion_flux", "입사 이온 플럭스", "10¹⁵ cm⁻² s⁻¹", 12, 0, 40, "boundary", "구조 입구의 경계조건. RF 전력 W와 동일하지 않습니다."),
@@ -79,14 +84,27 @@ def validate(payload):
         if spec["integer"] and int(value) != value:
             raise ValueError(f"{key}: integer required")
         params[key] = int(value) if spec["integer"] else float(value)
-    if params["width_nm"] > params["pitch_nm"] * 0.75:
+    profile = params['surface_profile']
+    if profile != 1 and params["width_nm"] > params["pitch_nm"] * 0.75:
         raise ValueError("개구 폭은 계산 영역 폭의 75% 이하여야 합니다.")
-    if params["width_nm"] < params["grid_nm"] * 6:
+    if profile != 1 and params["width_nm"] < params["grid_nm"] * 6:
         raise ValueError("개구 폭에 최소 6개의 격자가 필요합니다.")
     if params["pitch_nm"] / params["grid_nm"] > 800:
         raise ValueError("가로 격자 수는 800 이하로 설정하세요.")
-    if model == "ald" and params["depth_nm"] / params["grid_nm"] > 1000:
+    if model == "ald" and profile != 1 and params["depth_nm"] / params["grid_nm"] > 1000:
         raise ValueError("깊이 격자 수는 1000 이하로 설정하세요.")
-    if model == "etch" and params["mask_nm"] < 3 * params["grid_nm"]:
+    if model == "etch" and profile == 0 and params["mask_nm"] < 3 * params["grid_nm"]:
         raise ValueError("마스크 두께에 최소 3개의 격자가 필요합니다.")
+    if params['surface_profile']:
+        amplitude, grid = params['corrugation_amplitude_nm'], params['grid_nm']
+        if 0 < amplitude < 2*grid:
+            raise ValueError('초기 요철 진폭에 최소 2격자가 필요합니다. 격자를 줄이세요.')
+        extent = params['pitch_nm'] if params['surface_profile'] == 1 else params['depth_nm']
+        if extent / params['corrugation_count'] < 12*grid:
+            raise ValueError('요철 한 주기에 최소 12격자가 필요합니다.')
+        if params['surface_profile'] == 2:
+            if params['width_nm'] + 2*amplitude > .85*params['pitch_nm']:
+                raise ValueError('scallop 측벽과 계산 경계 사이의 여유가 부족합니다.')
+            if params['depth_nm']/grid > 1000:
+                raise ValueError('깊이 격자 수는 1000 이하로 설정하세요.')
     return {"model": model, "params": params}

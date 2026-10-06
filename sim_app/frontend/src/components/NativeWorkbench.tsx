@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Download, Play, Pause, Square, RotateCcw } from "lucide-react";
 import { Chart } from "./Chart";
 import { NativeViewport } from "./NativeViewport";
-import { exportJson } from "../storage";
+import { CaptureReport } from "./ProjectReport";
+import { exportJson, download } from "../storage";
 import { compatibleGeometry, defaultNativeParams, GROUP_NAMES, isLocalWorkbench, nativeRequest,
   NATIVE_METRICS, publicNativeJson } from "../native";
 import type { NativeFrame, NativeJob, NativeRun, NativeSchema } from "../native";
@@ -147,6 +148,9 @@ export function NativeWorkbench({ setBusy }: { setBusy: (value: boolean) => void
   const displayRun = active && job?.last_frame && run ? { ...run, params, frames: [job.initial_frame ?? job.last_frame, job.last_frame] } : run;
   const comparable = displayRun && reference && compatibleGeometry(displayRun, reference) ? reference : null;
   const groups = [...new Set(fields.map(f => f.group))];
+  const profile=run?.params.surface_profile??0;
+  const inputProfile=params.surface_profile??0;
+  const historyKeys=profile===1?["roughness_rq_nm","roughness_ra_nm"]:profile===2?["left_wall_rq_nm","right_wall_rq_nm"]:model==='etch'?["center_depth_nm"]:["top_film_nm","bottom_film_nm"];
   const sourceLabel = active ? job?.last_frame ? "로컬 계산 중" : "새 결과 대기 · 직전 결과 표시" : recorded ? "저장된 계산 예제" : "로컬 Python 계산 결과";
   return <section className="native-workbench">
     <header className="native-heading">
@@ -170,12 +174,12 @@ export function NativeWorkbench({ setBusy }: { setBusy: (value: boolean) => void
         <div className="native-run-actions"><button className="button primary" type="submit" disabled={!available || !!active || loading}><Play size={16} />Run simulation</button>
           {active && <button className="button secondary" type="button" onClick={() => void cancel()}><Square size={14} />계산 중단</button>}</div>
         <p className="native-input-hint">{model === "etch" ? "입사 플럭스·에너지는 구조 입구 경계조건입니다. RF 전력이나 sccm을 대신하는 장비 레시피가 아닙니다." : "반대 반응과 퍼지가 완료된 TMA 제한 모델입니다. 한 사이클의 전체 화학을 풀지는 않습니다."}</p>
-        {groups.map(group => <details key={`${model}-${group}`} open={group === "geometry" || group === "recipe" || group === "boundary"}>
+        {groups.map(group => <details key={`${model}-${group}`} open={group === "surface" || group === "geometry" || group === "recipe" || group === "boundary"}>
           <summary>{GROUP_NAMES[group]}</summary>
-          {fields.filter(f => f.group === group).map(f => <label className="native-field" key={f.key}>
+          {fields.filter(f => f.group === group && !(inputProfile===0&&['corrugation_amplitude_nm','corrugation_count'].includes(f.key)) && !(inputProfile===1&&['width_nm','depth_nm'].includes(f.key)) && !(inputProfile!==0&&f.key==='mask_nm') && !(model==='etch'&&inputProfile!==2&&f.key==='depth_nm')).map(f => <label className="native-field" key={f.key}>
             <span>{f.label}<small>{f.unit}</small></span>
-            <input type="number" aria-label={f.label} min={f.min} max={f.max} step={f.integer ? 1 : "any"} required value={Number.isFinite(params[f.key]) ? params[f.key] : ""}
-              disabled={!!active || !available || loading} onChange={event => setParams(current => ({ ...current, [f.key]: event.target.value === "" ? NaN : Number(event.target.value) }))} />
+            {f.choices?<select aria-label={f.label} value={params[f.key]??f.default} disabled={!!active||!available||loading} onChange={e=>setParams(current=>({...current,[f.key]:Number(e.target.value),...(Number(e.target.value)>0?{grid_nm:2}: {})}))}>{f.choices.map(c=><option key={c.value} value={c.value}>{c.label}</option>)}</select>:<input type="number" aria-label={f.label} min={f.min} max={f.max} step={f.integer ? 1 : "any"} required value={params[f.key]===undefined?f.default:Number.isFinite(params[f.key])?params[f.key]:""}
+              disabled={!!active || !available || loading} onChange={event => setParams(current => ({ ...current, [f.key]: event.target.value === "" ? NaN : Number(event.target.value) }))} />}
             <small>{f.description}</small>
           </label>)}
         </details>)}
@@ -187,21 +191,25 @@ export function NativeWorkbench({ setBusy }: { setBusy: (value: boolean) => void
           <div className="native-result-toolbar"><span className="native-source-label">{sourceLabel}</span><code>{active ? job?.id.slice(0, 10) : run.run_hash.slice(0, 10)}</code>
             <button disabled={!!active} onClick={() => exportJson(`native-${run.model}-${run.run_hash.slice(0, 10)}.json`, run)}><Download size={14} />전체 결과</button>
             <button disabled={!!active} onClick={() => setReference(run)}>비교 기준으로 고정</button>
+            <button disabled={!!active} onClick={()=>{const svg=document.querySelector('.native-viewport');if(!svg)return;const copy=svg.cloneNode(true) as SVGElement;copy.setAttribute('xmlns','http://www.w3.org/2000/svg');const metadata=document.createElementNS('http://www.w3.org/2000/svg','metadata');metadata.textContent=JSON.stringify({run_hash:run.run_hash,params:run.params,frame:frameIndex,at:displayFrame.at,axis_unit:run.axis_unit,implementation:run.implementation,environment:run.environment,view:{zoom,showInitial,showMesh},reference:comparable?{run_hash:comparable.run_hash,params:comparable.params}:null,evidence:'simulation'});copy.prepend(metadata);download(`surface-${run.run_hash.slice(0,10)}-${frameIndex}.svg`,new XMLSerializer().serializeToString(copy),'image/svg+xml');}}>현재 단면 SVG</button>
+            <CaptureReport disabled={!!active} snapshot={{kind:`native-${run.model}`,label:`${run.model.toUpperCase()} · ${profile===1?'표면 ripple':profile===2?'측벽 scallop':'기준 구조'}`,source_id:run.run_hash,version:run.implementation,evidence:'simulation',provenance:recorded?'recorded example':'local calculation',inputs:{surface_profile:0,...run.params},metrics:Object.entries(run.frames.at(-1)!.metrics).map(([key,value])=>({key,label:NATIVE_METRICS[key]?.[0]??key,unit:NATIVE_METRICS[key]?.[1]??'',value})),assumptions:run.assumptions,numerics:{environment:run.environment,numerics:run.numerics}}}/>
           </div>
           {pending && !active && <p className="native-pending">입력이 바뀌었습니다. 단면과 지표는 마지막 결과입니다. 다시 계산하면 반영됩니다.</p>}
           <div className="native-view-options"><label><input type="checkbox" checked={showInitial} onChange={e => setShowInitial(e.target.checked)} />초기 형상</label><label><input type="checkbox" checked={showMesh} onChange={e => setShowMesh(e.target.checked)} />계산 표면점</label>
             <label>확대 <select aria-label="단면 확대" value={zoom} onChange={e => setZoom(Number(e.target.value))}><option value="1">1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select></label>
             {comparable && <button onClick={() => setReference(null)}>비교선 지우기</button>}</div>
           <NativeViewport run={displayRun} frame={displayFrame} reference={comparable} initial={showInitial && (!active || !!job?.initial_frame)} mesh={showMesh} zoom={zoom} />
-          <div className="native-legend"><span className="silicon">Si 기판</span><span className={model === "etch" ? "mask" : "film"}>{model === "etch" ? "유효 마스크" : "Al₂O₃ 막"}</span><span>점선: 초기 형상</span>{comparable && <span className="comparison">주황선: 비교 기준 최종 형상</span>}</div>
+          <div className="native-legend"><span className="silicon">Si 기판</span>{model==='ald'?<span className="film">Al₂O₃ 막</span>:profile===0?<span className="mask">유효 마스크</span>:null}<span>점선: 초기 형상</span>{comparable && <span className="comparison">주황선: 비교 기준 최종 형상</span>}</div>
           <div className="native-playback"><button disabled={!!active} aria-label={playing ? "단면 재생 일시정지" : "단면 재생"} onClick={() => { if (frameIndex === run.frames.length - 1) setFrameIndex(0); setPlaying(!playing); }}>{playing ? <Pause size={18} /> : <Play size={18} />}</button>
             <input type="range" aria-label="계산 프레임" min="0" max={run.frames.length - 1} step="1" value={frameIndex} disabled={!!active} onChange={e => { setPlaying(false); setFrameIndex(Number(e.target.value)); }} />
             <output>{displayFrame.at.toFixed(run.axis_unit === "s" ? 2 : 0)} {run.axis_unit}</output></div>
-          <p className="native-frame-note">저장된 계산 프레임 {active ? "갱신 중" : `${frameIndex + 1} / ${run.frames.length}`} · 표면 좌표에 임의의 요철이나 보간 애니메이션을 넣지 않았습니다.</p>
-          <div className="native-metrics">{Object.entries(displayFrame.metrics).filter(([key]) => key !== "minimum_gap_nm").map(([key, value]) => <div key={key}><span>{NATIVE_METRICS[key]?.[0] ?? key}</span><strong>{key === "bottom_top_pct" && displayFrame.metrics.top_film_nm <= 1e-6 ? "—" : value.toFixed(2)} <small>{NATIVE_METRICS[key]?.[1]}</small></strong>{comparable && <small>기준 {comparable.frames.at(-1)!.metrics[key]?.toFixed(2)}</small>}</div>)}</div>
+          <p className="native-frame-note">저장된 계산 프레임 {active ? "갱신 중" : `${frameIndex + 1} / ${run.frames.length}`} · 초기 요철은 입력 형상이며 이후 표면은 엔진 계산값입니다. 보고서에는 최종 지표가 기록됩니다.</p>
+          {profile>0&&<p className="native-warning">{profile===1?'주어진 초기 ripple의 변화':'주어진 초기 scallop 측벽의 변화'}를 계산합니다. 자발적 ripple 또는 Bosch 생성 과정은 포함하지 않습니다. Rq 변화는 격자·입자 수·시드를 바꿔 확인하세요.</p>}
+          <div className="native-metrics">{Object.entries(displayFrame.metrics).filter(([key]) => key !== "minimum_gap_nm").map(([key, value]) => <div key={key}><span>{NATIVE_METRICS[key]?.[0] ?? key}</span><strong>{value===null||(key === "bottom_top_pct" && (displayFrame.metrics.top_film_nm??0) <= 1e-6) ? "—" : value.toFixed(2)} <small>{NATIVE_METRICS[key]?.[1]}</small></strong>{comparable && <small>기준 {comparable.frames.at(-1)!.metrics[key]?.toFixed(2)}</small>}</div>)}</div>
           {!active && run.warnings.map(warning => <p className="native-warning" key={warning}>{warning}</p>)}
           <div className="native-examples"><span>저장된 비교 예제</span><button disabled={!!active || loading} onClick={() => void loadExample(model, "reference")}>기준 조건</button><button disabled={!!active || loading} onClick={() => void loadExample(model, "variant")}>{model === "etch" ? "방향성 감소 + O 공급 감소" : "노출 시간 감소"}</button></div>
-          {!active && <Chart series={{ key: "native-evolution", title: model === "etch" ? "중앙 식각 깊이 · 계산 이력" : "상단과 바닥의 막 성장 · 계산 이력", x_label: run.axis_unit, y_label: "nm", x: run.frames.map(f => f.at), lines: (model === "etch" ? ["center_depth_nm"] : ["top_film_nm", "bottom_film_nm"]).map(key => ({ name: NATIVE_METRICS[key][0], values: run.frames.map(f => f.metrics[key]) })) }} time={displayFrame.at} />}
+          <div className="native-examples"><span>초기 요철 실험</span><button disabled={!!active||loading} onClick={()=>void loadExample(model,'ripple')}>표면 ripple 예제</button><button disabled={!!active||loading} onClick={()=>void loadExample(model,'scallop')}>측벽 scallop 예제</button></div>
+          {!active && <Chart series={{ key: "native-evolution", title: profile>0?"거칠기 · 실제 계산 이력":model === "etch" ? "중앙 식각 깊이 · 계산 이력" : "상단과 바닥의 막 성장 · 계산 이력", x_label: run.axis_unit, y_label: "nm", x: run.frames.map(f => f.at), lines: historyKeys.map(key => ({ name: NATIVE_METRICS[key][0], values: run.frames.map(f => f.metrics[key]??NaN) })) }} time={displayFrame.at} />}
         </> : panel === "surface" ? <p className="native-loading">{loading ? "계산 형상을 불러오는 중…" : "결과를 선택하거나 새 계산을 실행하세요."}</p> : null}
         {panel === "evidence" && <div className="native-evidence">
           <h2>무엇을 계산하는가</h2><p>{schema.models[model].engine}</p>
