@@ -39,6 +39,8 @@ export function comparisonReason(a:ReportEntry,b:ReportEntry):string|null {
       profile===2?['pitch_nm','width_nm','depth_nm','corrugation_amplitude_nm','corrugation_count']:
       ['pitch_nm','width_nm',a.kind==='native-ald'?'depth_nm':'mask_nm'];
     if(profile!==(b.inputs.surface_profile??0)||keys.some(k=>a.inputs[k]!==b.inputs[k])) return '초기 형상이 다릅니다. 같은 초기 형상을 고정한 효과 비교가 아닙니다.';
+    const targets=new Set([...Object.keys(a.inputs),...Object.keys(b.inputs)].filter(k=>k.startsWith('target.')));
+    if([...targets].some(k=>a.inputs[k]!==b.inputs[k]))return '목표 기준이 다릅니다. 같은 목표로 다시 평가한 기록끼리 비교하세요.';
   }
   return null;
 }

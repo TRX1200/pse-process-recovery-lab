@@ -1,5 +1,7 @@
 # Native Feature Simulator · 시작 및 모델 설명
 
+**목표 입력·판정·새 진단 그래프:** [목표 단면과 공정 평가 사용법](NATIVE_TARGET_REVIEW_KR.md).
+
 이 작업 공간은 **Python에서 ViennaPS 4.6.2 / ViennaLS 5.8.5를 실행하는 2D 형상 해석기**다.
 기존 브라우저 학습 도구의 0D/1D 결과를 단면처럼 늘려 그린 것이 아니다.
 입자 수송과 표면 반응으로 국소 이동 속도를 계산하고 level-set 형상을 갱신한다.

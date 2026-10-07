@@ -36,7 +36,7 @@ export function Chart({
   baseline?: Series;
   compact?: boolean;
   time?: number | null;
-  staticLabel?: boolean;
+  staticLabel?: boolean | string;
 }) {
   const clipId = useId().replaceAll(":", "");
   const width = 600;
@@ -98,7 +98,7 @@ export function Chart({
       </div>
       {staticLabel && (
         <span className="static-plot-label">
-          종점 / 조건 곡선 · 시간축 아님
+          {typeof staticLabel==='string'?staticLabel:'종점 / 조건 곡선 · 시간축 아님'}
         </span>
       )}
       <svg

@@ -27,3 +27,13 @@ test('Markdown retains provenance, operator conclusions, inputs and model bounda
   const r=appendSnapshot(emptyReport(),snapshot(),'1','now');r.discussion='Needs grid comparison';
   const md=reportMarkdown(r);assert.match(md,/source-hash/);assert.match(md,/local calculation/);assert.match(md,/corrugation_amplitude_nm/);assert.match(md,/Needs grid comparison/);assert.match(md,/Bosch/);
 });
+
+test('target comparisons require the same frozen goals and keep evaluation details in exports',()=>{
+  const s=snapshot();s.inputs['target.advance_nm']=10;s.numerics={target_review:{goal:{advance_nm:10},status:'pass',version:'native-target-review-1.0'}};
+  const report=appendSnapshot(emptyReport(),s,'1','now'),a=report.entries[0];
+  s.numerics.target_review.goal.advance_nm=20;
+  assert.equal(a.numerics.target_review.goal.advance_nm,10);
+  const b=structuredClone(a);b.inputs['target.advance_nm']=20;
+  assert.match(comparisonReason(a,b),/목표 기준/);
+  assert.match(reportMarkdown(report),/native-target-review-1.0/);
+});
