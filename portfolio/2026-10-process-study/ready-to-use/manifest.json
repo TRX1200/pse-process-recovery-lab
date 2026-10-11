@@ -1,0 +1,67 @@
+{
+  "source_commit": "cac40a64f910e42f061992b92cc054d05251d0f0",
+  "source_kind": "previously solved examples; re-exported, not rerun",
+  "physical_validation": "not performed",
+  "sources": {
+    "native/ald-variant.json": {
+      "sha256": "10bd70ccf661ab347ce0f143e89afe3adc7deebf9ff08d88e469b6a33f46018a",
+      "copy": "data\\ald-variant.json"
+    },
+    "native/ald-reference.json": {
+      "sha256": "e447363f23bf2eb75b2613f69c18776b87497114404fb805d8cb49ea1830a24c",
+      "copy": "data\\ald-reference.json"
+    },
+    "native/etch-reference.json": {
+      "sha256": "69c1990b40db05d0cf52aff7f13d33563aa049995ef946f5c9c75961048fc8c3",
+      "copy": "data\\etch-reference.json"
+    },
+    "native/etch-variant.json": {
+      "sha256": "b66c5d767a3d372807cb3ed5f921e6ccb6cbebb32780e86120c68f15426050e1",
+      "copy": "data\\etch-variant.json"
+    },
+    "rf/coupled-reference.json": {
+      "sha256": "6f5d7c19bafa328fafc70cc4ef7bf32bbf7f14f9f08100b0e4cc8c97ab34e598",
+      "copy": "data\\coupled-reference.json"
+    }
+  },
+  "figures": [
+    {
+      "file": "01_ALD_exposure_conformality",
+      "pixels": [
+        3200,
+        1800
+      ]
+    },
+    {
+      "file": "02_Etch_profile_tradeoff",
+      "pixels": [
+        3200,
+        1800
+      ]
+    },
+    {
+      "file": "03_RF_plasma_power_balance",
+      "pixels": [
+        3200,
+        1800
+      ]
+    }
+  ],
+  "renderer": {
+    "python": "3.12.14",
+    "matplotlib": "3.11.0",
+    "numpy": "2.1.3"
+  },
+  "checks": [
+    "ald-variant.json: all contour coordinates finite; frame centre metrics reconciled",
+    "ald-reference.json: all contour coordinates finite; frame centre metrics reconciled",
+    "etch-reference.json: all contour coordinates finite; frame centre metrics reconciled",
+    "etch-variant.json: all contour coordinates finite; frame centre metrics reconciled",
+    "RF: independently summed forward/reflected/coil/capacitor/bulk powers; global balance residual < 1e-8; efficiency ratio reconciled"
+  ],
+  "figure_sha256": {
+    "01_ALD_exposure_conformality.png": "659f5a4441641e6102710bd06866a2ffe3772dc5b0093f37daa28fef76c0c8aa",
+    "02_Etch_profile_tradeoff.png": "63fa6116366d4cc7895c6e0b9db96d1b14975b79bd4945cdd5327f4bd32bb32f",
+    "03_RF_plasma_power_balance.png": "259b95fb4be3cfd646cfff9afcf1fbf288d78b9b9c7055efc16869373af0b854"
+  }
+}
