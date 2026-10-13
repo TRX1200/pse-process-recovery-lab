@@ -1,4 +1,4 @@
-"""Unified native geometry + RF workbench, bound to loopback only."""
+"""Unified process flow + native geometry + RF workbench, loopback only."""
 import argparse
 from http.server import ThreadingHTTPServer
 import json
@@ -18,6 +18,9 @@ class Handler(NativeHandler):
         path = urlsplit(self.path).path
         if path == '/api/rf/schema':
             self.send_json(200, {**schema(), 'available': True})
+        elif path == '/api/flow/schema':
+            from flow_lab.model import schema as flow_schema
+            self.send_json(200, {**flow_schema(), 'available': True})
         elif path == '/api/rf/runs':
             self.send_json(200, {'runs': recent()})
         elif path == '/api/rf/coupled/schema':
@@ -28,7 +31,7 @@ class Handler(NativeHandler):
 
     def do_POST(self):
         path = urlsplit(self.path).path
-        if path not in ('/api/rf/simulate', '/api/rf/coupled', '/api/rf/sync-process'):
+        if path not in ('/api/rf/simulate', '/api/rf/coupled', '/api/rf/sync-process', '/api/flow/simulate'):
             return super().do_POST()
         origin = self.headers.get('Origin')
         if origin and urlsplit(origin).netloc != self.headers.get('Host'):
@@ -45,9 +48,12 @@ class Handler(NativeHandler):
                 raise ValueError('Incomplete body')
             payload = json.loads(body)
             if not SLOTS.acquire(blocking=False):
-                return self.send_json(503, {'error': 'RF calculation busy'})
+                return self.send_json(503, {'error': 'Calculation slots are busy'})
             try:
-                if path == '/api/rf/sync-process':
+                if path == '/api/flow/simulate':
+                    from flow_lab.service import run_request as run_flow
+                    response = run_flow(payload)
+                elif path == '/api/rf/sync-process':
                     import_process_results()
                     response = {'synced': True}
                 elif path == '/api/rf/coupled':

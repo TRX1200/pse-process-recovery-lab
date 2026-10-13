@@ -33,6 +33,7 @@ jobs:
       - run: pip install -r sim_app/requirements.txt
       - run: python -m unittest discover -s sim_app/tests -v
       - run: python -m unittest discover -s rf_lab/tests -v
+      - run: python -m unittest discover -s flow_lab/tests -v
       - uses: actions/setup-node@v4
         with:
           node-version: '22'

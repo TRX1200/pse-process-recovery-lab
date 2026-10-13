@@ -47,6 +47,7 @@ import { SurfaceWorkspace } from "./components/SurfaceWorkspace";
 import { UserGuide } from "./components/UserGuide";
 import { NativeWorkbench } from "./components/NativeWorkbench";
 import { RFWorkbench } from "./components/RFWorkbench";
+import { FlowWorkbench } from "./components/FlowWorkbench";
 import { ProjectReport } from "./components/ProjectReport";
 import { AssessmentPanel } from "./components/AssessmentPanel";
 import { Equations } from "./components/Equations";
@@ -60,7 +61,7 @@ import "./styles.css";
 import "./lab.css";
 import "./guide.css";
 
-type View = "native" | "rf" | "report" | "investigation" | "simulate" | "surface" | "manual" | "sweep" | "recipes";
+type View = "flow" | "native" | "rf" | "report" | "investigation" | "simulate" | "surface" | "manual" | "sweep" | "recipes";
 type PlotTab =
   "process" | "physics" | "troubleshooting" | "assessment" | "equations";
 
@@ -78,7 +79,7 @@ export default function App() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [toast, setToast] = useState("");
-  const [view, setView] = useState<View>(location.hash === "#report" ? "report" : location.hash === "#rf" ? "rf" : "native");
+  const [view, setView] = useState<View>(location.hash === "#report" ? "report" : location.hash === "#rf" ? "rf" : location.hash === "#native" ? "native" : "flow");
   const [tab, setTab] = useState<PlotTab>("process");
   const [showBaseline, setShowBaseline] = useState(true);
   const [baselineId, setBaselineId] = useState("auto");
@@ -120,7 +121,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    if (view === "native" || view === "rf" || view === "report" || schema) return;
+    if (view === "flow" || view === "native" || view === "rf" || view === "report" || schema) return;
     let active = true;
     async function initialize() {
       setBusy(true);
@@ -173,22 +174,25 @@ export default function App() {
   useEffect(() => {
     workspaceRef.current?.scrollTo({ top: 0 });
     window.scrollTo({ top: 0 });
+    if (["flow", "native", "rf", "report"].includes(view)) {
+      window.history.replaceState(null, "", `${location.pathname}${location.search}#${view}`);
+    }
   }, [view, model]);
 
-  if (view === "native" || view === "rf" || view === "report")
-    return <div className="app-shell lab-shell notebook-layout">
+  if (view === "flow" || view === "native" || view === "rf" || view === "report")
+    return <div className={`app-shell lab-shell notebook-layout process-shell view-${view}`}>
       <header className="topbar">
-        <button className="lab-brand" disabled={busy} onClick={() => setView("native")}>ALD / Etch Lab</button>
+        <button className="lab-brand" disabled={busy} onClick={() => setView("flow")}><Layers3 size={26}/><span>Process Lab<small>Semiconductor Process Integration</small></span></button>
         <nav className="lab-nav" aria-label="주 메뉴">
-          <button disabled={busy} aria-current={view === "native" ? "page" : undefined} onClick={() => setView("native")}>형상 시뮬레이터</button>
-          <button disabled={busy} aria-current={view === "rf" ? "page" : undefined} onClick={() => setView("rf")}>RF 매칭 · 플라즈마</button>
-          <button disabled={busy} aria-current={view === "report" ? "page" : undefined} onClick={() => setView("report")}>실험 보고서</button>
+          <button disabled={busy} aria-current={view === "flow" ? "page" : undefined} onClick={() => setView("flow")}>연속공정</button>
+          <button disabled={busy} aria-current={view === "native" ? "page" : undefined} onClick={() => setView("native")}>ALD / Etch</button>
+          <button disabled={busy} aria-current={view === "rf" ? "page" : undefined} onClick={() => setView("rf")}>RF · 플라즈마</button>
+          <button disabled={busy} aria-current={view === "report" ? "page" : undefined} onClick={() => setView("report")}>보고서</button>
           <button disabled={busy} onClick={() => setView("investigation")}>기존 학습 도구</button>
-          <a className="native-manual-link" href={`https://github.com/TRX1200/pse-process-recovery-lab/blob/main/docs/${view==='report'?'PROJECT_REPORT_KR':view==='rf'?'RF_MATCHING_KR':'NATIVE_SIMULATOR_KR'}.md`} target="_blank" rel="noreferrer">{view==='report'?'실험·보고서 안내':view==='rf'?'RF 학습·실행 안내':'형상 해석 설명서'} ↗</a>
         </nav>
         <div className="header-actions"><a className="lab-source" href="https://github.com/TRX1200/pse-process-recovery-lab" target="_blank" rel="noreferrer">GitHub ↗</a></div>
       </header>
-      <main className="workspace">{view === "report" ? <ProjectReport/> : view === "rf" ? <RFWorkbench setBusy={setBusy} /> : <NativeWorkbench setBusy={setBusy} />}</main>
+      <main className="workspace">{view === "flow" ? <FlowWorkbench setBusy={setBusy}/> : view === "report" ? <ProjectReport/> : view === "rf" ? <RFWorkbench setBusy={setBusy} /> : <NativeWorkbench setBusy={setBusy} />}</main>
     </div>;
 
   if (!schema)

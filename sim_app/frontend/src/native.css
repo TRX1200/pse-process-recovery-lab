@@ -42,3 +42,61 @@
 @media (min-width: 1500px) { .native-layout { grid-template-columns: 280px minmax(0, 1fr); gap: 30px; } }
 @media (max-width: 1000px) { .native-layout { grid-template-columns: 210px minmax(0, 1fr); gap: 16px; }.native-heading { align-items: start; }.native-heading h1 { font-size: 24px; }.native-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }.native-model-switch span { display: none; } }
 @media (max-width: 720px) { .native-heading { display: block; }.native-connection { margin-top: 14px; }.native-layout { display: flex; flex-direction: column; }.native-controls { width: 100%; order: 2; }.native-main { width: 100%; order: 1; }.native-viewport { min-height: 240px; }.native-heading h1 { font-size: 23px; }.native-model-switch button { font-size: 11px; padding: 10px; }.native-result-toolbar { gap: 8px; }.native-metrics strong { font-size: 20px; }.native-tabs button { font-size: 12px; padding: 10px; }.native-evidence { padding: 10px 0; }.native-evidence table { font-size: 10px; }.native-evidence td, .native-evidence th { padding: 7px 5px; }.native-launch a { margin-left: 0; } }
+
+/* One visible work area at a time; only the selected panel can scroll. */
+.process-shell.view-native .workspace{overflow:hidden!important;}
+.process-shell .native-workbench{height:100%;min-height:0;display:flex;flex-direction:column;}
+.process-shell .native-heading{padding:0 0 6px;flex-shrink:0;}
+.process-shell .native-heading h1{font-size:18px;margin:4px 0;}
+.process-shell .native-heading p,.process-shell .native-eyebrow{display:none;}
+.process-shell .native-model-switch{padding-bottom:5px;margin-bottom:8px;flex-shrink:0;}
+.process-shell .native-model-switch button{padding:8px 12px;font-size:11px;}
+.process-shell .native-layout{min-height:0;flex:1;align-items:stretch;gap:16px;}
+.process-shell .native-controls{overflow:auto;min-height:0;}
+.process-shell .native-main{min-height:0;display:flex;flex-direction:column;overflow:hidden;}
+.process-shell .native-main>.native-tabs,.process-shell .native-main>.native-examples,.process-shell .native-main>.native-result-toolbar{flex-shrink:0;}
+.process-shell .native-tabs{margin-bottom:8px;}
+.process-shell .native-examples{padding-bottom:8px;gap:6px;}
+.process-shell .native-result-toolbar{gap:6px;margin-bottom:6px;min-height:28px;}
+.process-shell .native-result-toolbar button{font-size:10px;padding:5px 7px;}
+.process-shell .native-result-toolbar .native-source-label{display:none;}
+.process-shell .native-result-toolbar code{display:none;}
+.process-shell .native-main>.native-evidence{overflow:auto;min-height:0;}
+.native-result-pages,.native-input-tabs,.native-chart-picker{display:flex;gap:5px;flex-wrap:wrap;flex-shrink:0;}
+.native-result-pages{border-bottom:1px solid #d6dfe5;padding-bottom:8px;margin-bottom:10px;}
+.native-result-pages button,.native-input-tabs button,.native-chart-picker button,.native-mobile-nav button{border:1px solid #d6dfe5;color:#486072;background:#fff;border-radius:3px;padding:8px 12px;font-size:11px;cursor:pointer;}
+.native-result-pages button[aria-pressed=true],.native-input-tabs button[aria-pressed=true],.native-chart-picker button[aria-pressed=true],.native-mobile-nav button[aria-pressed=true]{color:#087f89;background:#e1f2f3;border-color:#b9d6d9;}
+.native-input-tabs{padding:0 12px 12px;gap:5px;}
+.native-input-tabs button{padding:6px 8px;font-size:10px;}
+.native-input-group h3{padding:12px 14px 8px;margin:0;font-size:12px;border-top:1px solid #d6dfe5;}
+.native-result-page{flex:1;min-height:0;overflow:auto;padding:0 2px;}
+.native-surface-page{display:flex;flex-direction:column;overflow:auto;}
+.process-shell .native-surface-page .native-section-heading{margin:0 0 6px;}
+.process-shell .native-surface-page .native-section-heading h2{font-size:12px;}
+.process-shell .native-surface-page .native-viewport{flex:1;min-height:170px;max-height:none;height:100%;}
+.process-shell .native-surface-page .native-view-options{padding:7px 12px;}
+.process-shell .native-surface-page .native-legend{padding:7px 12px;}
+.process-shell .native-surface-page .native-playback{padding:7px 0 0;}
+.process-shell .native-frame-note{margin:6px 0;font-size:9px;}
+.process-shell .native-surface-page .native-warning{font-size:10px;padding:6px 10px;margin:4px 0;}
+.native-single-chart .plot svg{max-height:390px;}
+.native-mobile-nav{display:none;}
+@media(max-width:760px){
+ .process-shell.view-native .workspace{padding:8px!important;}
+ .process-shell .native-heading{display:flex;gap:10px;padding-bottom:8px;}
+ .process-shell .native-heading h1{font-size:17px;}
+ .process-shell .native-heading p,.process-shell .native-heading .native-eyebrow,.process-shell .native-connection small{display:none;}
+ .process-shell .native-connection{font-size:9px;white-space:normal;margin:0;}
+ .native-mobile-nav{display:flex;margin-bottom:7px;gap:5px;}
+ .native-mobile-nav button{flex:1;padding:7px;}
+ .process-shell .native-layout{display:block;}
+ .process-shell .native-controls,.process-shell .native-main{display:none;height:100%;}
+ .native-workbench[data-mobile-pane=setup] .native-controls{display:block;}
+ .native-workbench[data-mobile-pane=result] .native-main{display:flex;}
+ .process-shell .native-examples>span{display:none;}
+ .process-shell .native-examples button{font-size:10px;padding:5px;}
+ .process-shell .native-result-toolbar code{display:none;}
+ .native-result-pages{gap:4px;}
+ .native-result-pages button{flex:1;padding:7px 5px;font-size:10px;}
+ .process-shell .native-surface-page .native-viewport{min-height:140px;}
+}
