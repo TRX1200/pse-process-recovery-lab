@@ -16,7 +16,10 @@ def run(run_dir):
               "started_at": started, "model": request["model"]}
     write_json(directory / "status.json", status)
     try:
-        from native_lab.engine import simulate
+        if request['model'] == 'sequence':
+            from native_lab.sequence import simulate
+        else:
+            from native_lab.engine import simulate
 
         def progress(fraction, frame):
             if fraction == 0:

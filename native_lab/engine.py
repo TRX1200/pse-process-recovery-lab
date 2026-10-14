@@ -73,25 +73,43 @@ def ray_parameters(p, step):
 
 def simulate(payload, output_dir=None, progress=None):
     request = validate(payload)
+    if request['model'] == 'sequence':
+        from native_lab.sequence import simulate as simulate_sequence
+        return simulate_sequence(request, output_dir, progress)
     initialize()
+    return evolve(request, make_domain(request), output_dir, progress)
+
+
+def make_domain(request):
+    """Create the initial feature for a validated single-process request."""
     model, p = request["model"], request["params"]
-    started = time.perf_counter()
     domain = ps.Domain(gridDelta=p["grid_nm"] / 1000, xExtent=p["pitch_nm"] / 1000)
     profile = p['surface_profile']
     if profile:
         make_profile(domain,p)
         if model == 'ald':
             domain.duplicateTopLevelSet(ps.Material.Al2O3)
-        materials = ['Si'] if model == 'etch' else ['Si','Al2O3']
     elif model == "etch":
         ps.MakeTrench(domain, trenchWidth=p["width_nm"] / 1000, trenchDepth=0,
                       maskHeight=p["mask_nm"] / 1000).apply()
-        materials = ["Si", "Mask"]
     else:
         ps.MakeTrench(domain, trenchWidth=p["width_nm"] / 1000,
                       trenchDepth=p["depth_nm"] / 1000).apply()
         domain.duplicateTopLevelSet(ps.Material.Al2O3)
-        materials = ["Si", "Al2O3"]
+    return domain
+
+
+def evolve(request, domain, output_dir=None, progress=None):
+    """Evolve an existing domain. Caller validates inputs and initializes runtime.
+
+    Sequence callers may derive depth_nm from the previous computed geometry;
+    it is a measurement reference, never a replacement rectangular trench.
+    """
+    model, p = request["model"], request["params"]
+    started = time.perf_counter()
+    profile = p['surface_profile']
+    materials = [ps.MaterialMap.toString(domain.getMaterialMap().getMaterialAtIdx(i))
+                 for i in range(len(domain.getLevelSets()))]
     frames = [capture(domain, materials, model, p, 0, "initial")]
     initial_mask_offset = frames[0]["metrics"].get("mask_loss_nm", 0)
     if model == "etch" and not profile:
@@ -195,7 +213,8 @@ def simulate(payload, output_dir=None, progress=None):
                 process.apply()
             completed += count
             record(i + 1, steps, completed, "growth")
-            if profile != 1 and frames[-1]["metrics"]["minimum_gap_nm"] < 2 * p["grid_nm"]:
+            gap = frames[-1]["metrics"].get("minimum_gap_nm")
+            if profile != 1 and gap is not None and gap < 2 * p["grid_nm"]:
                 warnings.append("통로가 2격자보다 좁아져 중단했습니다. 완전 폐쇄 이후의 성장은 해상도를 높여 검토해야 합니다.")
                 break
         axis_unit = "cycle"

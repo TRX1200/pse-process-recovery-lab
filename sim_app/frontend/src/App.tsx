@@ -48,6 +48,7 @@ import { UserGuide } from "./components/UserGuide";
 import { NativeWorkbench } from "./components/NativeWorkbench";
 import { RFWorkbench } from "./components/RFWorkbench";
 import { FlowWorkbench } from "./components/FlowWorkbench";
+import { SequenceWorkbench } from "./components/SequenceWorkbench";
 import { ProjectReport } from "./components/ProjectReport";
 import { AssessmentPanel } from "./components/AssessmentPanel";
 import { Equations } from "./components/Equations";
@@ -61,7 +62,7 @@ import "./styles.css";
 import "./lab.css";
 import "./guide.css";
 
-type View = "flow" | "native" | "rf" | "report" | "investigation" | "simulate" | "surface" | "manual" | "sweep" | "recipes";
+type View = "process" | "flow" | "native" | "rf" | "report" | "investigation" | "simulate" | "surface" | "manual" | "sweep" | "recipes";
 type PlotTab =
   "process" | "physics" | "troubleshooting" | "assessment" | "equations";
 
@@ -79,7 +80,7 @@ export default function App() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [toast, setToast] = useState("");
-  const [view, setView] = useState<View>(location.hash === "#report" ? "report" : location.hash === "#rf" ? "rf" : location.hash === "#native" ? "native" : "flow");
+  const [view, setView] = useState<View>(location.hash === "#report" ? "report" : location.hash === "#rf" ? "rf" : location.hash === "#native" ? "native" : location.hash === '#flow' ? 'flow' : "process");
   const [tab, setTab] = useState<PlotTab>("process");
   const [showBaseline, setShowBaseline] = useState(true);
   const [baselineId, setBaselineId] = useState("auto");
@@ -121,7 +122,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    if (view === "flow" || view === "native" || view === "rf" || view === "report" || schema) return;
+    if (view === "process" || view === "flow" || view === "native" || view === "rf" || view === "report" || schema) return;
     let active = true;
     async function initialize() {
       setBusy(true);
@@ -174,17 +175,18 @@ export default function App() {
   useEffect(() => {
     workspaceRef.current?.scrollTo({ top: 0 });
     window.scrollTo({ top: 0 });
-    if (["flow", "native", "rf", "report"].includes(view)) {
+    if (["process", "flow", "native", "rf", "report"].includes(view)) {
       window.history.replaceState(null, "", `${location.pathname}${location.search}#${view}`);
     }
   }, [view, model]);
 
-  if (view === "flow" || view === "native" || view === "rf" || view === "report")
+  if (view === "process" || view === "flow" || view === "native" || view === "rf" || view === "report")
     return <div className={`app-shell lab-shell notebook-layout process-shell view-${view}`}>
       <header className="topbar">
-        <button className="lab-brand" disabled={busy} onClick={() => setView("flow")}><Layers3 size={26}/><span>Process Lab<small>Semiconductor Process Integration</small></span></button>
+        <button className="lab-brand" disabled={busy} onClick={() => setView("process")}><Layers3 size={26}/><span>Process Lab<small>Semiconductor Process Integration</small></span></button>
         <nav className="lab-nav" aria-label="주 메뉴">
-          <button disabled={busy} aria-current={view === "flow" ? "page" : undefined} onClick={() => setView("flow")}>연속공정</button>
+          <button disabled={busy} aria-current={view === "process" ? "page" : undefined} onClick={() => setView("process")}>물리 연속공정</button>
+          <button disabled={busy} aria-current={view === "flow" ? "page" : undefined} onClick={() => setView("flow")}>구조 설계</button>
           <button disabled={busy} aria-current={view === "native" ? "page" : undefined} onClick={() => setView("native")}>ALD / Etch</button>
           <button disabled={busy} aria-current={view === "rf" ? "page" : undefined} onClick={() => setView("rf")}>RF · 플라즈마</button>
           <button disabled={busy} aria-current={view === "report" ? "page" : undefined} onClick={() => setView("report")}>보고서</button>
@@ -192,7 +194,7 @@ export default function App() {
         </nav>
         <div className="header-actions"><a className="lab-source" href="https://github.com/TRX1200/pse-process-recovery-lab" target="_blank" rel="noreferrer">GitHub ↗</a></div>
       </header>
-      <main className="workspace">{view === "flow" ? <FlowWorkbench setBusy={setBusy}/> : view === "report" ? <ProjectReport/> : view === "rf" ? <RFWorkbench setBusy={setBusy} /> : <NativeWorkbench setBusy={setBusy} />}</main>
+      <main className="workspace">{view === "process" ? <SequenceWorkbench setBusy={setBusy}/> : view === "flow" ? <FlowWorkbench setBusy={setBusy}/> : view === "report" ? <ProjectReport/> : view === "rf" ? <RFWorkbench setBusy={setBusy} /> : <NativeWorkbench setBusy={setBusy} />}</main>
     </div>;
 
   if (!schema)

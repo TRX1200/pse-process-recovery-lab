@@ -28,12 +28,14 @@ function pathData(
 export function Chart({
   series,
   baseline,
+  baselineLabel = "정상 기준",
   compact = false,
   time,
   staticLabel = false,
 }: {
   series: Series;
   baseline?: Series;
+  baselineLabel?: string;
   compact?: boolean;
   time?: number | null;
   staticLabel?: boolean | string;
@@ -93,7 +95,7 @@ export function Chart({
               {line.name}
             </span>
           ))}
-          {baseline && <span className="baseline-legend">--- 정상 기준</span>}
+          {baseline && <span className="baseline-legend">--- {baselineLabel}</span>}
         </div>
       </div>
       {staticLabel && (
@@ -184,7 +186,7 @@ export function Chart({
             >
               <title>
                 {line.name}
-                {line.baseline ? " · 정상 기준" : ""}
+                {line.baseline ? ` · ${baselineLabel}` : ""}
               </title>
             </path>
             {line.values.length <= 21

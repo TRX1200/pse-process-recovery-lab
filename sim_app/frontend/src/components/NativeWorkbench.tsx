@@ -141,7 +141,7 @@ export function NativeWorkbench({ setBusy }: { setBusy: (value: boolean) => void
   async function showHistory() {
     setPanel("history");
     if (!available) return;
-    try { setHistory((await nativeRequest<{ jobs: NativeJob[] }>("jobs")).jobs); }
+    try { setHistory((await nativeRequest<{ jobs: NativeJob[] }>("jobs")).jobs.filter(j=>j.model==='etch'||j.model==='ald')); }
     catch (err) { setError(String(err)); }
   }
   async function openHistory(id: string) {

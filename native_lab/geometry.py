@@ -76,9 +76,16 @@ def measurements(layers, model, params):
         mid_width = gap_at(outer, -depth * .5) if depth > params["grid_nm"] else 0
         return {"center_depth_nm": depth, "width_half_depth_nm": mid_width,
                 "mask_loss_nm": max(0, params["mask_nm"] - top)}
-    bottom = max(0, params["depth_nm"] - depth)
-    width = gap_at(outer, -params["depth_nm"] * .5)
-    minimum = min(gap_at(outer, -params["depth_nm"] * i / 20) for i in range(1, 19))
-    return {"top_film_nm": max(0, top), "bottom_film_nm": bottom,
-            "bottom_top_pct": 100 * bottom / top if top > 1e-6 else 0,
+    # Measure coating against the retained Si interface, including a preceding
+    # etch/strip result. A fabricated rectangular depth would erase its history.
+    substrate = layers[0]["paths_nm"]
+    base_floor = max(intersections(substrate, 0, 0))
+    base_top = max(intersections(substrate, params["pitch_nm"] * .4, 0))
+    top_film, bottom = max(0, top - base_top), max(0, surface_y - base_floor)
+    resolved = base_top - base_floor > 2 * params["grid_nm"]
+    width = gap_at(outer, (base_top + base_floor) * .5) if resolved else None
+    minimum = min(gap_at(outer, base_top + (base_floor-base_top) * i / 20)
+                  for i in range(1, 19)) if resolved else None
+    return {"top_film_nm": top_film, "bottom_film_nm": bottom,
+            "bottom_top_pct": 100 * bottom / top_film if top_film > 1e-6 else 0,
             "mid_gap_nm": width, "minimum_gap_nm": minimum}

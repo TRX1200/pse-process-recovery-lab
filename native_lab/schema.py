@@ -55,7 +55,10 @@ SOURCES = [
 
 
 def schema():
+    from native_lab.sequence_schema import FIELDS
     return {"version": VERSION, "models": {
+        "sequence": {"label": "Si Etch → Strip → Al₂O₃ ALD", "params": FIELDS,
+                     "engine": "ViennaPS · retained level-set geometry"},
         "etch": {"label": "Si · SF₆/O₂ Etch", "params": ETCH,
                  "engine": "ViennaPS SF6O2Etching · Monte Carlo + level set"},
         "ald": {"label": "Al₂O₃ · TMA 제한 ALD", "params": ALD,
@@ -67,6 +70,9 @@ def validate(payload):
     if not isinstance(payload, dict) or set(payload) - {"model", "params"}:
         raise ValueError("Expected model and params only")
     model = payload.get("model")
+    if model == 'sequence':
+        from native_lab.sequence_schema import validate_sequence
+        return validate_sequence(payload)
     if model not in ("ald", "etch"):
         raise ValueError("model must be ald or etch")
     raw = payload.get("params", {})
