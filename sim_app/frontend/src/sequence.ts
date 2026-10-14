@@ -13,6 +13,21 @@ export type SequenceJob = Omit<NativeJob,'model'|'last_frame'> & {
   model:'sequence';last_frame?:NativeFrame & {stage:SequenceStage};
 };
 export interface SequenceSchema {models:{sequence:{params:NativeParameter[]}}}
+export interface ALDRecipe {
+  id:string;title:string;compare_to:string|null;changed_keys:string[];
+  request:{model:'sequence';params:Params};question:string;hypothesis:string;observe:string;
+}
+export interface ALDRecipeCatalog {
+  format:'native-ald-experiments-v1';kind:'input_presets';recipes:ALDRecipe[];
+}
+export function recipeInputs(recipe:ALDRecipe,fields:NativeParameter[]):Params {
+  const params=recipe.request.params;
+  if(recipe.request.model!=='sequence'||Object.keys(params).length!==fields.length||
+    fields.some(f=>!Object.hasOwn(params,f.key)))throw new Error('완전한 연속공정 입력이 필요합니다.');
+  const problem=inputProblem(fields,params);
+  if(problem)throw new Error(problem);
+  return {...params};
+}
 export const STAGES = [
   {key:'etch',name:'Si 식각',detail:'SF₆ / O₂ · 수송 + 표면 반응'},
   {key:'strip',name:'마스크 제거',detail:'이상적 제거 · 형상 전달'},
