@@ -192,6 +192,7 @@ export default function App() {
           <button disabled={busy} aria-current={view === "report" ? "page" : undefined} onClick={() => setView("report")}>보고서</button>
           <button disabled={busy} onClick={() => setView("investigation")}>기존 학습 도구</button>
         </nav>
+        {view==='process'&&<select className="seq-app-switch" aria-label="작업 공간" value={view} disabled={busy} onChange={e=>setView(e.target.value as View)}><option value="process">물리 연속공정</option><option value="flow">구조 설계</option><option value="native">ALD / Etch</option><option value="rf">RF · 플라즈마</option><option value="report">보고서</option><option value="investigation">기존 학습 도구</option></select>}
         <div className="header-actions"><a className="lab-source" href="https://github.com/TRX1200/pse-process-recovery-lab" target="_blank" rel="noreferrer">GitHub ↗</a></div>
       </header>
       <main className="workspace">{view === "process" ? <SequenceWorkbench setBusy={setBusy}/> : view === "flow" ? <FlowWorkbench setBusy={setBusy}/> : view === "report" ? <ProjectReport/> : view === "rf" ? <RFWorkbench setBusy={setBusy} /> : <NativeWorkbench setBusy={setBusy} />}</main>
