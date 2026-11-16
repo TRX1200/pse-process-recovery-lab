@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "timezone": "Asia/Seoul",
+  "rotation": [
+    "rf_impedance_matching",
+    "ate_si_pi",
+    "gaa_free_process",
+    "pecvd",
+    "etch",
+    "tsv_process_sequence"
+  ],
+  "last_completed_date": "2026-11-16",
+  "next_topic": "ate_si_pi",
+  "experiments": [
+    {
+      "id": "2026-11-16-rf-capacitor-step",
+      "date": "2026-11-16",
+      "topic": "rf_impedance_matching",
+      "status": "completed",
+      "path": "2026-11-16-rf-capacitor-step/",
+      "execution_id": "a30c8f9604c349478c665130d0d456a9",
+      "finished_at_utc": "2026-11-16T10:25:05.514093+00:00",
+      "plan_sha256": "e7745d656a5cea41940ea395fe03c7657a2ee70724172d7d29c6250c5912fcec",
+      "changed_parameter": "Cp 500 to 600 pF at 10 s; same prescribed load seed 42"
+    }
+  ]
+}

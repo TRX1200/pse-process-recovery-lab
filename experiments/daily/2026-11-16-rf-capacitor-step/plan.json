@@ -1,0 +1,48 @@
+{
+  "experiment_id": "2026-11-16-rf-capacitor-step",
+  "planned_at_utc": "2026-11-16T10:23:53.909625+00:00",
+  "question": "At 10 s, does a single Cp change 500 to 600 pF alter reflected and plasma-bulk power under the identical prescribed load?",
+  "hypothesis": "Cp changes generator-side input impedance. Reflection and bulk power may improve or worsen; no optimization will be performed.",
+  "changed_parameter": "Cp only, at t=10.0 s",
+  "comparison_window_s": [
+    10,
+    20
+  ],
+  "metric_definition": "Trapezoidal time mean over 10..20 s, 101 samples, 0.1 s spacing; not ensemble average",
+  "historical_results_reused": false,
+  "conditions": {
+    "A": {
+      "seed": 42,
+      "sigma": 0.18,
+      "tau_s": 1.4,
+      "base_density": 20,
+      "cp_pf": 500,
+      "cs_pf": 120,
+      "power_w": 300,
+      "schedule": []
+    },
+    "B": {
+      "seed": 42,
+      "sigma": 0.18,
+      "tau_s": 1.4,
+      "base_density": 20,
+      "cp_pf": 500,
+      "cs_pf": 120,
+      "power_w": 300,
+      "schedule": [
+        {
+          "tick": 100,
+          "cp_pf": 600,
+          "cs_pf": 120
+        }
+      ]
+    }
+  },
+  "source_commit": "e285f328500c5bafcacad4a200cb6dc1b37256f9",
+  "source_hashes": {
+    "rf_lab/__init__.py": "7e0d112be31bdb3657bbb6500b6a684f0bba438199b129cd53d6f5dd3ffc33c9",
+    "rf_lab/model.py": "cbaa7ff772eb444d7265ef98467f7a694a6cad07bf3e5146e1dce3dff0db79bd",
+    "rf_lab/practice.py": "36c7c0a7a8deaa62b038e3f2fdacdc459dc27043c2b244b73b8645dde3a80b51"
+  },
+  "source_status": "Exact local model snapshot included; working tree was dirty before this experiment."
+}

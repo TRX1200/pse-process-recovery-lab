@@ -1,0 +1,7 @@
+{
+  "python": "3.12.14",
+  "matplotlib": "3.11.0",
+  "numpy": "2.1.3",
+  "input": "data/time_series.csv and data/summary.json",
+  "note": "Rendering environment only; numerical simulation versions are in data/result.json."
+}

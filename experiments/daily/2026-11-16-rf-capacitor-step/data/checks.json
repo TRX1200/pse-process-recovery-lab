@@ -1,0 +1,15 @@
+{
+  "same_seed_exact_replay": "PASS",
+  "same_prescribed_load": "PASS",
+  "history_before_10s_equal": "PASS",
+  "fixed_counterfactual_matches_A": "PASS",
+  "finite_values": "PASS",
+  "passive_powers": "PASS",
+  "zero_power_control": "PASS",
+  "zero_noise_static_control": "PASS",
+  "power_balance": "PASS",
+  "max_abs_power_residual_w": 1.9184653865522705e-13,
+  "physical_validation": "NOT_PERFORMED",
+  "seed_ensemble_sensitivity": "NOT_RUN: one fixed-seed load realization",
+  "time_step_convergence": "NOT_RUN: quasi-static samples at 0.1 s; not an RF transient solver"
+}
