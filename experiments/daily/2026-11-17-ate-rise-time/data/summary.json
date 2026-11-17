@@ -1,0 +1,35 @@
+{
+  "cases": {
+    "A": {
+      "rise_ps": 35.0,
+      "opening_v": 0.9163059017963416,
+      "min_one_v": 0.9581529509069148,
+      "max_zero_v": 0.04184704911057308,
+      "worst_threshold_margin_v": 0.4581529508894269,
+      "finite_pattern_mismatches": 0,
+      "sampled_bits": 237,
+      "ui_ps": 125.0,
+      "dt_ps": 1.953125,
+      "alignment_delay_ps": 201.171875,
+      "nominal_source_bandwidth_ghz": 9.99140435903028
+    },
+    "B": {
+      "rise_ps": 70.0,
+      "opening_v": 0.6534911993347533,
+      "min_one_v": 0.8267456028602534,
+      "max_zero_v": 0.17325440352550012,
+      "worst_threshold_margin_v": 0.32674559647449986,
+      "finite_pattern_mismatches": 0,
+      "sampled_bits": 237,
+      "ui_ps": 125.0,
+      "dt_ps": 1.953125,
+      "alignment_delay_ps": 201.171875,
+      "nominal_source_bandwidth_ghz": 4.99570217951514
+    }
+  },
+  "delta_B_minus_A": {
+    "opening_v": -0.26281470246158833,
+    "worst_threshold_margin_v": -0.13140735441492707,
+    "finite_pattern_mismatches": 0
+  }
+}

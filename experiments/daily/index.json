@@ -9,8 +9,8 @@
     "etch",
     "tsv_process_sequence"
   ],
-  "last_completed_date": "2026-11-16",
-  "next_topic": "ate_si_pi",
+  "last_completed_date": "2026-11-17",
+  "next_topic": "gaa_free_process",
   "experiments": [
     {
       "id": "2026-11-16-rf-capacitor-step",
@@ -22,6 +22,17 @@
       "finished_at_utc": "2026-11-16T10:25:05.514093+00:00",
       "plan_sha256": "e7745d656a5cea41940ea395fe03c7657a2ee70724172d7d29c6250c5912fcec",
       "changed_parameter": "Cp 500 to 600 pF at 10 s; same prescribed load seed 42"
+    },
+    {
+      "id": "2026-11-17-ate-rise-time",
+      "date": "2026-11-17",
+      "topic": "ate_si_pi",
+      "status": "completed",
+      "path": "2026-11-17-ate-rise-time/",
+      "execution_id": "fcd1b0c92d564a099c83f597bb44f9df",
+      "finished_at_utc": "2026-11-17T11:03:02.596689+00:00",
+      "plan_sha256": "d21221a6b3a4cf3410da883ffc66dbecd538a001a692ec033e07deaafb00220b",
+      "changed_parameter": "Source rise_ps 35 to 70 ps; same 8 Gb/s DQ0_RX channel, pattern and jitter seed 42"
     }
   ]
 }

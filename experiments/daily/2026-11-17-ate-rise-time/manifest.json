@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "experiment_id": "2026-11-17-ate-rise-time",
+  "topic": "ate_si_pi",
+  "label": "Agent-run personal learning simulation; synthetic fixture independent of Fab Flow geometry, not real ATE measurements",
+  "historical_results_reused": false,
+  "model_modified": false,
+  "optimization_performed": false,
+  "scheduled_for_kst": "2026-11-17T20:00:00+09:00",
+  "heartbeat_at_utc": "2026-11-17T10:59:19.357Z",
+  "planned_at_utc": "2026-11-17T11:01:24.785638+00:00",
+  "started_at_utc": "2026-11-17T11:03:02.463560+00:00",
+  "finished_at_utc": "2026-11-17T11:03:02.596689+00:00",
+  "publication_time_note": "Publication follows calculation and validation; use the containing Git commit timestamp.",
+  "execution_id": "fcd1b0c92d564a099c83f597bb44f9df",
+  "server_job_id": null,
+  "execution_method": "Direct Python function execution; generated execution_id is not a server job ID.",
+  "source_git_head": "e285f328500c5bafcacad4a200cb6dc1b37256f9",
+  "publication_parent_commit": "295354336db6ffc3ae521b36ed07f8d7bf2069d8",
+  "source_status": "Working tree already contains local changes. Exact source snapshot hashes identify the executed model.",
+  "source_sha256": {
+    "fab_lab/__init__.py": "6d0823cdd4978fdf111dc0c301211f213e130ef4fb08e60d9058f609e3f9d5f5",
+    "fab_lab/ate.py": "61d4bfc23b0c987c6096768f213bd54f5c3d7730cf3f6e9ca67ff6399f3c6cc2",
+    "rf_lab/__init__.py": "7e0d112be31bdb3657bbb6500b6a684f0bba438199b129cd53d6f5dd3ffc33c9",
+    "rf_lab/practice.py": "36c7c0a7a8deaa62b038e3f2fdacdc459dc27043c2b244b73b8645dde3a80b51",
+    "rf_lab/model.py": "cbaa7ff772eb444d7265ef98467f7a694a6cad07bf3e5146e1dce3dff0db79bd"
+  },
+  "plan_sha256": "d21221a6b3a4cf3410da883ffc66dbecd538a001a692ec033e07deaafb00220b",
+  "seed": 42,
+  "rng": "NumPy default_rng / PCG64",
+  "ensemble_size": 1,
+  "grid": "No spatial grid: two lossless transmission lines with discrete delay queues",
+  "numerical_sampling": {
+    "samples_per_ui": 64,
+    "source_bits": 256,
+    "retained_bits": 237,
+    "ui_ps": 125.0,
+    "dt_ps": 1.953125,
+    "line_delay_samples": [
+      77,
+      26
+    ],
+    "actual_alignment_ps": 201.171875,
+    "physical_nominal_flight_ps": 200
+  },
+  "conventions": {
+    "samples_per_ui": 64,
+    "bit_count": 256,
+    "initial_voltage_v": 0,
+    "source_thevenin_levels_v": [
+      0,
+      2
+    ],
+    "source_resistance_ohm": 50,
+    "line_lengths_mm": [
+      24,
+      8
+    ],
+    "line_impedances_ohm": [
+      50,
+      65
+    ],
+    "propagation_velocity_mm_per_ns": 160,
+    "spatial_mesh": "None: two lossless transmission-line delay queues",
+    "sampling": "Fixed 64 samples/UI; delays rounded to nearest sample",
+    "alignment": "Nominal launch clock plus quantized RX flight time; no CDR or strobe optimization"
+  },
+  "numerical_environment": {
+    "python": "3.12.2",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  },
+  "render_environment": {
+    "python": "3.12.14",
+    "matplotlib": "3.11.0",
+    "numpy": "2.1.3",
+    "source": "Stored captures.json.gz, decision_samples.csv and phase_envelopes.csv; no recomputation of model outputs"
+  },
+  "commands": {
+    "actual_numeric_from_repo_root": ".venv/Scripts/python.exe exports/daily/2026-11-17-ate-rise-time/run_experiment.py --out exports/daily/2026-11-17-ate-rise-time/data",
+    "portable_rerun_from_experiment_directory": "python run_experiment.py --out rerun",
+    "plot_from_experiment_directory": "python plot_results.py",
+    "targeted_tests_from_original_repo_root": "python -m unittest fab_lab.tests.test_practice.PracticeTests.test_matched_line_and_local_echo fab_lab.tests.test_practice.PracticeTests.test_eye_ideal_and_bandwidth -v"
+  },
+  "validation": {
+    "source_hashes": "PASS",
+    "single_parameter_change": "PASS",
+    "exact_seed_replay": "PASS",
+    "identical_source_bits_and_jitter": "PASS",
+    "identical_time_axis": "PASS",
+    "shape_and_finite_values": "PASS",
+    "independent_metric_recalculation": "PASS",
+    "matched_line_delay_and_amplitude": "PASS",
+    "ideal_eye_control": "PASS",
+    "threshold_only_negative_control": "PASS",
+    "matched_line_max_abs_error_v": 0.0,
+    "ideal_eye_opening_v": 0.9999999999989995,
+    "negative_control_mismatches": 115,
+    "sample_rate_convergence": "NOT_RUN: model fixes 64 samples/UI; not modified in this experiment",
+    "seed_ensemble": "NOT_RUN: one seed",
+    "physical_validation": "NOT_PERFORMED",
+    "statistical_ber": "NOT_ESTIMATED",
+    "related_tests": {
+      "result": "PASS",
+      "tests_run": 2,
+      "note": "Executed in the original checkout; existing tests are not bundled in this snapshot."
+    },
+    "raw_gzip_roundtrip": "PASS",
+    "python_syntax": "PASS",
+    "plot_visual_review": "PASS: common axes, labels, actual captures, readable annotations",
+    "webapp_capture": "NOT_RUN: direct numerical experiment; existing server and user page were not changed"
+  },
+  "files": [
+    {
+      "path": "data/captures.json.gz",
+      "bytes": 287421,
+      "sha256": "341fcf941cb1060073a8763b8feb0423215873c72fa057823936f8d56deca42a"
+    },
+    {
+      "path": "data/checks.json",
+      "bytes": 741,
+      "sha256": "c35bef2bbaef44397aa99814ff15838c040f16230f6b801f1900231733d7f05f"
+    },
+    {
+      "path": "data/decision_samples.csv",
+      "bytes": 24691,
+      "sha256": "b04ba163efe24bf9fbfc3f922940e2ff1ba6401ab58e7cbea5da52da7c33b45f"
+    },
+    {
+      "path": "data/phase_envelopes.csv",
+      "bytes": 9038,
+      "sha256": "1620a11d66e85104e5c09dd686b5b547fa11b9d41b910b0d00d957028303f203"
+    },
+    {
+      "path": "data/result.json",
+      "bytes": 4280,
+      "sha256": "6600539b9a0130318e782a7c7e7812a14e6b29e13322d2c236473acc4e55c47b"
+    },
+    {
+      "path": "data/stimulus.json",
+      "bytes": 10765,
+      "sha256": "d700b24e4abe580f99d1a76c614e56981c97c5b6684c0dafe1f3a338528980e4"
+    },
+    {
+      "path": "data/summary.json",
+      "bytes": 1052,
+      "sha256": "aa69d85af1eabe643f03cc8b248daee17a4f3794a3a8ad9f4db0f28b62e3b80b"
+    },
+    {
+      "path": "figures/01_eye_comparison.png",
+      "bytes": 528712,
+      "sha256": "a7a0b41a2c7553f9af906bd482d2caa33d855fbeec1accd62ad436698584b283"
+    },
+    {
+      "path": "figures/02_sampling_margin.png",
+      "bytes": 178326,
+      "sha256": "9a18d6febdbec9cb2f3f5df26610717c9c04c7426ab18b857040e78e577c8177"
+    },
+    {
+      "path": "figures/render_environment.json",
+      "bytes": 196,
+      "sha256": "cac8deff3d4c2912c4f81ed54a99711fd155d1b95855790c0b854ed6f650d184"
+    },
+    {
+      "path": "plan.json",
+      "bytes": 3278,
+      "sha256": "d21221a6b3a4cf3410da883ffc66dbecd538a001a692ec033e07deaafb00220b"
+    },
+    {
+      "path": "plot_results.py",
+      "bytes": 5533,
+      "sha256": "1e34b0808c752cf594a432680ea077d0d54ab0a495f3390bc4b4695623d59b52"
+    },
+    {
+      "path": "README.md",
+      "bytes": 10915,
+      "sha256": "5558421908fdb07cb6266bbd555ccd9cf3f793b2d1c632ecf5000ba370fca832"
+    },
+    {
+      "path": "run_experiment.py",
+      "bytes": 8018,
+      "sha256": "11e5d7a645a6ad1858fbdf5c5c553da0e1a8ffcd7daa99aa6e8fe873a11deaef"
+    },
+    {
+      "path": "source_snapshot/fab_lab/__init__.py",
+      "bytes": 72,
+      "sha256": "6d0823cdd4978fdf111dc0c301211f213e130ef4fb08e60d9058f609e3f9d5f5"
+    },
+    {
+      "path": "source_snapshot/fab_lab/ate.py",
+      "bytes": 5450,
+      "sha256": "61d4bfc23b0c987c6096768f213bd54f5c3d7730cf3f6e9ca67ff6399f3c6cc2"
+    },
+    {
+      "path": "source_snapshot/rf_lab/__init__.py",
+      "bytes": 96,
+      "sha256": "7e0d112be31bdb3657bbb6500b6a684f0bba438199b129cd53d6f5dd3ffc33c9"
+    },
+    {
+      "path": "source_snapshot/rf_lab/model.py",
+      "bytes": 10964,
+      "sha256": "cbaa7ff772eb444d7265ef98467f7a694a6cad07bf3e5146e1dce3dff0db79bd"
+    },
+    {
+      "path": "source_snapshot/rf_lab/practice.py",
+      "bytes": 3696,
+      "sha256": "36c7c0a7a8deaa62b038e3f2fdacdc459dc27043c2b244b73b8645dde3a80b51"
+    }
+  ],
+  "hash_scope": "All public experiment files except the manifest itself",
+  "raw_data_note": "captures.json.gz preserves full original result arrays as lossless compressed JSON; no raw waveform samples omitted",
+  "omitted": "Unrelated working-tree changes, application build, bytecode, private data and local credentials are not included"
+}

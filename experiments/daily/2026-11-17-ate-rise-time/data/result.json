@@ -1,0 +1,139 @@
+{
+  "experiment_id": "2026-11-17-ate-rise-time",
+  "execution_id": "fcd1b0c92d564a099c83f597bb44f9df",
+  "server_job_id": null,
+  "execution_note": "Direct Python function execution; generated execution_id is not a server job ID.",
+  "started_at_utc": "2026-11-17T11:03:02.463560+00:00",
+  "finished_at_utc": "2026-11-17T11:03:02.596689+00:00",
+  "environment": {
+    "python": "3.12.2",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  },
+  "cases": {
+    "A": {
+      "model": "ate-two-line-pdn-v1",
+      "config": {
+        "strobe_ui": 0.5,
+        "threshold_v": 0.5,
+        "port": "DQ0_RX",
+        "mode": "eye",
+        "seed": 42,
+        "rate_gbps": 8.0,
+        "load_ohm": 50.0,
+        "package_z": 65.0,
+        "jitter_ui": 0.04,
+        "rise_ps": 35.0,
+        "decap_nf": 10.0
+      },
+      "port": "DQ0_RX",
+      "mode": "eye",
+      "x_unit": "UI",
+      "y_unit": "V",
+      "reading": {
+        "중앙 수직 여유 (V)": 0.9163059017963416,
+        "UI (ps)": 125.0,
+        "정렬 지연 (ps)": 201.171875,
+        "판정 시각 (UI)": 0.5,
+        "패턴 불일치 (bit)": 0,
+        "검사한 비트": 237
+      }
+    },
+    "B": {
+      "model": "ate-two-line-pdn-v1",
+      "config": {
+        "strobe_ui": 0.5,
+        "threshold_v": 0.5,
+        "port": "DQ0_RX",
+        "mode": "eye",
+        "seed": 42,
+        "rate_gbps": 8.0,
+        "load_ohm": 50.0,
+        "package_z": 65.0,
+        "jitter_ui": 0.04,
+        "rise_ps": 70.0,
+        "decap_nf": 10.0
+      },
+      "port": "DQ0_RX",
+      "mode": "eye",
+      "x_unit": "UI",
+      "y_unit": "V",
+      "reading": {
+        "중앙 수직 여유 (V)": 0.6534911993347533,
+        "UI (ps)": 125.0,
+        "정렬 지연 (ps)": 201.171875,
+        "판정 시각 (UI)": 0.5,
+        "패턴 불일치 (bit)": 0,
+        "검사한 비트": 237
+      }
+    }
+  },
+  "raw_captures": "captures.json.gz: gzip-compressed full JSON returned by the model, including every x and trace sample",
+  "numerical_sampling": {
+    "samples_per_ui": 64,
+    "source_bits": 256,
+    "retained_bits": 237,
+    "ui_ps": 125.0,
+    "dt_ps": 1.953125,
+    "line_delay_samples": [
+      77,
+      26
+    ],
+    "actual_alignment_ps": 201.171875,
+    "physical_nominal_flight_ps": 200
+  },
+  "summary": {
+    "cases": {
+      "A": {
+        "rise_ps": 35.0,
+        "opening_v": 0.9163059017963416,
+        "min_one_v": 0.9581529509069148,
+        "max_zero_v": 0.04184704911057308,
+        "worst_threshold_margin_v": 0.4581529508894269,
+        "finite_pattern_mismatches": 0,
+        "sampled_bits": 237,
+        "ui_ps": 125.0,
+        "dt_ps": 1.953125,
+        "alignment_delay_ps": 201.171875,
+        "nominal_source_bandwidth_ghz": 9.99140435903028
+      },
+      "B": {
+        "rise_ps": 70.0,
+        "opening_v": 0.6534911993347533,
+        "min_one_v": 0.8267456028602534,
+        "max_zero_v": 0.17325440352550012,
+        "worst_threshold_margin_v": 0.32674559647449986,
+        "finite_pattern_mismatches": 0,
+        "sampled_bits": 237,
+        "ui_ps": 125.0,
+        "dt_ps": 1.953125,
+        "alignment_delay_ps": 201.171875,
+        "nominal_source_bandwidth_ghz": 4.99570217951514
+      }
+    },
+    "delta_B_minus_A": {
+      "opening_v": -0.26281470246158833,
+      "worst_threshold_margin_v": -0.13140735441492707,
+      "finite_pattern_mismatches": 0
+    }
+  },
+  "checks": {
+    "source_hashes": "PASS",
+    "single_parameter_change": "PASS",
+    "exact_seed_replay": "PASS",
+    "identical_source_bits_and_jitter": "PASS",
+    "identical_time_axis": "PASS",
+    "shape_and_finite_values": "PASS",
+    "independent_metric_recalculation": "PASS",
+    "matched_line_delay_and_amplitude": "PASS",
+    "ideal_eye_control": "PASS",
+    "threshold_only_negative_control": "PASS",
+    "matched_line_max_abs_error_v": 0.0,
+    "ideal_eye_opening_v": 0.9999999999989995,
+    "negative_control_mismatches": 115,
+    "sample_rate_convergence": "NOT_RUN: model fixes 64 samples/UI; not modified in this experiment",
+    "seed_ensemble": "NOT_RUN: one seed",
+    "physical_validation": "NOT_PERFORMED",
+    "statistical_ber": "NOT_ESTIMATED"
+  }
+}

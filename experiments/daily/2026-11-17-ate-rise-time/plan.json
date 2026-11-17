@@ -1,0 +1,88 @@
+{
+  "experiment_id": "2026-11-17-ate-rise-time",
+  "planned_at_utc": "2026-11-17T11:01:24.785638+00:00",
+  "scheduled_for_kst": "2026-11-17T20:00:00+09:00",
+  "heartbeat_at_utc": "2026-11-17T10:59:19.357Z",
+  "topic": "ate_si_pi",
+  "question": "With the same source bit pattern and channel, how does 35 to 70 ps source rise time change the RX eye and finite-pattern decisions?",
+  "hypothesis": "Slower source edges may reduce the vertical sampling margin through intersymbol interference. No recipe search or pass/fail target tuning.",
+  "changed_parameter": "rise_ps only: first-order source 10-90% rise time, 35 to 70 ps",
+  "conditions": {
+    "A": {
+      "port": "DQ0_RX",
+      "mode": "eye",
+      "seed": 42,
+      "rate_gbps": 8,
+      "load_ohm": 50,
+      "package_z": 65,
+      "jitter_ui": 0.04,
+      "rise_ps": 35,
+      "strobe_ui": 0.5,
+      "threshold_v": 0.5,
+      "decap_nf": 10
+    },
+    "B": {
+      "port": "DQ0_RX",
+      "mode": "eye",
+      "seed": 42,
+      "rate_gbps": 8,
+      "load_ohm": 50,
+      "package_z": 65,
+      "jitter_ui": 0.04,
+      "rise_ps": 70,
+      "strobe_ui": 0.5,
+      "threshold_v": 0.5,
+      "decap_nf": 10
+    }
+  },
+  "primary_metrics": [
+    "Central vertical opening at 0.5 UI [V]",
+    "Worst signed threshold margin at 0.5 UI and 0.5 V [V]",
+    "Finite-pattern mismatches [count]"
+  ],
+  "definitions": {
+    "opening": "min(v at bit=1) - max(v at bit=0)",
+    "signed_margin": "For bit 1: v - threshold; for bit 0: threshold - v; report minimum over retained pattern",
+    "mismatch": "Sample threshold decisions compared with the retained source bits; not statistical BER"
+  },
+  "controls": [
+    "Exact same-seed replay",
+    "Independent matched-line delay/amplitude check",
+    "Ideal eye control",
+    "Threshold-only negative control"
+  ],
+  "seed_ensemble_size": 1,
+  "optimization_performed": false,
+  "historical_results_reused": false,
+  "numerical_conventions": {
+    "samples_per_ui": 64,
+    "bit_count": 256,
+    "initial_voltage_v": 0,
+    "source_thevenin_levels_v": [
+      0,
+      2
+    ],
+    "source_resistance_ohm": 50,
+    "line_lengths_mm": [
+      24,
+      8
+    ],
+    "line_impedances_ohm": [
+      50,
+      65
+    ],
+    "propagation_velocity_mm_per_ns": 160,
+    "spatial_mesh": "None: two lossless transmission-line delay queues",
+    "sampling": "Fixed 64 samples/UI; delays rounded to nearest sample",
+    "alignment": "Nominal launch clock plus quantized RX flight time; no CDR or strobe optimization"
+  },
+  "source_git_head": "e285f328500c5bafcacad4a200cb6dc1b37256f9",
+  "source_status": "Working tree already contains local changes. Exact source snapshot hashes identify the executed model.",
+  "source_sha256": {
+    "fab_lab/__init__.py": "6d0823cdd4978fdf111dc0c301211f213e130ef4fb08e60d9058f609e3f9d5f5",
+    "fab_lab/ate.py": "61d4bfc23b0c987c6096768f213bd54f5c3d7730cf3f6e9ca67ff6399f3c6cc2",
+    "rf_lab/__init__.py": "7e0d112be31bdb3657bbb6500b6a684f0bba438199b129cd53d6f5dd3ffc33c9",
+    "rf_lab/practice.py": "36c7c0a7a8deaa62b038e3f2fdacdc459dc27043c2b244b73b8645dde3a80b51",
+    "rf_lab/model.py": "cbaa7ff772eb444d7265ef98467f7a694a6cad07bf3e5146e1dce3dff0db79bd"
+  }
+}

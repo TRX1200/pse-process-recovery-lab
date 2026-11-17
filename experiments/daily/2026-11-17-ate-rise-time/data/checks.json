@@ -1,0 +1,19 @@
+{
+  "source_hashes": "PASS",
+  "single_parameter_change": "PASS",
+  "exact_seed_replay": "PASS",
+  "identical_source_bits_and_jitter": "PASS",
+  "identical_time_axis": "PASS",
+  "shape_and_finite_values": "PASS",
+  "independent_metric_recalculation": "PASS",
+  "matched_line_delay_and_amplitude": "PASS",
+  "ideal_eye_control": "PASS",
+  "threshold_only_negative_control": "PASS",
+  "matched_line_max_abs_error_v": 0.0,
+  "ideal_eye_opening_v": 0.9999999999989995,
+  "negative_control_mismatches": 115,
+  "sample_rate_convergence": "NOT_RUN: model fixes 64 samples/UI; not modified in this experiment",
+  "seed_ensemble": "NOT_RUN: one seed",
+  "physical_validation": "NOT_PERFORMED",
+  "statistical_ber": "NOT_ESTIMATED"
+}
