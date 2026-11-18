@@ -1,0 +1,18 @@
+{
+  "source_hashes": "PASS",
+  "single_parameter_change": "PASS",
+  "deterministic_exact_replay": "PASS",
+  "identical_upstream_frames": "PASS",
+  "rle_shape_material_ids": "PASS",
+  "cell_volume_accounting": "PASS",
+  "saved_npz_matches_report": "PASS",
+  "finite_saved_arrays": "PASS",
+  "mask_protection": "PASS",
+  "removal_only_no_material_conversion": "PASS",
+  "zero_time_release_control": "PASS",
+  "planar_isotropic_two_layer_control": "PASS",
+  "physical_validation": "NOT_PERFORMED",
+  "grid_convergence": "NOT_RUN for this GAA geometry; fixed 4 nm voxels",
+  "silicon_loss": "NOT_RESOLVED below one cell; zero voxel loss is not proof of physical zero loss",
+  "device_electrical_prediction": "NOT_RUN: no gate/compact/device electrical steps in this experiment"
+}

@@ -9,8 +9,8 @@
     "etch",
     "tsv_process_sequence"
   ],
-  "last_completed_date": "2026-11-17",
-  "next_topic": "gaa_free_process",
+  "last_completed_date": "2026-11-18",
+  "next_topic": "pecvd",
   "experiments": [
     {
       "id": "2026-11-16-rf-capacitor-step",
@@ -33,6 +33,17 @@
       "finished_at_utc": "2026-11-17T11:03:02.596689+00:00",
       "plan_sha256": "d21221a6b3a4cf3410da883ffc66dbecd538a001a692ec033e07deaafb00220b",
       "changed_parameter": "Source rise_ps 35 to 70 ps; same 8 Gb/s DQ0_RX channel, pattern and jitter seed 42"
+    },
+    {
+      "id": "2026-11-18-gaa-release-time",
+      "date": "2026-11-18",
+      "topic": "gaa_free_process",
+      "status": "completed",
+      "path": "2026-11-18-gaa-release-time/",
+      "execution_id": "cd6cad3477724f2c9a3f69769b80aa01",
+      "finished_at_utc": "2026-11-18T11:01:53.907628+00:00",
+      "plan_sha256": "e9a43e0d87ecfdedc0f8aedcd89dc52c4f3f5c5d8d77e8acdddbc889eb7f0c01",
+      "changed_parameter": "SiGe isotropic release time 14 to 7 s; upstream stack, mask, rate 2 nm/s, selectivity 100 and 4 nm grid fixed"
     }
   ]
 }

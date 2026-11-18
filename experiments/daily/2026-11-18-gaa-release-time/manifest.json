@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "experiment_id": "2026-11-18-gaa-release-time",
+  "topic": "gaa_free_process",
+  "label": "Agent-run personal learning experiment with an uncalibrated material-grid model; not wafer measurements or transistor device simulation",
+  "historical_results_reused": false,
+  "model_modified": false,
+  "optimization_performed": false,
+  "scheduled_for_kst": "2026-11-18T20:00:00+09:00",
+  "heartbeat_at_utc": "2026-11-18T10:58:42.575Z",
+  "planned_at_utc": "2026-11-18T11:00:23.285230+00:00",
+  "started_at_utc": "2026-11-18T11:01:53.504523+00:00",
+  "finished_at_utc": "2026-11-18T11:01:53.907628+00:00",
+  "publication_time_note": "Use containing Git commit timestamp; publication follows calculation and validation.",
+  "execution_id": "cd6cad3477724f2c9a3f69769b80aa01",
+  "server_job_id": null,
+  "execution_method": "Direct function execution; this generated experiment execution ID is not a server job ID.",
+  "source_git_head": "e285f328500c5bafcacad4a200cb6dc1b37256f9",
+  "publication_parent_commit": "43da296b25048801e5fe4f84308b99bda8757f46",
+  "source_status": "Pre-existing dirty working tree; exact bundled snapshot identifies the model used.",
+  "source_sha256": {
+    "fab_lab/__init__.py": "6d0823cdd4978fdf111dc0c301211f213e130ef4fb08e60d9058f609e3f9d5f5",
+    "fab_lab/engine.py": "e52f103e6bade4acf00843152f4123f581a07134271418089bc1bcf4df6b48a0",
+    "fab_lab/schema.py": "f67f54700a2dc21c701be327bb2c77894acb56539e3af5aae7d0160be76e9280",
+    "fab_lab/presets.py": "e90ebdf4e41490154f18adbbc2c0ae56b63e42ea2906d6672062de9f6549dcd0",
+    "fab_lab/electrical.py": "509bbdf236b4fbea8e44a0d8a4c379610ef3c7d51ed75cbe97785b6bb9e8c607"
+  },
+  "plan_sha256": "e9a43e0d87ecfdedc0f8aedcd89dc52c4f3f5c5d8d77e8acdddbc889eb7f0c01",
+  "seed": null,
+  "randomness": "None: deterministic material grid",
+  "grid": {
+    "nx": 48,
+    "ny": 36,
+    "nz": 48,
+    "dx_nm": 4,
+    "extent_nm": [
+      192,
+      144,
+      192
+    ],
+    "axis": "C-order [x,y,z], x/y centered at zero, z upward from 0"
+  },
+  "boundary": "Gas connected to top void by 6-neighbor faces; no side inflow or periodic boundaries",
+  "initial_conditions": "24 nm Si substrate, 8 nm BOX, active=0; 3 repetitions of 12 nm SiGe and 8 nm Si, followed by preset mesa/recess/ideal anchors",
+  "time_discretization": "No continuous transient integration: ceil-like nearest-cell front count floor(rate*time/dx + 0.5); process-stage frames only",
+  "geometry_scope": "Stop at released-nanosheets metrology; no gate deposition, device current or complete-transistor claim.",
+  "numerical_environment": {
+    "python": "3.12.2",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  },
+  "render_environment": {
+    "python": "3.12.14",
+    "matplotlib": "3.11.0",
+    "numpy": "2.1.3",
+    "source": "Stored section arrays, final_state.npz and summary.json; no model recomputation or generative imagery"
+  },
+  "commands": {
+    "actual_numeric_from_repo_root": ".venv/Scripts/python.exe exports/daily/2026-11-18-gaa-release-time/run_experiment.py --out exports/daily/2026-11-18-gaa-release-time/data",
+    "portable_rerun_from_experiment_directory": "python run_experiment.py --out rerun",
+    "plot_from_experiment_directory": "python plot_results.py",
+    "targeted_tests_from_original_repo_root": "python -m unittest fab_lab.tests.test_fab.FabModels.test_initial_domain_and_zero_effects fab_lab.tests.test_fab.FabModels.test_release_sensitivity_and_no_hidden_target_optimizer -v"
+  },
+  "validation": {
+    "source_hashes": "PASS",
+    "single_parameter_change": "PASS",
+    "deterministic_exact_replay": "PASS",
+    "identical_upstream_frames": "PASS",
+    "rle_shape_material_ids": "PASS",
+    "cell_volume_accounting": "PASS",
+    "saved_npz_matches_report": "PASS",
+    "finite_saved_arrays": "PASS",
+    "mask_protection": "PASS",
+    "removal_only_no_material_conversion": "PASS",
+    "zero_time_release_control": "PASS",
+    "planar_isotropic_two_layer_control": "PASS",
+    "physical_validation": "NOT_PERFORMED",
+    "grid_convergence": "NOT_RUN for this GAA geometry; fixed 4 nm voxels",
+    "silicon_loss": "NOT_RESOLVED below one cell; zero voxel loss is not proof of physical zero loss",
+    "device_electrical_prediction": "NOT_RUN: no gate/compact/device electrical steps in this experiment",
+    "related_tests": {
+      "result": "PASS",
+      "tests_run": 2,
+      "note": "Existing tests were run in the original repository and are not included in this standalone model snapshot."
+    },
+    "raw_gzip_roundtrip": "PASS",
+    "python_syntax": "PASS",
+    "figure_visual_review": "PASS: all three figures inspected; actual material arrays, common scales, discrete colors and explicit crop limits",
+    "webapp_capture": "NOT_RUN: direct numerical execution; user page and server were not changed"
+  },
+  "files": [
+    {
+      "path": "data/A/final_state.npz",
+      "bytes": 4744,
+      "sha256": "c9b037ded367aaba6ed10850b82c5edc2b9c62e2f1fafd5df17e35f835f34e38"
+    },
+    {
+      "path": "data/B/final_state.npz",
+      "bytes": 4783,
+      "sha256": "3f9e071f7a459c16b0d87e5f51e4b92cae9a2ea78adff9997fce8d037453a1e8"
+    },
+    {
+      "path": "data/checks.json",
+      "bytes": 792,
+      "sha256": "567e21b60d1dda65fadac483212a581ff9b5d7cb746f481f61c6915fad4dd09b"
+    },
+    {
+      "path": "data/result.json",
+      "bytes": 3178,
+      "sha256": "927a9eb0daf204b193402e2ef287d9958a23f30e5916d24cc21ad7a6861afb61"
+    },
+    {
+      "path": "data/runs.json.gz",
+      "bytes": 17680,
+      "sha256": "f4d38f59db96652baf28d379336e3ccaa7e08465f3690457407777825f76ae24"
+    },
+    {
+      "path": "data/sections.npz",
+      "bytes": 2225,
+      "sha256": "4240fdb861278e04c8b37b0843d33d4308f0debb48f4dbd43f90b6b6751dc603"
+    },
+    {
+      "path": "data/stage_metrics.csv",
+      "bytes": 1926,
+      "sha256": "26c2efb30ca9b08b44feb039351bc69a1a19658be90c5c9fb35b027e3347771d"
+    },
+    {
+      "path": "data/summary.json",
+      "bytes": 1445,
+      "sha256": "1440a9f12ccac240a337ccbcf2cc436e63baa330087dfb08eecf3c81149ac7e2"
+    },
+    {
+      "path": "figures/01_release_sections.png",
+      "bytes": 109301,
+      "sha256": "4c0739ede0eebb6901456cdd37396d325ccbc9180373771986878685ff44590a"
+    },
+    {
+      "path": "figures/02_release_metrics.png",
+      "bytes": 133248,
+      "sha256": "f0037349ffc42a265be772a26b2b9c7a2d24ceb4ed759b108cc179466c02fe70"
+    },
+    {
+      "path": "figures/03_release_roi_3d.png",
+      "bytes": 501752,
+      "sha256": "a3bd3c4834e627821b3c11d3cfe0c4be5fb7e8cef0bb93213e55b4fe9dbb860d"
+    },
+    {
+      "path": "figures/render_environment.json",
+      "bytes": 193,
+      "sha256": "b647c7185500e99ff6d5c1e4845aba1fd75426cdc865b08d3bb9291a00ba0d41"
+    },
+    {
+      "path": "plan.json",
+      "bytes": 10778,
+      "sha256": "e9a43e0d87ecfdedc0f8aedcd89dc52c4f3f5c5d8d77e8acdddbc889eb7f0c01"
+    },
+    {
+      "path": "plot_results.py",
+      "bytes": 6821,
+      "sha256": "947c225cbe96b277401e345142f05fbc0d86d063aecfd1dac78667a7f158c0ca"
+    },
+    {
+      "path": "README.md",
+      "bytes": 10934,
+      "sha256": "8f8bb1713cdf9a8e25f38138ab0cf36e56449fdae5d2d272a1d869b1f5d82ddc"
+    },
+    {
+      "path": "run_experiment.py",
+      "bytes": 8018,
+      "sha256": "a2e9f808592e33af0196f663d8ffd9e8fbb8848d6350223ed0c00a303bd6e085"
+    },
+    {
+      "path": "source_snapshot/fab_lab/__init__.py",
+      "bytes": 72,
+      "sha256": "6d0823cdd4978fdf111dc0c301211f213e130ef4fb08e60d9058f609e3f9d5f5"
+    },
+    {
+      "path": "source_snapshot/fab_lab/electrical.py",
+      "bytes": 5757,
+      "sha256": "509bbdf236b4fbea8e44a0d8a4c379610ef3c7d51ed75cbe97785b6bb9e8c607"
+    },
+    {
+      "path": "source_snapshot/fab_lab/engine.py",
+      "bytes": 14680,
+      "sha256": "e52f103e6bade4acf00843152f4123f581a07134271418089bc1bcf4df6b48a0"
+    },
+    {
+      "path": "source_snapshot/fab_lab/presets.py",
+      "bytes": 4072,
+      "sha256": "e90ebdf4e41490154f18adbbc2c0ae56b63e42ea2906d6672062de9f6549dcd0"
+    },
+    {
+      "path": "source_snapshot/fab_lab/schema.py",
+      "bytes": 10149,
+      "sha256": "f67f54700a2dc21c701be327bb2c77894acb56539e3af5aae7d0160be76e9280"
+    }
+  ],
+  "hash_scope": "All public experiment files except this manifest itself",
+  "raw_data_note": "Both complete model results with every stage RLE grid are retained in runs.json.gz; both full final-state NPZ files are included.",
+  "omitted": "Unrelated source changes, app build, bytecode, private data and credentials are excluded. 3D display crops do not alter raw data."
+}

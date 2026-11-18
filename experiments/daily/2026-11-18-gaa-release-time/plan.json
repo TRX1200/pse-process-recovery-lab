@@ -1,0 +1,385 @@
+{
+  "experiment_id": "2026-11-18-gaa-release-time",
+  "topic": "gaa_free_process",
+  "scheduled_for_kst": "2026-11-18T20:00:00+09:00",
+  "heartbeat_at_utc": "2026-11-18T10:58:42.575Z",
+  "planned_at_utc": "2026-11-18T11:00:23.285230+00:00",
+  "question": "Does halving the SiGe release time leave sacrificial material between the preformed Si nanosheets?",
+  "hypothesis": "A shorter release may leave more SiGe. Preserve all upstream steps and do not search for an optimal recipe.",
+  "changed_parameter": "steps[12].params.time only: A=14 s, B=7 s",
+  "release_step_index_zero_based": 12,
+  "cases": {
+    "A": {
+      "model": "fab",
+      "name": "GAA release-time comparison",
+      "domain": {
+        "nx": 48,
+        "ny": 36,
+        "nz": 48,
+        "dx": 4.0,
+        "substrate": 24.0,
+        "box": 8.0,
+        "active": 0.0
+      },
+      "steps": [
+        {
+          "op": "epitaxy",
+          "label": "SiGe 희생층 1",
+          "enabled": true,
+          "params": {
+            "material": "SiGe",
+            "thickness": 12.0
+          }
+        },
+        {
+          "op": "epitaxy",
+          "label": "Si 채널 1",
+          "enabled": true,
+          "params": {
+            "material": "Si",
+            "thickness": 8.0
+          }
+        },
+        {
+          "op": "epitaxy",
+          "label": "SiGe 희생층 2",
+          "enabled": true,
+          "params": {
+            "material": "SiGe",
+            "thickness": 12.0
+          }
+        },
+        {
+          "op": "epitaxy",
+          "label": "Si 채널 2",
+          "enabled": true,
+          "params": {
+            "material": "Si",
+            "thickness": 8.0
+          }
+        },
+        {
+          "op": "epitaxy",
+          "label": "SiGe 희생층 3",
+          "enabled": true,
+          "params": {
+            "material": "SiGe",
+            "thickness": 12.0
+          }
+        },
+        {
+          "op": "epitaxy",
+          "label": "Si 채널 3",
+          "enabled": true,
+          "params": {
+            "material": "Si",
+            "thickness": 8.0
+          }
+        },
+        {
+          "op": "mask",
+          "label": "Stack 외부 개구",
+          "enabled": true,
+          "params": {
+            "pattern": "lines",
+            "invert": "outside",
+            "cx": 0.0,
+            "cy": 0.0,
+            "width": 1000.0,
+            "length": 40.0,
+            "pitch": 64.0,
+            "count": 2
+          }
+        },
+        {
+          "op": "etch",
+          "label": "Stack mesa 정의",
+          "enabled": true,
+          "params": {
+            "material": "Si+SiGe",
+            "mode": "directional",
+            "rate": 4.0,
+            "time": 15.0,
+            "selectivity": 1000.0
+          }
+        },
+        {
+          "op": "mask",
+          "label": "S/D recess 개구",
+          "enabled": true,
+          "params": {
+            "pattern": "ends",
+            "invert": "inside",
+            "cx": 0.0,
+            "cy": 0.0,
+            "width": 64.0,
+            "length": 40.0,
+            "pitch": 64.0,
+            "count": 2
+          }
+        },
+        {
+          "op": "etch",
+          "label": "S/D recess",
+          "enabled": true,
+          "params": {
+            "material": "Si+SiGe",
+            "mode": "directional",
+            "rate": 4.0,
+            "time": 15.0,
+            "selectivity": 1000.0
+          }
+        },
+        {
+          "op": "fill",
+          "label": "이상적 Si S/D anchor",
+          "enabled": true,
+          "params": {
+            "material": "Si",
+            "height": 92.0
+          }
+        },
+        {
+          "op": "mask",
+          "label": "Release · gate 영역",
+          "enabled": true,
+          "params": {
+            "pattern": "rectangle",
+            "invert": "inside",
+            "cx": 0.0,
+            "cy": 0.0,
+            "width": 64.0,
+            "length": 1000.0,
+            "pitch": 64.0,
+            "count": 2
+          }
+        },
+        {
+          "op": "etch",
+          "label": "SiGe 채널 release",
+          "enabled": true,
+          "params": {
+            "material": "SiGe",
+            "mode": "isotropic",
+            "rate": 2.0,
+            "time": 14.0,
+            "selectivity": 100.0
+          }
+        },
+        {
+          "op": "measure",
+          "label": "Released nanosheets 검사",
+          "enabled": true,
+          "params": {}
+        }
+      ]
+    },
+    "B": {
+      "model": "fab",
+      "name": "GAA release-time comparison",
+      "domain": {
+        "nx": 48,
+        "ny": 36,
+        "nz": 48,
+        "dx": 4.0,
+        "substrate": 24.0,
+        "box": 8.0,
+        "active": 0.0
+      },
+      "steps": [
+        {
+          "op": "epitaxy",
+          "label": "SiGe 희생층 1",
+          "enabled": true,
+          "params": {
+            "material": "SiGe",
+            "thickness": 12.0
+          }
+        },
+        {
+          "op": "epitaxy",
+          "label": "Si 채널 1",
+          "enabled": true,
+          "params": {
+            "material": "Si",
+            "thickness": 8.0
+          }
+        },
+        {
+          "op": "epitaxy",
+          "label": "SiGe 희생층 2",
+          "enabled": true,
+          "params": {
+            "material": "SiGe",
+            "thickness": 12.0
+          }
+        },
+        {
+          "op": "epitaxy",
+          "label": "Si 채널 2",
+          "enabled": true,
+          "params": {
+            "material": "Si",
+            "thickness": 8.0
+          }
+        },
+        {
+          "op": "epitaxy",
+          "label": "SiGe 희생층 3",
+          "enabled": true,
+          "params": {
+            "material": "SiGe",
+            "thickness": 12.0
+          }
+        },
+        {
+          "op": "epitaxy",
+          "label": "Si 채널 3",
+          "enabled": true,
+          "params": {
+            "material": "Si",
+            "thickness": 8.0
+          }
+        },
+        {
+          "op": "mask",
+          "label": "Stack 외부 개구",
+          "enabled": true,
+          "params": {
+            "pattern": "lines",
+            "invert": "outside",
+            "cx": 0.0,
+            "cy": 0.0,
+            "width": 1000.0,
+            "length": 40.0,
+            "pitch": 64.0,
+            "count": 2
+          }
+        },
+        {
+          "op": "etch",
+          "label": "Stack mesa 정의",
+          "enabled": true,
+          "params": {
+            "material": "Si+SiGe",
+            "mode": "directional",
+            "rate": 4.0,
+            "time": 15.0,
+            "selectivity": 1000.0
+          }
+        },
+        {
+          "op": "mask",
+          "label": "S/D recess 개구",
+          "enabled": true,
+          "params": {
+            "pattern": "ends",
+            "invert": "inside",
+            "cx": 0.0,
+            "cy": 0.0,
+            "width": 64.0,
+            "length": 40.0,
+            "pitch": 64.0,
+            "count": 2
+          }
+        },
+        {
+          "op": "etch",
+          "label": "S/D recess",
+          "enabled": true,
+          "params": {
+            "material": "Si+SiGe",
+            "mode": "directional",
+            "rate": 4.0,
+            "time": 15.0,
+            "selectivity": 1000.0
+          }
+        },
+        {
+          "op": "fill",
+          "label": "이상적 Si S/D anchor",
+          "enabled": true,
+          "params": {
+            "material": "Si",
+            "height": 92.0
+          }
+        },
+        {
+          "op": "mask",
+          "label": "Release · gate 영역",
+          "enabled": true,
+          "params": {
+            "pattern": "rectangle",
+            "invert": "inside",
+            "cx": 0.0,
+            "cy": 0.0,
+            "width": 64.0,
+            "length": 1000.0,
+            "pitch": 64.0,
+            "count": 2
+          }
+        },
+        {
+          "op": "etch",
+          "label": "SiGe 채널 release",
+          "enabled": true,
+          "params": {
+            "material": "SiGe",
+            "mode": "isotropic",
+            "rate": 2.0,
+            "time": 7.0,
+            "selectivity": 100.0
+          }
+        },
+        {
+          "op": "measure",
+          "label": "Released nanosheets 검사",
+          "enabled": true,
+          "params": {}
+        }
+      ]
+    }
+  },
+  "measurements": [
+    "Total and release-region SiGe volume [nm^3]",
+    "Fraction of pre-release SiGe removed [%]",
+    "Original Si voxels retained in the release-region channel area [%]",
+    "Material cross sections from actual voxel arrays"
+  ],
+  "release_region_definition": "Cell centers |x| < 32 nm, z >= substrate + BOX = 32 nm; all y. Original Si in this ROI defines the Si retention denominator.",
+  "seed": null,
+  "randomness": "None: deterministic material grid",
+  "grid": {
+    "nx": 48,
+    "ny": 36,
+    "nz": 48,
+    "dx_nm": 4,
+    "extent_nm": [
+      192,
+      144,
+      192
+    ],
+    "axis": "C-order [x,y,z], x/y centered at zero, z upward from 0"
+  },
+  "boundary": "Gas connected to top void by 6-neighbor faces; no side inflow or periodic boundaries",
+  "time_discretization": "No continuous transient integration: ceil-like nearest-cell front count floor(rate*time/dx + 0.5); process-stage frames only",
+  "fixed_release": {
+    "material": "SiGe",
+    "mode": "isotropic",
+    "rate_nm_s": 2,
+    "selectivity": 100
+  },
+  "initial_conditions": "24 nm Si substrate, 8 nm BOX, active=0; 3 repetitions of 12 nm SiGe and 8 nm Si, followed by preset mesa/recess/ideal anchors",
+  "historical_results_reused": false,
+  "optimization_performed": false,
+  "source_git_head": "e285f328500c5bafcacad4a200cb6dc1b37256f9",
+  "source_sha256": {
+    "fab_lab/__init__.py": "6d0823cdd4978fdf111dc0c301211f213e130ef4fb08e60d9058f609e3f9d5f5",
+    "fab_lab/engine.py": "e52f103e6bade4acf00843152f4123f581a07134271418089bc1bcf4df6b48a0",
+    "fab_lab/schema.py": "f67f54700a2dc21c701be327bb2c77894acb56539e3af5aae7d0160be76e9280",
+    "fab_lab/presets.py": "e90ebdf4e41490154f18adbbc2c0ae56b63e42ea2906d6672062de9f6549dcd0",
+    "fab_lab/electrical.py": "509bbdf236b4fbea8e44a0d8a4c379610ef3c7d51ed75cbe97785b6bb9e8c607"
+  },
+  "source_status": "Pre-existing dirty working tree; exact bundled snapshot identifies the model used.",
+  "scope": "Stop at released-nanosheets metrology; no gate deposition, device current or complete-transistor claim."
+}

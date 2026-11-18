@@ -1,0 +1,42 @@
+{
+  "A": {
+    "release_time_s": 14.0,
+    "continuous_distance_budget_nm": 28.0,
+    "integer_front_steps": 7,
+    "front_steps_times_dx_nm": 28.0,
+    "before_sige_nm3": 184320.0,
+    "remaining_sige_nm3": 0.0,
+    "removed_sige_nm3": 184320.0,
+    "sige_removed_pct": 100.0,
+    "roi_before_sige_nm3": 184320.0,
+    "roi_remaining_sige_nm3": 0.0,
+    "roi_original_si_nm3": 122880.0,
+    "roi_retained_original_si_nm3": 122880.0,
+    "roi_original_si_retained_pct": 100.0,
+    "total_si_nm3": 1400832.0,
+    "removed_voxels": 2880,
+    "release_warnings": [
+      "비대상 재료 손실은 1셀 미만입니다. 선택비 효과가 격자에서 분해되지 않을 수 있습니다."
+    ]
+  },
+  "B": {
+    "release_time_s": 7.0,
+    "continuous_distance_budget_nm": 14.0,
+    "integer_front_steps": 4,
+    "front_steps_times_dx_nm": 16.0,
+    "before_sige_nm3": 184320.0,
+    "remaining_sige_nm3": 36864.0,
+    "removed_sige_nm3": 147456.0,
+    "sige_removed_pct": 80.0,
+    "roi_before_sige_nm3": 184320.0,
+    "roi_remaining_sige_nm3": 36864.0,
+    "roi_original_si_nm3": 122880.0,
+    "roi_retained_original_si_nm3": 122880.0,
+    "roi_original_si_retained_pct": 100.0,
+    "total_si_nm3": 1400832.0,
+    "removed_voxels": 2304,
+    "release_warnings": [
+      "비대상 재료 손실은 1셀 미만입니다. 선택비 효과가 격자에서 분해되지 않을 수 있습니다."
+    ]
+  }
+}
