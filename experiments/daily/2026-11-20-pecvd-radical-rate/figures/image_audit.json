@@ -1,0 +1,47 @@
+{
+  "01_surface_sections.png": {
+    "pixels": [
+      2160,
+      990
+    ],
+    "mode": "RGBA",
+    "dpi": [
+      180.00979999999998,
+      180.00979999999998
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ]
+  },
+  "02_probe_time_series.png": {
+    "pixels": [
+      2160,
+      990
+    ],
+    "mode": "RGBA",
+    "dpi": [
+      180.00979999999998,
+      180.00979999999998
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ]
+  },
+  "03_native_surfaces.png": {
+    "pixels": [
+      2160,
+      1080
+    ],
+    "mode": "RGBA",
+    "dpi": [
+      180.00979999999998,
+      180.00979999999998
+    ],
+    "alpha_extrema": [
+      255,
+      255
+    ]
+  }
+}

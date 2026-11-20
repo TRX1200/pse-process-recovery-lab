@@ -1,0 +1,5 @@
+{
+  "status": "PASS",
+  "tests_run": 2,
+  "command": ".venv/Scripts/python.exe -m unittest studio_lab.tests.test_studio.SchemaTests.test_nonfinite_unknown_and_grid_budget studio_lab.tests.test_studio.SchemaTests.test_vertical_probe_triangle_plane"
+}

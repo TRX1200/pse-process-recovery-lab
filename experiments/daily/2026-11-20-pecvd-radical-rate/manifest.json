@@ -1,0 +1,378 @@
+{
+  "schema_version": 1,
+  "label": "Personal learning simulation; agent executed; not equipment or wafer data",
+  "experiment_id": "2b89d6349ee94a1ea4af2ab6f0258ca7",
+  "id_kind": "Generated experiment ID; direct engine call, not server job ID",
+  "scheduled_at_kst": "2026-11-20T20:00:00+09:00",
+  "started_at_utc": "2026-11-20T11:06:06.272171+00:00",
+  "finished_at_utc": "2026-11-20T11:06:08.601146+00:00",
+  "prepared_at_utc": "2026-11-20T11:06:05.466964+00:00",
+  "packaged_at_utc": "2026-11-20T11:09:53.935605+00:00",
+  "source": {
+    "local_git_head": "e285f328500c5bafcacad4a200cb6dc1b37256f9",
+    "remote_main_before": "70e93e4e2766f00786f5300dd44cd73d1b920967",
+    "source_sha256": {
+      "native_lab/__init__.py": "5c806f1d84e7b51cf2d29236e10ca26f5b2c5fbdeb0a753fb8186b5619e4670e",
+      "native_lab/engine.py": "26c759e045bc4ad493a9f354d6ffbdd3748bb3b544ba78e7a2ed7e097fdb08b2",
+      "native_lab/geometry.py": "37dc441f3fb01ab14cc8269680e583c4996b72622590aae3754f911dca168355",
+      "native_lab/profiles.py": "46ba582df52eb1be461967b9d337dc07ea7b8e4a730465acea2cf86343fb80f4",
+      "native_lab/schema.py": "0d4629213c79c6c6ec864ac71e8af47dcf291d74b08348e190ea3a3f72d8cc40",
+      "rf_lab/__init__.py": "7e0d112be31bdb3657bbb6500b6a684f0bba438199b129cd53d6f5dd3ffc33c9",
+      "rf_lab/coupled.py": "0c2c6e34d7ef1d0d049df945585b7ec8c087d242c8e14ce7df755eda5396c656",
+      "rf_lab/model.py": "cbaa7ff772eb444d7265ef98467f7a694a6cad07bf3e5146e1dce3dff0db79bd",
+      "sim_app/__init__.py": "cb515026bd72c6c69750254861f4dd3ef70724928957ea47ebbe9ce7608b7c45",
+      "sim_app/models/__init__.py": "af0e23181ab6bc8c4530efa41c4bdb67c62b6afa8a7044411b0de226ad0c5a74",
+      "sim_app/models/etch.py": "23688d95be31e510f22914d549c10f5c37b86f629cc83af25e3acc1ca0cbfa3d",
+      "studio_lab/__init__.py": "0aca986e3b3e1feb0e174eed2b0f9397a41e304ad8ca8607338c90101be78781",
+      "studio_lab/engine.py": "239264ba5b88a982329b24383dca726b95f718987f610ae49b8334cdc48c99b1",
+      "studio_lab/schema.py": "e09c64e5cd2fbf732aaa6d99f9e43124d5fa764ce4f29bcb098724f976410c00"
+    },
+    "unchanged_from_local_source_after_execution": true,
+    "reproduction_authority": "Provided source_snapshot, not remote Git SHA alone"
+  },
+  "commands": {
+    "actual_run": ".venv/Scripts/python.exe exports/daily/2026-11-20-pecvd-radical-rate/run_experiment.py",
+    "replay": "python run_experiment.py --out replay",
+    "plot": "python plot_results.py --data-dir replay"
+  },
+  "execution": {
+    "execution_id": "2b89d6349ee94a1ea4af2ab6f0258ca7",
+    "id_kind": "Generated experiment ID; direct engine call, not server job ID",
+    "started_at_utc": "2026-11-20T11:06:06.272171+00:00",
+    "scheduled_at_kst": "2026-11-20T20:00:00+09:00",
+    "plan_sha256": "8967736860806f24fc7924650a8e19da6423adcf721c01d03a69ea5b392ece23",
+    "historical_results_reused": false,
+    "versions": {
+      "ViennaPS": "4.6.2",
+      "ViennaLS": "5.8.5",
+      "numpy": "2.5.3",
+      "scipy": "1.18.1",
+      "python": "3.12.2",
+      "platform": "Windows-11-10.0.22631-SP0"
+    },
+    "runs": {
+      "A": {
+        "started_at_utc": "2026-11-20T11:06:06.308174+00:00",
+        "finished_at_utc": "2026-11-20T11:06:07.132859+00:00",
+        "run_hash": "011058d9495a4c6d2059dfac503a09f50ed3d1bdd435e7fd3c12642f0e367077",
+        "elapsed_s": 0.731331399991177,
+        "frames": 6,
+        "raw_sha256": "2a6f1c3e7b0f9027f07751b837729958b0863f33bf20b7f2365971c880d12602"
+      },
+      "B": {
+        "started_at_utc": "2026-11-20T11:06:07.137859+00:00",
+        "finished_at_utc": "2026-11-20T11:06:07.790388+00:00",
+        "run_hash": "922e81ce1c19806905df379ce02667b66ee4b65e59707dcc39ea5b54bcdee8d7",
+        "elapsed_s": 0.5766712999902666,
+        "frames": 6,
+        "raw_sha256": "9f182e49c6f6b37ab7f83db4eb46e1b84e3ddfeb5db8a4b9b31618551c1c58ad"
+      },
+      "A_replay": {
+        "started_at_utc": "2026-11-20T11:06:07.795388+00:00",
+        "finished_at_utc": "2026-11-20T11:06:08.458159+00:00",
+        "run_hash": "011058d9495a4c6d2059dfac503a09f50ed3d1bdd435e7fd3c12642f0e367077",
+        "elapsed_s": 0.5887276000576094,
+        "frames": 6,
+        "raw_sha256": "29f2feb691cdf875dc01e2a4db4a1ab824d37ec5a3938c4b6124f0d567bf82de"
+      },
+      "zero_rates": {
+        "started_at_utc": "2026-11-20T11:06:08.462667+00:00",
+        "finished_at_utc": "2026-11-20T11:06:08.571632+00:00",
+        "run_hash": "a9c7e3c2a846cdfce8a3a19e5b8db15f6e931c1e0e6c300c06727aca8063a503",
+        "elapsed_s": 0.03600800002459437,
+        "frames": 6,
+        "raw_sha256": "a1e4911e7f3484295a049dbc72a33d9e3182b9c2babc2589c64b47ea5c648930"
+      }
+    },
+    "state": "COMPLETE",
+    "finished_at_utc": "2026-11-20T11:06:08.601146+00:00"
+  },
+  "numerics": {
+    "grid_nm": 20,
+    "seed": 42,
+    "seed_rule": "42 + process frame index",
+    "rays_per_point": 100,
+    "output_interval_s": 5,
+    "threads": 1,
+    "internal_time_step": "adaptive CFL; ratio 0.4999; individual solver steps not exposed",
+    "boundaries": "reflective x/y, infinite z",
+    "coordinates": "x,y horizontal; z up; nm, s"
+  },
+  "validation": {
+    "only_radical_rate_changed": "PASS",
+    "exact_frame_replay": "PASS",
+    "identical_initial_geometry": "PASS",
+    "zero_rates_stationary": "PASS",
+    "known_plane_probe": "PASS",
+    "finite_arrays_and_probes": "PASS",
+    "triangle_indices_in_bounds": "PASS",
+    "output_timebase": "PASS",
+    "original_substrate_mesh_preserved": "PASS",
+    "snapshot_hashes_unchanged": "PASS",
+    "physical_calibration": "NOT_RUN",
+    "mesh_convergence": "NOT_RUN",
+    "seed_ensemble": "NOT_RUN",
+    "chamber_chemistry_validation": "NOT_RUN",
+    "electrical_device_validation": "NOT_RUN"
+  },
+  "unit_tests": {
+    "status": "PASS",
+    "tests_run": 2,
+    "command": ".venv/Scripts/python.exe -m unittest studio_lab.tests.test_studio.SchemaTests.test_nonfinite_unknown_and_grid_budget studio_lab.tests.test_studio.SchemaTests.test_vertical_probe_triangle_plane"
+  },
+  "historical_results_reused": false,
+  "optimization_performed": false,
+  "figure_review": {
+    "status": "PASS",
+    "method": "Visually inspected all three PNGs; full data ranges, common axes, no smoothing",
+    "metadata": {
+      "label": "Personal learning simulation; agent executed; not wafer/equipment measurements",
+      "data": "data/A.json.gz and data/B.json.gz",
+      "smoothing": "none",
+      "line_segments": "Connect saved samples for visual guidance, not extra solver time steps",
+      "figures": [
+        {
+          "file": "01_surface_sections.png",
+          "description": "Same central cut at Y=0: initial/A/B highest intersections and their vertical advances. 81 saved sample positions; not a film thickness map.",
+          "size_inches": [
+            12.0,
+            5.5
+          ],
+          "dpi": 180
+        },
+        {
+          "file": "02_probe_time_series.png",
+          "description": "Top surface advance and bottom-center advance across saved time frames, same Y limits and no fabricated uncertainty. Read full values from time_series.csv.",
+          "size_inches": [
+            12.0,
+            5.5
+          ],
+          "dpi": 180
+        },
+        {
+          "file": "03_native_surfaces.png",
+          "description": "Actual final SiO2 outer surface triangle meshes. Color is absolute Z, not film thickness or physical roughness. Shared dimensions and orthographic camera; sidewalls can occlude other faces.",
+          "size_inches": [
+            12.0,
+            6.0
+          ],
+          "dpi": 180
+        }
+      ],
+      "versions": {
+        "python": "3.12.14",
+        "numpy": "2.1.3",
+        "matplotlib": "3.11.0"
+      }
+    }
+  },
+  "publication_status": "PREPARED; remote publication receipt is stored separately after verification",
+  "omitted_native_files": {
+    "native_outputs/A/final_levelset_layer0.lvst": {
+      "bytes": 19052,
+      "sha256": "65d661dc058cda669a885b3c66a747d3700eb240584ed7ace78e84b4806bbf81"
+    },
+    "native_outputs/A/final_levelset_layer1.lvst": {
+      "bytes": 18919,
+      "sha256": "de5a8d924ddc781cfc9326a619ec41d5e528c39ac1d65081b03d5e4ec03a9de4"
+    },
+    "native_outputs/A/final_surface.vtp": {
+      "bytes": 71447,
+      "sha256": "5cc3a733abb96b1b1f41b6cb495e88188506350faad7c3948814ffd42b6f0ad0"
+    },
+    "native_outputs/A_replay/final_levelset_layer0.lvst": {
+      "bytes": 19052,
+      "sha256": "65d661dc058cda669a885b3c66a747d3700eb240584ed7ace78e84b4806bbf81"
+    },
+    "native_outputs/A_replay/final_levelset_layer1.lvst": {
+      "bytes": 18919,
+      "sha256": "de5a8d924ddc781cfc9326a619ec41d5e528c39ac1d65081b03d5e4ec03a9de4"
+    },
+    "native_outputs/A_replay/final_surface.vtp": {
+      "bytes": 71447,
+      "sha256": "5cc3a733abb96b1b1f41b6cb495e88188506350faad7c3948814ffd42b6f0ad0"
+    },
+    "native_outputs/B/final_levelset_layer0.lvst": {
+      "bytes": 19052,
+      "sha256": "65d661dc058cda669a885b3c66a747d3700eb240584ed7ace78e84b4806bbf81"
+    },
+    "native_outputs/B/final_levelset_layer1.lvst": {
+      "bytes": 18415,
+      "sha256": "2c03f05d8904684aafa91dc0d5d03c52ac4ed7262a5f4b8a4f49f9d55074176a"
+    },
+    "native_outputs/B/final_surface.vtp": {
+      "bytes": 73819,
+      "sha256": "8676b959478b8f417cc5a64d37df027115bc446f3249346726c1a10a97b4f5a2"
+    },
+    "native_outputs/zero_rates/final_levelset_layer0.lvst": {
+      "bytes": 19052,
+      "sha256": "65d661dc058cda669a885b3c66a747d3700eb240584ed7ace78e84b4806bbf81"
+    },
+    "native_outputs/zero_rates/final_levelset_layer1.lvst": {
+      "bytes": 19052,
+      "sha256": "65d661dc058cda669a885b3c66a747d3700eb240584ed7ace78e84b4806bbf81"
+    },
+    "native_outputs/zero_rates/final_surface.vtp": {
+      "bytes": 19799,
+      "sha256": "60d99baf0d735d016fd677aec5a5b87a537f9c2b8fe049156a95223b27161832"
+    }
+  },
+  "files": {
+    "data/A.json.gz": {
+      "bytes": 139103,
+      "sha256": "2a6f1c3e7b0f9027f07751b837729958b0863f33bf20b7f2365971c880d12602"
+    },
+    "data/A_replay.json.gz": {
+      "bytes": 139105,
+      "sha256": "29f2feb691cdf875dc01e2a4db4a1ab824d37ec5a3938c4b6124f0d567bf82de"
+    },
+    "data/B.json.gz": {
+      "bytes": 140843,
+      "sha256": "9f182e49c6f6b37ab7f83db4eb46e1b84e3ddfeb5db8a4b9b31618551c1c58ad"
+    },
+    "data/sections.csv": {
+      "bytes": 17379,
+      "sha256": "59762074aed1c106b961c3d3c34b5a581f5c7f2a709d4a20451fe987fd96c07e"
+    },
+    "data/summary.csv": {
+      "bytes": 613,
+      "sha256": "2f94e163bba1f9cacde3c1c60fc14561a4386a3fccf1270172a184967cf1afc8"
+    },
+    "data/summary.json": {
+      "bytes": 1621,
+      "sha256": "7593bf89ac7193f0b71093f16de4c3420ac2b4b53efa4935a4b1bc9f398834b5"
+    },
+    "data/time_series.csv": {
+      "bytes": 2810,
+      "sha256": "ba3db02c96272d60e4813aa29b0ca846bac9fe1fd9aa0d0f0f490dda2bf1c47a"
+    },
+    "data/unit_test_record.json": {
+      "bytes": 253,
+      "sha256": "ea64b486521a8105909ed0364680d9d898dd9be5ad554024d6bdf3a94db5e982"
+    },
+    "data/validation.json": {
+      "bytes": 578,
+      "sha256": "40347f5ef5d156f4d8846a90ac4c8a31fd67c515fc0f4762894a536839f959fd"
+    },
+    "data/zero_rates.json.gz": {
+      "bytes": 114600,
+      "sha256": "a1e4911e7f3484295a049dbc72a33d9e3182b9c2babc2589c64b47ea5c648930"
+    },
+    "execution.json": {
+      "bytes": 2192,
+      "sha256": "744b2ca00c7f30bf807db4eab277e3ae3c746a3c18484893854b727232e12f60"
+    },
+    "figures/01_surface_sections.png": {
+      "bytes": 192764,
+      "sha256": "dac313227ac7f0f3a6e1ed092677d3d05f98b732792e64a7579ee255835ac464"
+    },
+    "figures/02_probe_time_series.png": {
+      "bytes": 173148,
+      "sha256": "630660d147c66adab0a80053bc82971f18a7256daf5c93e32605522a0ef8c5da"
+    },
+    "figures/03_native_surfaces.png": {
+      "bytes": 581215,
+      "sha256": "7bd532df4c99ea79dd0f07b460dffc9bbc68f13d9d042590fbd6d00b4112f5ec"
+    },
+    "figures/figure_metadata.json": {
+      "bytes": 1357,
+      "sha256": "f01654e78b0b11736b9800579007dc1232faedb4c5a0ed6adfd81bf035ee256e"
+    },
+    "figures/image_audit.json": {
+      "bytes": 715,
+      "sha256": "30134aa5ee192c53ecc327f96602a423b8085cd5b07ab8fe27b0c351dae92fdc"
+    },
+    "inputs/A.json": {
+      "bytes": 1128,
+      "sha256": "dba3e9420365f0572ccbbb2c52abce5b5ba241c5fc6f6e3137048af5992d5996"
+    },
+    "inputs/A_replay.json": {
+      "bytes": 1128,
+      "sha256": "dba3e9420365f0572ccbbb2c52abce5b5ba241c5fc6f6e3137048af5992d5996"
+    },
+    "inputs/B.json": {
+      "bytes": 1128,
+      "sha256": "17849f37c19f8120651197b3a5bc208511c3f99423a57520cb8c0fc68f5c3cca"
+    },
+    "inputs/zero_rates.json": {
+      "bytes": 1128,
+      "sha256": "cb975e396705ec0a14774b110078d5961661e45f7661e720224d91a8949cee8a"
+    },
+    "plan.json": {
+      "bytes": 9027,
+      "sha256": "8967736860806f24fc7924650a8e19da6423adcf721c01d03a69ea5b392ece23"
+    },
+    "plot_results.py": {
+      "bytes": 6950,
+      "sha256": "6ffd3336b1f273c88db5fd1b652210916fde604fabffda6a5b754b7de30b0793"
+    },
+    "README.md": {
+      "bytes": 8908,
+      "sha256": "a1c8527042613d523705a1184024256fd00e75ee2ef70b4990ca8b6ed0f35e9a"
+    },
+    "requirements.txt": {
+      "bytes": 63,
+      "sha256": "d280c673a87456980534fdb6521326f58158c665e7b7ee753c0209ea706dd403"
+    },
+    "run_experiment.py": {
+      "bytes": 6645,
+      "sha256": "485d8d3cec305f08656c1be8afcbb901b1aba29d638903e8a756cb5103a8eaf4"
+    },
+    "source_snapshot/native_lab/__init__.py": {
+      "bytes": 83,
+      "sha256": "5c806f1d84e7b51cf2d29236e10ca26f5b2c5fbdeb0a753fb8186b5619e4670e"
+    },
+    "source_snapshot/native_lab/engine.py": {
+      "bytes": 13018,
+      "sha256": "26c759e045bc4ad493a9f354d6ffbdd3748bb3b544ba78e7a2ed7e097fdb08b2"
+    },
+    "source_snapshot/native_lab/geometry.py": {
+      "bytes": 3756,
+      "sha256": "37dc441f3fb01ab14cc8269680e583c4996b72622590aae3754f911dca168355"
+    },
+    "source_snapshot/native_lab/profiles.py": {
+      "bytes": 2870,
+      "sha256": "46ba582df52eb1be461967b9d337dc07ea7b8e4a730465acea2cf86343fb80f4"
+    },
+    "source_snapshot/native_lab/schema.py": {
+      "bytes": 9641,
+      "sha256": "0d4629213c79c6c6ec864ac71e8af47dcf291d74b08348e190ea3a3f72d8cc40"
+    },
+    "source_snapshot/rf_lab/__init__.py": {
+      "bytes": 96,
+      "sha256": "7e0d112be31bdb3657bbb6500b6a684f0bba438199b129cd53d6f5dd3ffc33c9"
+    },
+    "source_snapshot/rf_lab/coupled.py": {
+      "bytes": 9223,
+      "sha256": "0c2c6e34d7ef1d0d049df945585b7ec8c087d242c8e14ce7df755eda5396c656"
+    },
+    "source_snapshot/rf_lab/model.py": {
+      "bytes": 10964,
+      "sha256": "cbaa7ff772eb444d7265ef98467f7a694a6cad07bf3e5146e1dce3dff0db79bd"
+    },
+    "source_snapshot/sim_app/__init__.py": {
+      "bytes": 71,
+      "sha256": "cb515026bd72c6c69750254861f4dd3ef70724928957ea47ebbe9ce7608b7c45"
+    },
+    "source_snapshot/sim_app/models/__init__.py": {
+      "bytes": 68,
+      "sha256": "af0e23181ab6bc8c4530efa41c4bdb67c62b6afa8a7044411b0de226ad0c5a74"
+    },
+    "source_snapshot/sim_app/models/etch.py": {
+      "bytes": 25750,
+      "sha256": "23688d95be31e510f22914d549c10f5c37b86f629cc83af25e3acc1ca0cbfa3d"
+    },
+    "source_snapshot/studio_lab/__init__.py": {
+      "bytes": 111,
+      "sha256": "0aca986e3b3e1feb0e174eed2b0f9397a41e304ad8ca8607338c90101be78781"
+    },
+    "source_snapshot/studio_lab/engine.py": {
+      "bytes": 11103,
+      "sha256": "239264ba5b88a982329b24383dca726b95f718987f610ae49b8334cdc48c99b1"
+    },
+    "source_snapshot/studio_lab/schema.py": {
+      "bytes": 6382,
+      "sha256": "e09c64e5cd2fbf732aaa6d99f9e43124d5fa764ce4f29bcb098724f976410c00"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "only_radical_rate_changed": "PASS",
+  "exact_frame_replay": "PASS",
+  "identical_initial_geometry": "PASS",
+  "zero_rates_stationary": "PASS",
+  "known_plane_probe": "PASS",
+  "finite_arrays_and_probes": "PASS",
+  "triangle_indices_in_bounds": "PASS",
+  "output_timebase": "PASS",
+  "original_substrate_mesh_preserved": "PASS",
+  "snapshot_hashes_unchanged": "PASS",
+  "physical_calibration": "NOT_RUN",
+  "mesh_convergence": "NOT_RUN",
+  "seed_ensemble": "NOT_RUN",
+  "chamber_chemistry_validation": "NOT_RUN",
+  "electrical_device_validation": "NOT_RUN"
+}

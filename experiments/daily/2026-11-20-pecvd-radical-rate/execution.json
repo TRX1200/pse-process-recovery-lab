@@ -1,0 +1,52 @@
+{
+  "execution_id": "2b89d6349ee94a1ea4af2ab6f0258ca7",
+  "id_kind": "Generated experiment ID; direct engine call, not server job ID",
+  "started_at_utc": "2026-11-20T11:06:06.272171+00:00",
+  "scheduled_at_kst": "2026-11-20T20:00:00+09:00",
+  "plan_sha256": "8967736860806f24fc7924650a8e19da6423adcf721c01d03a69ea5b392ece23",
+  "historical_results_reused": false,
+  "versions": {
+    "ViennaPS": "4.6.2",
+    "ViennaLS": "5.8.5",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "python": "3.12.2",
+    "platform": "Windows-11-10.0.22631-SP0"
+  },
+  "runs": {
+    "A": {
+      "started_at_utc": "2026-11-20T11:06:06.308174+00:00",
+      "finished_at_utc": "2026-11-20T11:06:07.132859+00:00",
+      "run_hash": "011058d9495a4c6d2059dfac503a09f50ed3d1bdd435e7fd3c12642f0e367077",
+      "elapsed_s": 0.731331399991177,
+      "frames": 6,
+      "raw_sha256": "2a6f1c3e7b0f9027f07751b837729958b0863f33bf20b7f2365971c880d12602"
+    },
+    "B": {
+      "started_at_utc": "2026-11-20T11:06:07.137859+00:00",
+      "finished_at_utc": "2026-11-20T11:06:07.790388+00:00",
+      "run_hash": "922e81ce1c19806905df379ce02667b66ee4b65e59707dcc39ea5b54bcdee8d7",
+      "elapsed_s": 0.5766712999902666,
+      "frames": 6,
+      "raw_sha256": "9f182e49c6f6b37ab7f83db4eb46e1b84e3ddfeb5db8a4b9b31618551c1c58ad"
+    },
+    "A_replay": {
+      "started_at_utc": "2026-11-20T11:06:07.795388+00:00",
+      "finished_at_utc": "2026-11-20T11:06:08.458159+00:00",
+      "run_hash": "011058d9495a4c6d2059dfac503a09f50ed3d1bdd435e7fd3c12642f0e367077",
+      "elapsed_s": 0.5887276000576094,
+      "frames": 6,
+      "raw_sha256": "29f2feb691cdf875dc01e2a4db4a1ab824d37ec5a3938c4b6124f0d567bf82de"
+    },
+    "zero_rates": {
+      "started_at_utc": "2026-11-20T11:06:08.462667+00:00",
+      "finished_at_utc": "2026-11-20T11:06:08.571632+00:00",
+      "run_hash": "a9c7e3c2a846cdfce8a3a19e5b8db15f6e931c1e0e6c300c06727aca8063a503",
+      "elapsed_s": 0.03600800002459437,
+      "frames": 6,
+      "raw_sha256": "a1e4911e7f3484295a049dbc72a33d9e3182b9c2babc2589c64b47ea5c648930"
+    }
+  },
+  "state": "COMPLETE",
+  "finished_at_utc": "2026-11-20T11:06:08.601146+00:00"
+}

@@ -9,8 +9,8 @@
     "etch",
     "tsv_process_sequence"
   ],
-  "last_completed_date": "2026-11-18",
-  "next_topic": "pecvd",
+  "last_completed_date": "2026-11-20",
+  "next_topic": "etch",
   "experiments": [
     {
       "id": "2026-11-16-rf-capacitor-step",
@@ -44,6 +44,17 @@
       "finished_at_utc": "2026-11-18T11:01:53.907628+00:00",
       "plan_sha256": "e9a43e0d87ecfdedc0f8aedcd89dc52c4f3f5c5d8d77e8acdddbc889eb7f0c01",
       "changed_parameter": "SiGe isotropic release time 14 to 7 s; upstream stack, mask, rate 2 nm/s, selectivity 100 and 4 nm grid fixed"
+    },
+    {
+      "id": "2026-11-20-pecvd-radical-rate",
+      "date": "2026-11-20",
+      "topic": "pecvd",
+      "status": "completed",
+      "path": "2026-11-20-pecvd-radical-rate/",
+      "execution_id": "2b89d6349ee94a1ea4af2ab6f0258ca7",
+      "finished_at_utc": "2026-11-20T11:06:08.601146+00:00",
+      "plan_sha256": "8967736860806f24fc7924650a8e19da6423adcf721c01d03a69ea5b392ece23",
+      "changed_parameter": "PECVD radical_rate_nm_s 0.8 to 1.2; fixed 20 s, ion assistance 0.3 nm/s, sticking 0.3, 20 nm grid, seed 42"
     }
   ]
 }

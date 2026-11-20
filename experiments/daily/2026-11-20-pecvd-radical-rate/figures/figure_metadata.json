@@ -1,0 +1,40 @@
+{
+  "label": "Personal learning simulation; agent executed; not wafer/equipment measurements",
+  "data": "data/A.json.gz and data/B.json.gz",
+  "smoothing": "none",
+  "line_segments": "Connect saved samples for visual guidance, not extra solver time steps",
+  "figures": [
+    {
+      "file": "01_surface_sections.png",
+      "description": "Same central cut at Y=0: initial/A/B highest intersections and their vertical advances. 81 saved sample positions; not a film thickness map.",
+      "size_inches": [
+        12.0,
+        5.5
+      ],
+      "dpi": 180
+    },
+    {
+      "file": "02_probe_time_series.png",
+      "description": "Top surface advance and bottom-center advance across saved time frames, same Y limits and no fabricated uncertainty. Read full values from time_series.csv.",
+      "size_inches": [
+        12.0,
+        5.5
+      ],
+      "dpi": 180
+    },
+    {
+      "file": "03_native_surfaces.png",
+      "description": "Actual final SiO2 outer surface triangle meshes. Color is absolute Z, not film thickness or physical roughness. Shared dimensions and orthographic camera; sidewalls can occlude other faces.",
+      "size_inches": [
+        12.0,
+        6.0
+      ],
+      "dpi": 180
+    }
+  ],
+  "versions": {
+    "python": "3.12.14",
+    "numpy": "2.1.3",
+    "matplotlib": "3.11.0"
+  }
+}

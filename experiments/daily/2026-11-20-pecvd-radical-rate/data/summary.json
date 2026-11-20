@@ -1,0 +1,62 @@
+{
+  "A": {
+    "case": "A",
+    "time_s": 20.0,
+    "stage": "pecvd",
+    "center_z_nm": -184.03528,
+    "top_z_nm": 21.4117733,
+    "surface_area_nm2": 385792.55256384995,
+    "min_z_nm": -185.860855,
+    "max_z_nm": 22.696354,
+    "triangles": 2090,
+    "nodes": 1118,
+    "center_delta_z_nm": 15.96472,
+    "top_delta_z_nm": 21.4117733,
+    "remaining_center_recess_nm": 205.4470533
+  },
+  "B": {
+    "case": "B",
+    "time_s": 20.0,
+    "stage": "pecvd",
+    "center_z_nm": -178.984999,
+    "top_z_nm": 29.2755715,
+    "surface_area_nm2": 386386.73538559035,
+    "min_z_nm": -181.20936,
+    "max_z_nm": 30.82201,
+    "triangles": 2160,
+    "nodes": 1155,
+    "center_delta_z_nm": 21.015001000000012,
+    "top_delta_z_nm": 29.2755715,
+    "remaining_center_recess_nm": 208.2605705
+  },
+  "A_replay": {
+    "case": "A_replay",
+    "time_s": 20.0,
+    "stage": "pecvd",
+    "center_z_nm": -184.03528,
+    "top_z_nm": 21.4117733,
+    "surface_area_nm2": 385792.55256384995,
+    "min_z_nm": -185.860855,
+    "max_z_nm": 22.696354,
+    "triangles": 2090,
+    "nodes": 1118,
+    "center_delta_z_nm": 15.96472,
+    "top_delta_z_nm": 21.4117733,
+    "remaining_center_recess_nm": 205.4470533
+  },
+  "zero_rates": {
+    "case": "zero_rates",
+    "time_s": 20.0,
+    "stage": "pecvd",
+    "center_z_nm": -200.0,
+    "top_z_nm": -0.0,
+    "surface_area_nm2": 390627.4169979695,
+    "min_z_nm": -200.0,
+    "max_z_nm": -0.0,
+    "triangles": 1920,
+    "nodes": 1029,
+    "center_delta_z_nm": 0.0,
+    "top_delta_z_nm": 0.0,
+    "remaining_center_recess_nm": 200.0
+  }
+}
