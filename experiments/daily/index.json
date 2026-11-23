@@ -9,8 +9,8 @@
     "etch",
     "tsv_process_sequence"
   ],
-  "last_completed_date": "2026-11-20",
-  "next_topic": "etch",
+  "last_completed_date": "2026-11-23",
+  "next_topic": "tsv_process_sequence",
   "experiments": [
     {
       "id": "2026-11-16-rf-capacitor-step",
@@ -55,6 +55,17 @@
       "finished_at_utc": "2026-11-20T11:06:08.601146+00:00",
       "plan_sha256": "8967736860806f24fc7924650a8e19da6423adcf721c01d03a69ea5b392ece23",
       "changed_parameter": "PECVD radical_rate_nm_s 0.8 to 1.2; fixed 20 s, ion assistance 0.3 nm/s, sticking 0.3, 20 nm grid, seed 42"
+    },
+    {
+      "id": "2026-11-23-etch-ion-energy",
+      "date": "2026-11-23",
+      "topic": "etch",
+      "status": "completed",
+      "path": "2026-11-23-etch-ion-energy/",
+      "execution_id": "a538ca6793344f4b9d651a2f48e3cc86",
+      "finished_at_utc": "2026-11-23T14:06:53.214920+00:00",
+      "plan_sha256": "3c7d2bbef404ba4bd5e0c9f81e446557da323bb26f846bd016de6f4baa9bf53e",
+      "changed_parameter": "Ion mean energy 100 to 150 eV; fixed 4 s SF6/O2 Etch, incident fluxes, 20 nm grid and seed 42"
     }
   ]
 }

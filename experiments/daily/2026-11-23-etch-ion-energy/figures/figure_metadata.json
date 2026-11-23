@@ -1,0 +1,45 @@
+{
+  "label": "Personal learning simulation; agent executed; not wafer or equipment measurements",
+  "raw_sources": [
+    "data/A.json.gz",
+    "data/B.json.gz",
+    "data/time_series.csv"
+  ],
+  "transformation": "Highest vertical intersections; recession = initial Z minus final Z; no smoothing",
+  "line_segments": "Connect stored samples only; not additional solver steps",
+  "uncertainty": "Single seed and grid; no confidence interval or physical calibration",
+  "versions": {
+    "python": "3.12.14",
+    "numpy": "2.1.3",
+    "matplotlib": "3.11.0"
+  },
+  "figures": [
+    {
+      "file": "01_surface_sections.png",
+      "description": "Full Y=0 highest-intersection section, including numerical mask; right panel shows recession only within |X|<=80 nm. Saved samples are connected, not smoothed. Dotted vertical lines locate X=0 and X=70 nm probes.",
+      "size_inches": [
+        12.0,
+        5.8
+      ],
+      "dpi": 180
+    },
+    {
+      "file": "02_probe_time_series.png",
+      "description": "Center and near-edge vertical recession computed from raw native triangle intersections, with a common zero baseline and Y range. Lines connect actual output times 0,1,2,3,4 s.",
+      "size_inches": [
+        12.0,
+        5.8
+      ],
+      "dpi": 180
+    },
+    {
+      "file": "03_native_surfaces.png",
+      "description": "Actual final outer native meshes; every triangle included. Identical orthographic camera, coordinate limits, box aspect and absolute-height color scale. Occlusion is inherent; quantitative values are provided in sections and CSV.",
+      "size_inches": [
+        12.0,
+        6.0
+      ],
+      "dpi": 180
+    }
+  ]
+}

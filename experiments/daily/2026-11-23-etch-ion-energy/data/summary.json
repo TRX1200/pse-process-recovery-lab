@@ -1,0 +1,50 @@
+{
+  "A": {
+    "case": "A",
+    "time_s": 4.0,
+    "stage": "etch",
+    "center_z_nm": -46.846691,
+    "near_edge_z_nm": -38.2664747153516,
+    "center_recession_nm": 46.846691,
+    "near_edge_recession_nm": 38.2664747153516,
+    "edge_minus_center_recession_nm": -8.580216284648401,
+    "outer_surface_nodes": 819,
+    "outer_surface_triangles": 1520
+  },
+  "B": {
+    "case": "B",
+    "time_s": 4.0,
+    "stage": "etch",
+    "center_z_nm": -58.068753,
+    "near_edge_z_nm": -46.182824368031774,
+    "center_recession_nm": 58.068753,
+    "near_edge_recession_nm": 46.182824368031774,
+    "edge_minus_center_recession_nm": -11.885928631968227,
+    "outer_surface_nodes": 819,
+    "outer_surface_triangles": 1520
+  },
+  "A_replay": {
+    "case": "A_replay",
+    "time_s": 4.0,
+    "stage": "etch",
+    "center_z_nm": -46.846691,
+    "near_edge_z_nm": -38.2664747153516,
+    "center_recession_nm": 46.846691,
+    "near_edge_recession_nm": 38.2664747153516,
+    "edge_minus_center_recession_nm": -8.580216284648401,
+    "outer_surface_nodes": 819,
+    "outer_surface_triangles": 1520
+  },
+  "zero_time": {
+    "case": "zero_time",
+    "time_s": 0.0,
+    "stage": "etch",
+    "center_z_nm": -0.0,
+    "near_edge_z_nm": -0.0,
+    "center_recession_nm": 0.0,
+    "near_edge_recession_nm": 0.0,
+    "edge_minus_center_recession_nm": 0.0,
+    "outer_surface_nodes": 735,
+    "outer_surface_triangles": 1360
+  }
+}

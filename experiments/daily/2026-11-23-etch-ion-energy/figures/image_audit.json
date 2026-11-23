@@ -1,0 +1,55 @@
+{
+  "visual_review": "PASS",
+  "method": "All three PNGs visually inspected; overlapping footnote in first render corrected and re-inspected; full data ranges, readable labels, common comparison axes and scales",
+  "uncertainties": "No convergence or uncertainty claims; single seed and grid",
+  "images": [
+    {
+      "file": "01_surface_sections.png",
+      "size": [
+        2160,
+        1044
+      ],
+      "mode": "RGBA",
+      "dpi": [
+        180.00979999999998,
+        180.00979999999998
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "02_probe_time_series.png",
+      "size": [
+        2160,
+        1044
+      ],
+      "mode": "RGBA",
+      "dpi": [
+        180.00979999999998,
+        180.00979999999998
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "03_native_surfaces.png",
+      "size": [
+        2160,
+        1080
+      ],
+      "mode": "RGBA",
+      "dpi": [
+        180.00979999999998,
+        180.00979999999998
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    }
+  ]
+}

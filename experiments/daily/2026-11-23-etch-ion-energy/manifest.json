@@ -1,0 +1,395 @@
+{
+  "schema_version": 1,
+  "label": "Personal learning simulation; agent executed; not equipment or wafer data",
+  "experiment_id": "a538ca6793344f4b9d651a2f48e3cc86",
+  "id_kind": "Generated experiment ID; direct engine call, not server job ID",
+  "scheduled_at_kst": "2026-11-23T20:00:00+09:00",
+  "started_at_utc": "2026-11-23T14:06:00.226714+00:00",
+  "finished_at_utc": "2026-11-23T14:06:53.214920+00:00",
+  "prepared_at_utc": "2026-11-23T14:05:59.297330+00:00",
+  "packaged_at_utc": "2026-11-23T14:10:47.319648+00:00",
+  "source": {
+    "local_git_head": "e285f328500c5bafcacad4a200cb6dc1b37256f9",
+    "remote_main_before": "f8759ddeb96e58096e79c677cc1fd88a60335dfb",
+    "source_sha256": {
+      "native_lab/__init__.py": "5c806f1d84e7b51cf2d29236e10ca26f5b2c5fbdeb0a753fb8186b5619e4670e",
+      "native_lab/engine.py": "26c759e045bc4ad493a9f354d6ffbdd3748bb3b544ba78e7a2ed7e097fdb08b2",
+      "native_lab/geometry.py": "37dc441f3fb01ab14cc8269680e583c4996b72622590aae3754f911dca168355",
+      "native_lab/profiles.py": "46ba582df52eb1be461967b9d337dc07ea7b8e4a730465acea2cf86343fb80f4",
+      "native_lab/schema.py": "0d4629213c79c6c6ec864ac71e8af47dcf291d74b08348e190ea3a3f72d8cc40",
+      "rf_lab/__init__.py": "7e0d112be31bdb3657bbb6500b6a684f0bba438199b129cd53d6f5dd3ffc33c9",
+      "rf_lab/coupled.py": "0c2c6e34d7ef1d0d049df945585b7ec8c087d242c8e14ce7df755eda5396c656",
+      "rf_lab/model.py": "cbaa7ff772eb444d7265ef98467f7a694a6cad07bf3e5146e1dce3dff0db79bd",
+      "sim_app/__init__.py": "cb515026bd72c6c69750254861f4dd3ef70724928957ea47ebbe9ce7608b7c45",
+      "sim_app/models/__init__.py": "af0e23181ab6bc8c4530efa41c4bdb67c62b6afa8a7044411b0de226ad0c5a74",
+      "sim_app/models/etch.py": "23688d95be31e510f22914d549c10f5c37b86f629cc83af25e3acc1ca0cbfa3d",
+      "studio_lab/__init__.py": "0aca986e3b3e1feb0e174eed2b0f9397a41e304ad8ca8607338c90101be78781",
+      "studio_lab/engine.py": "239264ba5b88a982329b24383dca726b95f718987f610ae49b8334cdc48c99b1",
+      "studio_lab/schema.py": "e09c64e5cd2fbf732aaa6d99f9e43124d5fa764ce4f29bcb098724f976410c00"
+    },
+    "unchanged_from_local_source_after_execution": true,
+    "reproduction_authority": "Included source_snapshot; not remote Git SHA alone"
+  },
+  "commands": {
+    "actual_run": ".venv/Scripts/python.exe exports/daily/2026-11-23-etch-ion-energy/run_experiment.py",
+    "replay": "python run_experiment.py --out replay",
+    "plot": "python plot_results.py --data-dir replay"
+  },
+  "execution": {
+    "execution_id": "a538ca6793344f4b9d651a2f48e3cc86",
+    "id_kind": "Generated experiment ID; direct engine call, not server job ID",
+    "started_at_utc": "2026-11-23T14:06:00.226714+00:00",
+    "scheduled_at_kst": "2026-11-23T20:00:00+09:00",
+    "plan_sha256": "3c7d2bbef404ba4bd5e0c9f81e446557da323bb26f846bd016de6f4baa9bf53e",
+    "historical_results_reused": false,
+    "versions": {
+      "ViennaPS": "4.6.2",
+      "ViennaLS": "5.8.5",
+      "numpy": "2.5.3",
+      "scipy": "1.18.1",
+      "python": "3.12.2",
+      "platform": "Windows-11-10.0.22631-SP0"
+    },
+    "runs": {
+      "A": {
+        "started_at_utc": "2026-11-23T14:06:00.262360+00:00",
+        "finished_at_utc": "2026-11-23T14:06:17.932914+00:00",
+        "run_hash": "79f0247435d26640d573135eb7ccc342e29f410dff5d55ad115fc2f870ef9b4e",
+        "elapsed_s": 17.584963500034064,
+        "frames": 5,
+        "raw_sha256": "efac2fea52e66d6fcc05f64f9602be6ca202b743aa9a866c877fddccb7df72e8"
+      },
+      "B": {
+        "started_at_utc": "2026-11-23T14:06:17.937914+00:00",
+        "finished_at_utc": "2026-11-23T14:06:35.564584+00:00",
+        "run_hash": "786ab1fb42a731c3b24953d92f0f537635b385005c103a26713654ddd6e918b9",
+        "elapsed_s": 17.574049400165677,
+        "frames": 5,
+        "raw_sha256": "bf50ee64a0ee371417cf029a819bbabd329458c5aa8ce3bb3d7423339ec08015"
+      },
+      "A_replay": {
+        "started_at_utc": "2026-11-23T14:06:35.569147+00:00",
+        "finished_at_utc": "2026-11-23T14:06:53.010362+00:00",
+        "run_hash": "79f0247435d26640d573135eb7ccc342e29f410dff5d55ad115fc2f870ef9b4e",
+        "elapsed_s": 17.389128499897197,
+        "frames": 5,
+        "raw_sha256": "dae94fa1e8b5a5c1c567a6711d785a167307841d3f3a37fe2c6ab5a9e1ef95e7"
+      },
+      "zero_time": {
+        "started_at_utc": "2026-11-23T14:06:53.015363+00:00",
+        "finished_at_utc": "2026-11-23T14:06:53.099588+00:00",
+        "run_hash": "e74ec5e90e19a75399cb8c6638662a116f798fa9bb9ad4749e4e9b5986dfd84b",
+        "elapsed_s": 0.031213199952617288,
+        "frames": 5,
+        "raw_sha256": "e12e182a30fa96c0bac095804490fd87daef4257a9c6092dd1c69ecb180bdfbc"
+      }
+    },
+    "state": "COMPLETE",
+    "finished_at_utc": "2026-11-23T14:06:53.214920+00:00"
+  },
+  "numerics": {
+    "grid_nm": 20,
+    "seed": 42,
+    "seed_rule": "42 + process frame index",
+    "rays_per_point": 100,
+    "output_interval_s": 1,
+    "threads": 1,
+    "internal_time_step": "adaptive CFL ratio 0.4999; individual internal steps not exported",
+    "boundaries": "reflective x/y, infinite z",
+    "coordinates": "x,y horizontal; z up; nm, s",
+    "ion_energy_sigma_ev": 10,
+    "coverage_tolerance": 0.0001,
+    "coverage_max_iterations": 30
+  },
+  "validation": {
+    "only_ion_energy_changed": "PASS",
+    "exact_frame_replay": "PASS",
+    "identical_initial_geometry": "PASS",
+    "zero_time_stationary": "PASS",
+    "known_plane_probe": "PASS",
+    "finite_arrays_sections_and_probes": "PASS",
+    "triangle_indices_in_bounds": "PASS",
+    "output_timebase": "PASS",
+    "incident_flux_unit_conversion": "PASS",
+    "snapshot_hashes_unchanged": "PASS",
+    "physical_calibration": "NOT_RUN",
+    "mesh_convergence": "NOT_RUN",
+    "seed_ensemble": "NOT_RUN",
+    "chamber_chemistry_validation": "NOT_RUN",
+    "coverage_solver_residual_history": "NOT_EXPORTED",
+    "electrical_device_validation": "NOT_RUN"
+  },
+  "unit_tests": {
+    "status": "PASS",
+    "tests_run": 2,
+    "command": ".venv/Scripts/python.exe -m unittest studio_lab.tests.test_studio.SchemaTests.test_vertical_probe_triangle_plane studio_lab.tests.test_studio.SchemaTests.test_flux_units_and_manual_values_preserved",
+    "observed_output": "Ran 2 tests in 0.004s; OK",
+    "source": "Executed during this automation, separate from simulation controls"
+  },
+  "historical_results_reused": false,
+  "optimization_performed": false,
+  "figure_review": {
+    "visual_review": "PASS",
+    "method": "All three PNGs visually inspected; overlapping footnote in first render corrected and re-inspected; full data ranges, readable labels, common comparison axes and scales",
+    "uncertainties": "No convergence or uncertainty claims; single seed and grid",
+    "images": [
+      {
+        "file": "01_surface_sections.png",
+        "size": [
+          2160,
+          1044
+        ],
+        "mode": "RGBA",
+        "dpi": [
+          180.00979999999998,
+          180.00979999999998
+        ],
+        "alpha_range": [
+          255,
+          255
+        ]
+      },
+      {
+        "file": "02_probe_time_series.png",
+        "size": [
+          2160,
+          1044
+        ],
+        "mode": "RGBA",
+        "dpi": [
+          180.00979999999998,
+          180.00979999999998
+        ],
+        "alpha_range": [
+          255,
+          255
+        ]
+      },
+      {
+        "file": "03_native_surfaces.png",
+        "size": [
+          2160,
+          1080
+        ],
+        "mode": "RGBA",
+        "dpi": [
+          180.00979999999998,
+          180.00979999999998
+        ],
+        "alpha_range": [
+          255,
+          255
+        ]
+      }
+    ]
+  },
+  "publication_status": "PREPARED; remote publication receipt stored separately after verification",
+  "omitted_native_files": {
+    "native_outputs/A/final_levelset_layer0.lvst": {
+      "bytes": 15665,
+      "sha256": "5ec8613b7f3c6d322d11d07a6bc3299f0190f07aa910c582734b17f45cb3f1c8"
+    },
+    "native_outputs/A/final_levelset_layer1.lvst": {
+      "bytes": 57294,
+      "sha256": "4189a613e463c38b42b90bf1cb411ca505866e44f79405d455e47d73f4cb1615"
+    },
+    "native_outputs/A/final_surface.vtp": {
+      "bytes": 45067,
+      "sha256": "80a027e82bb051c8c9904829bf81f74fe4bdd9976d556657e173fa110736f5d0"
+    },
+    "native_outputs/A_replay/final_levelset_layer0.lvst": {
+      "bytes": 15665,
+      "sha256": "5ec8613b7f3c6d322d11d07a6bc3299f0190f07aa910c582734b17f45cb3f1c8"
+    },
+    "native_outputs/A_replay/final_levelset_layer1.lvst": {
+      "bytes": 57294,
+      "sha256": "4189a613e463c38b42b90bf1cb411ca505866e44f79405d455e47d73f4cb1615"
+    },
+    "native_outputs/A_replay/final_surface.vtp": {
+      "bytes": 45067,
+      "sha256": "80a027e82bb051c8c9904829bf81f74fe4bdd9976d556657e173fa110736f5d0"
+    },
+    "native_outputs/B/final_levelset_layer0.lvst": {
+      "bytes": 15665,
+      "sha256": "24d4067e89d88ed2660a12fe996d59a767ef417bd3256b8e117b12afd1789d99"
+    },
+    "native_outputs/B/final_levelset_layer1.lvst": {
+      "bytes": 57497,
+      "sha256": "cf5df6c17a05f3926c034d628ed1e84c280508bb9fad4799e301a2fcb5e2c570"
+    },
+    "native_outputs/B/final_surface.vtp": {
+      "bytes": 45275,
+      "sha256": "2da3194f19f805ede0204ea280eb0b55a866fd74a641cc9ea70ff6c0bc9cc704"
+    },
+    "native_outputs/zero_time/final_levelset_layer0.lvst": {
+      "bytes": 15665,
+      "sha256": "b0d28ba35767896ac7ef541734eae6ebb633b0aded552e24e260c6e9ea3f102f"
+    },
+    "native_outputs/zero_time/final_levelset_layer1.lvst": {
+      "bytes": 12599,
+      "sha256": "6ff8931df2b137684bd19c62b58760469688a0ffaaa3b35d625cd098f93eb8c0"
+    },
+    "native_outputs/zero_time/final_surface.vtp": {
+      "bytes": 22071,
+      "sha256": "91c0f68c53504b62d3fc4f585664f38f0a327a4b29c0ee760bead7d16cf3a775"
+    }
+  },
+  "files": {
+    "data/A.json.gz": {
+      "bytes": 103957,
+      "sha256": "efac2fea52e66d6fcc05f64f9602be6ca202b743aa9a866c877fddccb7df72e8"
+    },
+    "data/A_replay.json.gz": {
+      "bytes": 103957,
+      "sha256": "dae94fa1e8b5a5c1c567a6711d785a167307841d3f3a37fe2c6ab5a9e1ef95e7"
+    },
+    "data/B.json.gz": {
+      "bytes": 104973,
+      "sha256": "bf50ee64a0ee371417cf029a819bbabd329458c5aa8ce3bb3d7423339ec08015"
+    },
+    "data/sections.csv": {
+      "bytes": 19227,
+      "sha256": "c36a3e94d4b9872fdcc4bb6357da68575a5d659bbedf1927c1debb3b21895882"
+    },
+    "data/summary.csv": {
+      "bytes": 515,
+      "sha256": "4e8c102fe84a8ca348dcbce1cd39a0acd04fe7613e160f2710a4232cbd87bdc2"
+    },
+    "data/summary.json": {
+      "bytes": 1453,
+      "sha256": "e21ef2e086b4d8119dd6ea11869bbd6bcb7e7e0c3ad06ded122bd52db630975b"
+    },
+    "data/time_series.csv": {
+      "bytes": 1676,
+      "sha256": "023c42e105e21cbf64dc355f1378531c7b9e84241341e6000251894ff515bbe6"
+    },
+    "data/unit_test_record.json": {
+      "bytes": 392,
+      "sha256": "e56468f86bf57ffd06ebd44d41d8b961e83ac69b1e155abb89df704baf830926"
+    },
+    "data/validation.json": {
+      "bytes": 635,
+      "sha256": "10ef69b6ad938039e91e1202df60094abb9b23ae7593468561bd13c378be8ea8"
+    },
+    "data/zero_time.json.gz": {
+      "bytes": 87835,
+      "sha256": "e12e182a30fa96c0bac095804490fd87daef4257a9c6092dd1c69ecb180bdfbc"
+    },
+    "execution.json": {
+      "bytes": 2193,
+      "sha256": "e59432f6a5e149fd5d2482d439e8022b2523777b951f77caab9576f1927ab9ba"
+    },
+    "figures/01_surface_sections.png": {
+      "bytes": 177333,
+      "sha256": "cb214a3d51a70e01608d0ad8705ca61b35fe585dd97cdc444f41de403220613c"
+    },
+    "figures/02_probe_time_series.png": {
+      "bytes": 177947,
+      "sha256": "60a03e9a08545711d2f9a43f4a6bebc49aa0ab198cb29436178add5ee35aa803"
+    },
+    "figures/03_native_surfaces.png": {
+      "bytes": 491215,
+      "sha256": "2e3603d0256043b36efe7358a318675d79555e68f40fada9918ce290e319b789"
+    },
+    "figures/figure_metadata.json": {
+      "bytes": 1703,
+      "sha256": "0a4670e6cae6bdb307e2d637b42cd7ce8f8a7fb9d6531c12e31a79d178198787"
+    },
+    "figures/image_audit.json": {
+      "bytes": 1155,
+      "sha256": "c4dc069f768493ba8f54bd34cb6b7fc8d6be31627dd422430882ea42b850c197"
+    },
+    "inputs/A.json": {
+      "bytes": 1127,
+      "sha256": "74ee374f902b1f8f44d909ff3fcb6c7f1947c428aa3901816c1f5fd024fb8c72"
+    },
+    "inputs/A_replay.json": {
+      "bytes": 1127,
+      "sha256": "74ee374f902b1f8f44d909ff3fcb6c7f1947c428aa3901816c1f5fd024fb8c72"
+    },
+    "inputs/B.json": {
+      "bytes": 1127,
+      "sha256": "dec453cfd0f49b1255db84c4b043813625a004302fe9bc004ca5d363c214df85"
+    },
+    "inputs/zero_time.json": {
+      "bytes": 1127,
+      "sha256": "1ef3e0d5cecbe060a01f86103ad11a5300d8e7c7bf61d4208917a583165ea82a"
+    },
+    "plan.json": {
+      "bytes": 9608,
+      "sha256": "3c7d2bbef404ba4bd5e0c9f81e446557da323bb26f846bd016de6f4baa9bf53e"
+    },
+    "plot_results.py": {
+      "bytes": 8006,
+      "sha256": "cf67308ddf6310f3abeb9a8a63a4dab5cad75c85eb64d3a62acb85f5ffab4c18"
+    },
+    "README.md": {
+      "bytes": 9816,
+      "sha256": "d4bf474fceaf19578077e7588df2c0ddd52a67819e748d5bada3322ad5663b6a"
+    },
+    "requirements.txt": {
+      "bytes": 63,
+      "sha256": "d280c673a87456980534fdb6521326f58158c665e7b7ee753c0209ea706dd403"
+    },
+    "run_experiment.py": {
+      "bytes": 7190,
+      "sha256": "f2d8121dec5a347191e7e776adb7484775686b7cd8e77476ed196e1af4c6fd96"
+    },
+    "source_snapshot/native_lab/__init__.py": {
+      "bytes": 83,
+      "sha256": "5c806f1d84e7b51cf2d29236e10ca26f5b2c5fbdeb0a753fb8186b5619e4670e"
+    },
+    "source_snapshot/native_lab/engine.py": {
+      "bytes": 13018,
+      "sha256": "26c759e045bc4ad493a9f354d6ffbdd3748bb3b544ba78e7a2ed7e097fdb08b2"
+    },
+    "source_snapshot/native_lab/geometry.py": {
+      "bytes": 3756,
+      "sha256": "37dc441f3fb01ab14cc8269680e583c4996b72622590aae3754f911dca168355"
+    },
+    "source_snapshot/native_lab/profiles.py": {
+      "bytes": 2870,
+      "sha256": "46ba582df52eb1be461967b9d337dc07ea7b8e4a730465acea2cf86343fb80f4"
+    },
+    "source_snapshot/native_lab/schema.py": {
+      "bytes": 9641,
+      "sha256": "0d4629213c79c6c6ec864ac71e8af47dcf291d74b08348e190ea3a3f72d8cc40"
+    },
+    "source_snapshot/rf_lab/__init__.py": {
+      "bytes": 96,
+      "sha256": "7e0d112be31bdb3657bbb6500b6a684f0bba438199b129cd53d6f5dd3ffc33c9"
+    },
+    "source_snapshot/rf_lab/coupled.py": {
+      "bytes": 9223,
+      "sha256": "0c2c6e34d7ef1d0d049df945585b7ec8c087d242c8e14ce7df755eda5396c656"
+    },
+    "source_snapshot/rf_lab/model.py": {
+      "bytes": 10964,
+      "sha256": "cbaa7ff772eb444d7265ef98467f7a694a6cad07bf3e5146e1dce3dff0db79bd"
+    },
+    "source_snapshot/sim_app/__init__.py": {
+      "bytes": 71,
+      "sha256": "cb515026bd72c6c69750254861f4dd3ef70724928957ea47ebbe9ce7608b7c45"
+    },
+    "source_snapshot/sim_app/models/__init__.py": {
+      "bytes": 68,
+      "sha256": "af0e23181ab6bc8c4530efa41c4bdb67c62b6afa8a7044411b0de226ad0c5a74"
+    },
+    "source_snapshot/sim_app/models/etch.py": {
+      "bytes": 25750,
+      "sha256": "23688d95be31e510f22914d549c10f5c37b86f629cc83af25e3acc1ca0cbfa3d"
+    },
+    "source_snapshot/studio_lab/__init__.py": {
+      "bytes": 111,
+      "sha256": "0aca986e3b3e1feb0e174eed2b0f9397a41e304ad8ca8607338c90101be78781"
+    },
+    "source_snapshot/studio_lab/engine.py": {
+      "bytes": 11103,
+      "sha256": "239264ba5b88a982329b24383dca726b95f718987f610ae49b8334cdc48c99b1"
+    },
+    "source_snapshot/studio_lab/schema.py": {
+      "bytes": 6382,
+      "sha256": "e09c64e5cd2fbf732aaa6d99f9e43124d5fa764ce4f29bcb098724f976410c00"
+    }
+  }
+}

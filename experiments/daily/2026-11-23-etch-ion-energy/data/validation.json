@@ -1,0 +1,18 @@
+{
+  "only_ion_energy_changed": "PASS",
+  "exact_frame_replay": "PASS",
+  "identical_initial_geometry": "PASS",
+  "zero_time_stationary": "PASS",
+  "known_plane_probe": "PASS",
+  "finite_arrays_sections_and_probes": "PASS",
+  "triangle_indices_in_bounds": "PASS",
+  "output_timebase": "PASS",
+  "incident_flux_unit_conversion": "PASS",
+  "snapshot_hashes_unchanged": "PASS",
+  "physical_calibration": "NOT_RUN",
+  "mesh_convergence": "NOT_RUN",
+  "seed_ensemble": "NOT_RUN",
+  "chamber_chemistry_validation": "NOT_RUN",
+  "coverage_solver_residual_history": "NOT_EXPORTED",
+  "electrical_device_validation": "NOT_RUN"
+}

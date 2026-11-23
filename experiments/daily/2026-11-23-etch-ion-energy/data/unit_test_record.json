@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "tests_run": 2,
+  "command": ".venv/Scripts/python.exe -m unittest studio_lab.tests.test_studio.SchemaTests.test_vertical_probe_triangle_plane studio_lab.tests.test_studio.SchemaTests.test_flux_units_and_manual_values_preserved",
+  "observed_output": "Ran 2 tests in 0.004s; OK",
+  "source": "Executed during this automation, separate from simulation controls"
+}

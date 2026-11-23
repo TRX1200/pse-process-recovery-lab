@@ -1,0 +1,4 @@
+ViennaPS==4.6.2
+ViennaLS==5.8.5
+numpy==2.5.3
+scipy==1.18.1
