@@ -1,0 +1,17 @@
+{
+  "known_prism": {
+    "available": true,
+    "connected": true,
+    "resistance_ohm": 0.014999999999999996,
+    "length_nm": 12000,
+    "min_area_nm2": 16000000.000000006,
+    "reason": "6-neighbor connectivity; R=sum(rho*dz/Az), no spreading/contact resistance"
+  },
+  "analytic_resistance_ohm": 0.015,
+  "open_control": {
+    "available": true,
+    "connected": false,
+    "resistance_ohm": null,
+    "reason": "No Cu component joins bottom and top planes"
+  }
+}

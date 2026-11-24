@@ -1,0 +1,42 @@
+{
+  "execution_id": "812a0f172db5428d9543daed2a5c0ce5",
+  "server_job_id": null,
+  "id_kind": "Generated experiment ID; direct engine calls, not a server job ID",
+  "started_at_utc": "2026-11-24T11:00:40.764508+00:00",
+  "scheduled_at_kst": "2026-11-24T20:00:00+09:00",
+  "plan_sha256": "653047b4a03e7df3d990ce9a179834586ccea21c105720efc77ea01b3517e19c",
+  "versions": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "python": "3.12.2"
+  },
+  "historical_results_reused": false,
+  "runs": {
+    "A": {
+      "started_at_utc": "2026-11-24T11:00:40.765508+00:00",
+      "finished_at_utc": "2026-11-24T11:00:40.836600+00:00",
+      "run_hash": "04ea343fc2097fc031bf767b2467a07bb90296174113292935ab56395685472f",
+      "frames": 11,
+      "raw_sha256": "deb952362ad605eaae595ba5e97631c07298773000a3f21bfc3173afb3167f5d",
+      "replay": {
+        "started_at_utc": "2026-11-24T11:00:40.841600+00:00",
+        "finished_at_utc": "2026-11-24T11:00:40.889112+00:00",
+        "exact_full_result_match": true
+      }
+    },
+    "B": {
+      "started_at_utc": "2026-11-24T11:00:40.890112+00:00",
+      "finished_at_utc": "2026-11-24T11:00:40.959755+00:00",
+      "run_hash": "e33bd3d6c7de5b6902040d084946554af772e39a25a65abf2ccc4972b6219f36",
+      "frames": 11,
+      "raw_sha256": "39a29a731e584d70ee374ad856ef8da05c28e44fcf595b0c8359bbcbb92dd7de",
+      "replay": {
+        "started_at_utc": "2026-11-24T11:00:40.963755+00:00",
+        "finished_at_utc": "2026-11-24T11:00:41.017264+00:00",
+        "exact_full_result_match": true
+      }
+    }
+  },
+  "state": "COMPLETE",
+  "finished_at_utc": "2026-11-24T11:00:41.114305+00:00"
+}

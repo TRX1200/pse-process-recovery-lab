@@ -1,0 +1,55 @@
+{
+  "visual_review": "PASS",
+  "method": "Inspected all three figures; sparse 3D ticks remove corner overlap; same axes/camera, zero-baseline bars, categorical interface map, no smoothing or invented geometry",
+  "display_exclusion": "3D Cu-only view hides Si and oxide, explicitly disclosed. Raw full arrays are preserved.",
+  "images": [
+    {
+      "file": "01_bond_overlap.png",
+      "size": [
+        2160,
+        1170
+      ],
+      "mode": "RGBA",
+      "dpi": [
+        180.00979999999998,
+        180.00979999999998
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "02_overlap_and_resistance.png",
+      "size": [
+        2160,
+        1080
+      ],
+      "mode": "RGBA",
+      "dpi": [
+        180.00979999999998,
+        180.00979999999998
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "03_copper_voxels.png",
+      "size": [
+        2160,
+        1260
+      ],
+      "mode": "RGBA",
+      "dpi": [
+        180.00979999999998,
+        180.00979999999998
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    }
+  ]
+}

@@ -9,8 +9,8 @@
     "etch",
     "tsv_process_sequence"
   ],
-  "last_completed_date": "2026-11-23",
-  "next_topic": "tsv_process_sequence",
+  "last_completed_date": "2026-11-24",
+  "next_topic": "rf_impedance_matching",
   "experiments": [
     {
       "id": "2026-11-16-rf-capacitor-step",
@@ -66,6 +66,17 @@
       "finished_at_utc": "2026-11-23T14:06:53.214920+00:00",
       "plan_sha256": "3c7d2bbef404ba4bd5e0c9f81e446557da323bb26f846bd016de6f4baa9bf53e",
       "changed_parameter": "Ion mean energy 100 to 150 eV; fixed 4 s SF6/O2 Etch, incident fluxes, 20 nm grid and seed 42"
+    },
+    {
+      "id": "2026-11-24-tsv-bond-offset",
+      "date": "2026-11-24",
+      "topic": "tsv_process_sequence",
+      "status": "completed",
+      "path": "2026-11-24-tsv-bond-offset/",
+      "execution_id": "812a0f172db5428d9543daed2a5c0ce5",
+      "finished_at_utc": "2026-11-24T11:00:41.114305+00:00",
+      "plan_sha256": "653047b4a03e7df3d990ce9a179834586ccea21c105720efc77ea01b3517e19c",
+      "changed_parameter": "Upper-die bond offset_x 0 to 8000 nm; fixed TSV flow, 1000 nm grid, 4000 nm gap and Cu resistivity"
     }
   ]
 }

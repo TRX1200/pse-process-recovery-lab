@@ -1,0 +1,133 @@
+{
+  "model": "fab",
+  "name": "TSV bond alignment comparison",
+  "domain": {
+    "nx": 40,
+    "ny": 40,
+    "nz": 80,
+    "dx": 1000.0,
+    "substrate": 32000.0,
+    "box": 0.0,
+    "active": 0.0
+  },
+  "steps": [
+    {
+      "op": "mask",
+      "label": "TSV 개구",
+      "enabled": true,
+      "params": {
+        "pattern": "circle",
+        "invert": "inside",
+        "cx": 0.0,
+        "cy": 0.0,
+        "width": 16000.0,
+        "length": 40.0,
+        "pitch": 64.0,
+        "count": 2
+      }
+    },
+    {
+      "op": "etch",
+      "label": "Through-Si etch",
+      "enabled": true,
+      "params": {
+        "material": "Si",
+        "mode": "directional",
+        "rate": 1000.0,
+        "time": 32.0,
+        "selectivity": 1000.0
+      }
+    },
+    {
+      "op": "mask",
+      "label": "입력 마스크",
+      "enabled": true,
+      "params": {
+        "pattern": "all",
+        "invert": "inside",
+        "cx": 0.0,
+        "cy": 0.0,
+        "width": 40.0,
+        "length": 40.0,
+        "pitch": 64.0,
+        "count": 2
+      }
+    },
+    {
+      "op": "deposit",
+      "label": "이상적 TSV 절연 liner",
+      "enabled": true,
+      "params": {
+        "material": "SiO2",
+        "cycles": 10,
+        "gpc": 100.0,
+        "exposure": 20.0,
+        "k": 1.0
+      }
+    },
+    {
+      "op": "mask",
+      "label": "Cu fill 개구",
+      "enabled": true,
+      "params": {
+        "pattern": "circle",
+        "invert": "inside",
+        "cx": 0.0,
+        "cy": 0.0,
+        "width": 14000.0,
+        "length": 40.0,
+        "pitch": 64.0,
+        "count": 2
+      }
+    },
+    {
+      "op": "fill",
+      "label": "이상적 Cu fill",
+      "enabled": true,
+      "params": {
+        "material": "Cu",
+        "height": 33000.0
+      }
+    },
+    {
+      "op": "measure",
+      "label": "단일 TSV 검사",
+      "enabled": true,
+      "params": {}
+    },
+    {
+      "op": "bond",
+      "label": "Die stacking / ideal bond",
+      "enabled": true,
+      "params": {
+        "gap": 4000.0,
+        "offset_x": 8000.0,
+        "offset_y": 0.0
+      }
+    },
+    {
+      "op": "measure",
+      "label": "적층 / 정렬 검사",
+      "enabled": true,
+      "params": {}
+    },
+    {
+      "op": "test",
+      "label": "IC / EDS learning test",
+      "enabled": true,
+      "params": {
+        "kind": "tsv",
+        "vdd": 1.0,
+        "vtn": 0.3,
+        "vtp": 0.35,
+        "mun": 300.0,
+        "mup": 150.0,
+        "eot": 4.0,
+        "W": 80.0,
+        "L": 40.0,
+        "rho": 1.68e-08,
+        "fault": "none"
+      }
+    }
+  ]
+}

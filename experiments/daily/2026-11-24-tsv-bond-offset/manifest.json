@@ -1,0 +1,356 @@
+{
+  "schema_version": 1,
+  "label": "Personal learning simulation; AI agent executed; not wafer, bond equipment or ATE measurement",
+  "execution": {
+    "execution_id": "812a0f172db5428d9543daed2a5c0ce5",
+    "server_job_id": null,
+    "id_kind": "Generated experiment ID; direct engine calls, not a server job ID",
+    "started_at_utc": "2026-11-24T11:00:40.764508+00:00",
+    "scheduled_at_kst": "2026-11-24T20:00:00+09:00",
+    "plan_sha256": "653047b4a03e7df3d990ce9a179834586ccea21c105720efc77ea01b3517e19c",
+    "versions": {
+      "numpy": "2.5.3",
+      "scipy": "1.18.1",
+      "python": "3.12.2"
+    },
+    "historical_results_reused": false,
+    "runs": {
+      "A": {
+        "started_at_utc": "2026-11-24T11:00:40.765508+00:00",
+        "finished_at_utc": "2026-11-24T11:00:40.836600+00:00",
+        "run_hash": "04ea343fc2097fc031bf767b2467a07bb90296174113292935ab56395685472f",
+        "frames": 11,
+        "raw_sha256": "deb952362ad605eaae595ba5e97631c07298773000a3f21bfc3173afb3167f5d",
+        "replay": {
+          "started_at_utc": "2026-11-24T11:00:40.841600+00:00",
+          "finished_at_utc": "2026-11-24T11:00:40.889112+00:00",
+          "exact_full_result_match": true
+        }
+      },
+      "B": {
+        "started_at_utc": "2026-11-24T11:00:40.890112+00:00",
+        "finished_at_utc": "2026-11-24T11:00:40.959755+00:00",
+        "run_hash": "e33bd3d6c7de5b6902040d084946554af772e39a25a65abf2ccc4972b6219f36",
+        "frames": 11,
+        "raw_sha256": "39a29a731e584d70ee374ad856ef8da05c28e44fcf595b0c8359bbcbb92dd7de",
+        "replay": {
+          "started_at_utc": "2026-11-24T11:00:40.963755+00:00",
+          "finished_at_utc": "2026-11-24T11:00:41.017264+00:00",
+          "exact_full_result_match": true
+        }
+      }
+    },
+    "state": "COMPLETE",
+    "finished_at_utc": "2026-11-24T11:00:41.114305+00:00"
+  },
+  "experiment_id": "812a0f172db5428d9543daed2a5c0ce5",
+  "scheduled_at_kst": "2026-11-24T20:00:00+09:00",
+  "prepared_at_utc": "2026-11-24T11:00:14.927143+00:00",
+  "packaged_at_utc": "2026-11-24T11:06:05.861291+00:00",
+  "numerics": {
+    "seed": null,
+    "randomness": "None; deterministic material-grid operations",
+    "grid_shape": [
+      40,
+      40,
+      80
+    ],
+    "dx_nm": 1000,
+    "extent_nm": [
+      40000,
+      40000,
+      80000
+    ],
+    "coordinate_system": "C-order [X,Y,Z]; XY centered at zero; Z up from zero",
+    "time_basis": "Process-stage snapshots, not continuous transient integration; bond/fill are instantaneous ideal operations",
+    "boundary": "No periodic boundaries; gas access from top via 6-neighbor void; laterally shifted upper-die cells outside the domain are clipped"
+  },
+  "source": {
+    "local_git_head": "e285f328500c5bafcacad4a200cb6dc1b37256f9",
+    "remote_main_before": "52cc2bfe744f10707f2183b8c3e92456ed64bd0f",
+    "source_sha256": {
+      "fab_lab/__init__.py": "6d0823cdd4978fdf111dc0c301211f213e130ef4fb08e60d9058f609e3f9d5f5",
+      "fab_lab/engine.py": "e52f103e6bade4acf00843152f4123f581a07134271418089bc1bcf4df6b48a0",
+      "fab_lab/schema.py": "f67f54700a2dc21c701be327bb2c77894acb56539e3af5aae7d0160be76e9280",
+      "fab_lab/presets.py": "e90ebdf4e41490154f18adbbc2c0ae56b63e42ea2906d6672062de9f6549dcd0",
+      "fab_lab/electrical.py": "509bbdf236b4fbea8e44a0d8a4c379610ef3c7d51ed75cbe97785b6bb9e8c607"
+    },
+    "unchanged_local_source_after_execution": true,
+    "reproduction_authority": "Exact included source_snapshot"
+  },
+  "commands": {
+    "actual_run": ".venv/Scripts/python.exe exports/daily/2026-11-24-tsv-bond-offset/run_experiment.py",
+    "replay": "python run_experiment.py --out replay",
+    "plot": "python plot_results.py --data-dir replay"
+  },
+  "validation": {
+    "single_parameter_change": "PASS",
+    "A_exact_replay": "PASS",
+    "B_exact_replay": "PASS",
+    "identical_prebond_frames": "PASS",
+    "A_frame_0_volume": "PASS",
+    "A_frame_0_solid_count": "PASS",
+    "A_frame_1_volume": "PASS",
+    "A_frame_1_solid_count": "PASS",
+    "A_frame_2_volume": "PASS",
+    "A_frame_2_solid_count": "PASS",
+    "A_frame_3_volume": "PASS",
+    "A_frame_3_solid_count": "PASS",
+    "A_frame_4_volume": "PASS",
+    "A_frame_4_solid_count": "PASS",
+    "A_frame_5_volume": "PASS",
+    "A_frame_5_solid_count": "PASS",
+    "A_frame_6_volume": "PASS",
+    "A_frame_6_solid_count": "PASS",
+    "A_frame_7_volume": "PASS",
+    "A_frame_7_solid_count": "PASS",
+    "A_frame_8_volume": "PASS",
+    "A_frame_8_solid_count": "PASS",
+    "A_frame_9_volume": "PASS",
+    "A_frame_9_solid_count": "PASS",
+    "A_frame_10_volume": "PASS",
+    "A_frame_10_solid_count": "PASS",
+    "A_saved_npz_matches_frames": "PASS",
+    "A_finite_npz": "PASS",
+    "A_upper_die_translation": "PASS",
+    "A_lower_die_preserved": "PASS",
+    "A_bond_Cu_footprint": "PASS",
+    "A_actual_face_overlap": "PASS",
+    "A_no_Cu_clipping": "PASS",
+    "A_Cu_volume_accounting": "PASS",
+    "A_saved_copper_test": "PASS",
+    "A_no_compact_device_result": "PASS",
+    "B_frame_0_volume": "PASS",
+    "B_frame_0_solid_count": "PASS",
+    "B_frame_1_volume": "PASS",
+    "B_frame_1_solid_count": "PASS",
+    "B_frame_2_volume": "PASS",
+    "B_frame_2_solid_count": "PASS",
+    "B_frame_3_volume": "PASS",
+    "B_frame_3_solid_count": "PASS",
+    "B_frame_4_volume": "PASS",
+    "B_frame_4_solid_count": "PASS",
+    "B_frame_5_volume": "PASS",
+    "B_frame_5_solid_count": "PASS",
+    "B_frame_6_volume": "PASS",
+    "B_frame_6_solid_count": "PASS",
+    "B_frame_7_volume": "PASS",
+    "B_frame_7_solid_count": "PASS",
+    "B_frame_8_volume": "PASS",
+    "B_frame_8_solid_count": "PASS",
+    "B_frame_9_volume": "PASS",
+    "B_frame_9_solid_count": "PASS",
+    "B_frame_10_volume": "PASS",
+    "B_frame_10_solid_count": "PASS",
+    "B_saved_npz_matches_frames": "PASS",
+    "B_finite_npz": "PASS",
+    "B_upper_die_translation": "PASS",
+    "B_lower_die_preserved": "PASS",
+    "B_bond_Cu_footprint": "PASS",
+    "B_actual_face_overlap": "PASS",
+    "B_no_Cu_clipping": "PASS",
+    "B_Cu_volume_accounting": "PASS",
+    "B_saved_copper_test": "PASS",
+    "B_no_compact_device_result": "PASS",
+    "lower_die_and_gap_identical": "PASS",
+    "known_prism_resistance": "PASS",
+    "known_open_is_null": "PASS",
+    "snapshot_hashes_unchanged": "PASS",
+    "physical_calibration": "NOT_RUN",
+    "grid_convergence": "NOT_RUN",
+    "contact_spreading_resistance": "NOT_MODELED",
+    "stress_thermal_reliability": "NOT_MODELED",
+    "extracted_si_pi": "NOT_MODELED"
+  },
+  "unit_tests": {
+    "status": "PASS",
+    "tests_run": 2,
+    "observed_output": "Ran 2 tests in 0.103s; OK",
+    "command": ".venv/Scripts/python.exe -m unittest fab_lab.tests.test_fab.FabModels.test_copper_known_resistance_and_open fab_lab.tests.test_fab.FabModels.test_bond_alignment_changes_connectivity"
+  },
+  "figure_review": {
+    "visual_review": "PASS",
+    "method": "Inspected all three figures; sparse 3D ticks remove corner overlap; same axes/camera, zero-baseline bars, categorical interface map, no smoothing or invented geometry",
+    "display_exclusion": "3D Cu-only view hides Si and oxide, explicitly disclosed. Raw full arrays are preserved.",
+    "images": [
+      {
+        "file": "01_bond_overlap.png",
+        "size": [
+          2160,
+          1170
+        ],
+        "mode": "RGBA",
+        "dpi": [
+          180.00979999999998,
+          180.00979999999998
+        ],
+        "alpha_range": [
+          255,
+          255
+        ]
+      },
+      {
+        "file": "02_overlap_and_resistance.png",
+        "size": [
+          2160,
+          1080
+        ],
+        "mode": "RGBA",
+        "dpi": [
+          180.00979999999998,
+          180.00979999999998
+        ],
+        "alpha_range": [
+          255,
+          255
+        ]
+      },
+      {
+        "file": "03_copper_voxels.png",
+        "size": [
+          2160,
+          1260
+        ],
+        "mode": "RGBA",
+        "dpi": [
+          180.00979999999998,
+          180.00979999999998
+        ],
+        "alpha_range": [
+          255,
+          255
+        ]
+      }
+    ]
+  },
+  "historical_results_reused": false,
+  "optimization_performed": false,
+  "omitted_native_files": [],
+  "publication_status": "PREPARED; verified remote publication receipt is stored separately",
+  "files": {
+    "data/A/final_state.npz": {
+      "bytes": 6115,
+      "sha256": "f81f8924a0f249e4fa3e85768e76247774dcfefb99f11d8858cbb99d4b508320"
+    },
+    "data/A.json.gz": {
+      "bytes": 6029,
+      "sha256": "deb952362ad605eaae595ba5e97631c07298773000a3f21bfc3173afb3167f5d"
+    },
+    "data/B/final_state.npz": {
+      "bytes": 6194,
+      "sha256": "225bc19d4df01d5fd08976847fe64e2f2e0e95b27926afced9ab73fcf822e0f7"
+    },
+    "data/B.json.gz": {
+      "bytes": 6550,
+      "sha256": "39a29a731e584d70ee374ad856ef8da05c28e44fcf595b0c8359bbcbb92dd7de"
+    },
+    "data/controls.json": {
+      "bytes": 483,
+      "sha256": "b88e9acf4fdb86bd667756296551b3584d97fd58cd91a0ac888d2089d46ad12c"
+    },
+    "data/cu_area_by_z.csv": {
+      "bytes": 3228,
+      "sha256": "1e07d1f034fc3d559fd1274eb56428db9f3e048f67b3fc351db448cd0a5376d3"
+    },
+    "data/measurement_geometry.json": {
+      "bytes": 225,
+      "sha256": "a89cad2d446f8ad9814409a751b316a990be7eaf60093651aa3ddbe1e017b039"
+    },
+    "data/sections.npz": {
+      "bytes": 3012,
+      "sha256": "65660df0d6449166c2dd3dfb4e45ae75d58c41f2efbde76814e153e91f1520ab"
+    },
+    "data/stage_metrics.csv": {
+      "bytes": 1747,
+      "sha256": "861154d52322ccd42f290a181e70379d0a5d39ec114ffa4ef64adca6c07b7148"
+    },
+    "data/summary.csv": {
+      "bytes": 481,
+      "sha256": "9e65cdccb4491485f885b487be46b61ade3f9b9b91d42c6a39cbda7db0ca0bdb"
+    },
+    "data/summary.json": {
+      "bytes": 1425,
+      "sha256": "6c105319199c61ed139ee66a6332d19c0c47a10279504ae9b19ad522164e0a16"
+    },
+    "data/unit_test_record.json": {
+      "bytes": 293,
+      "sha256": "b4267c2efa9a9a8be2ef972eca9829bf105a3b8134eb2ecda757af69e7915a40"
+    },
+    "data/validation.json": {
+      "bytes": 2685,
+      "sha256": "2926fb82b9c9a8617fa79b261f206ca485356e59e99b39689f5a5cc62e01b13e"
+    },
+    "execution.json": {
+      "bytes": 1667,
+      "sha256": "485c00b4e53540aefebbe2e871f241ff871cd269dc45dcd6aa80553628619e76"
+    },
+    "figures/01_bond_overlap.png": {
+      "bytes": 112642,
+      "sha256": "adfc0aab166885e3fc2ccc33c4409e5b58c32039ce7721fda78a66723fc2f40f"
+    },
+    "figures/02_overlap_and_resistance.png": {
+      "bytes": 144223,
+      "sha256": "ed852e38c54b7c2c35a375a75685dc12f65359b4976004a41ff8a2c0f88879e8"
+    },
+    "figures/03_copper_voxels.png": {
+      "bytes": 370581,
+      "sha256": "a7c0bea5ff474a202073c162bac981e0f41c8e8b9b79278cac86373761183d6a"
+    },
+    "figures/figure_metadata.json": {
+      "bytes": 1732,
+      "sha256": "4505d4a27fdd11d90235b996221b444562ca220e63dbd8d79d628a9d2d66e681"
+    },
+    "figures/image_audit.json": {
+      "bytes": 1186,
+      "sha256": "890073439b523a77c2dfad80c0acdede14712b3e07cca872b152fa68e52c10ef"
+    },
+    "inputs/A.json": {
+      "bytes": 2702,
+      "sha256": "6fd07fdca77b4d46016fbf1f7f1b8b151b802c4f2ac406687558431ef9c5bda4"
+    },
+    "inputs/B.json": {
+      "bytes": 2705,
+      "sha256": "463febe7609323c6beeb0c13bf47924d56bffbe177abccee4feda2f667081260"
+    },
+    "plan.json": {
+      "bytes": 10531,
+      "sha256": "653047b4a03e7df3d990ce9a179834586ccea21c105720efc77ea01b3517e19c"
+    },
+    "plot_results.py": {
+      "bytes": 8105,
+      "sha256": "60f139688a709f58947324ced8ee60949726222f451169a6f12ff1e42af2a419"
+    },
+    "README.md": {
+      "bytes": 11200,
+      "sha256": "01ddfb76e6de76ccf388c6abbbac76c5829eeff4c4e2b441e35692a1331bde24"
+    },
+    "requirements.txt": {
+      "bytes": 29,
+      "sha256": "57e74730633249faccf68cf27f4ffd05df5bffb1245dee9b36acce5e4c48019f"
+    },
+    "run_experiment.py": {
+      "bytes": 10099,
+      "sha256": "938fafd7e61572c8ba64f971716c3498d3409d6657ad5195f0117c4ac8f752ad"
+    },
+    "source_snapshot/fab_lab/__init__.py": {
+      "bytes": 72,
+      "sha256": "6d0823cdd4978fdf111dc0c301211f213e130ef4fb08e60d9058f609e3f9d5f5"
+    },
+    "source_snapshot/fab_lab/electrical.py": {
+      "bytes": 5757,
+      "sha256": "509bbdf236b4fbea8e44a0d8a4c379610ef3c7d51ed75cbe97785b6bb9e8c607"
+    },
+    "source_snapshot/fab_lab/engine.py": {
+      "bytes": 14680,
+      "sha256": "e52f103e6bade4acf00843152f4123f581a07134271418089bc1bcf4df6b48a0"
+    },
+    "source_snapshot/fab_lab/presets.py": {
+      "bytes": 4072,
+      "sha256": "e90ebdf4e41490154f18adbbc2c0ae56b63e42ea2906d6672062de9f6549dcd0"
+    },
+    "source_snapshot/fab_lab/schema.py": {
+      "bytes": 10149,
+      "sha256": "f67f54700a2dc21c701be327bb2c77894acb56539e3af5aae7d0160be76e9280"
+    }
+  }
+}

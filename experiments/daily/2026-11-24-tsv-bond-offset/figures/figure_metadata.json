@@ -1,0 +1,49 @@
+{
+  "label": "Personal learning simulation; AI agent executed; no wafer/equipment/ATE measurement",
+  "source_files": [
+    "data/summary.json",
+    "data/sections.npz",
+    "data/A/final_state.npz",
+    "data/B/final_state.npz"
+  ],
+  "transformations": [
+    "nm to um: divide by 1000",
+    "nm^2 to um^2: divide by 1e6",
+    "ohm to milliohm: multiply by 1000"
+  ],
+  "uncertainty": "Deterministic single 1 um grid; no statistical interval or mesh-convergence claim",
+  "versions": {
+    "python": "3.12.14",
+    "numpy": "2.1.3",
+    "matplotlib": "3.11.0"
+  },
+  "figures": [
+    {
+      "file": "01_bond_overlap.png",
+      "description": "Actual adjacent-slice Cu footprints at Z=37 um, shared XY axes and categorical colors. A: 156 um2 overlap; B: 48 um2. Gray means neither slice has Cu, not necessarily a material void.",
+      "size_inches": [
+        12.0,
+        6.5
+      ],
+      "dpi": 180
+    },
+    {
+      "file": "02_overlap_and_resistance.png",
+      "description": "Zero-baseline A/B bars from summary.json. Geometric overlap decreases while the existing 1D series-area estimate stays equal. The two panels use different physical quantities and are labeled separately.",
+      "size_inches": [
+        12.0,
+        6.0
+      ],
+      "dpi": 180
+    },
+    {
+      "file": "03_copper_voxels.png",
+      "description": "Stored Cu voxels only, all included. Other materials are explicitly hidden. Lower Cu plus bond continuation is blue and upper-die Cu orange; common axes, orthographic view, no vertical exaggeration. Interface plan views provide the quantitative overlap.",
+      "size_inches": [
+        12.0,
+        7.0
+      ],
+      "dpi": 180
+    }
+  ]
+}

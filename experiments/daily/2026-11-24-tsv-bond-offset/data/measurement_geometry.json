@@ -1,0 +1,14 @@
+{
+  "prebond_height_nm": 33000.0,
+  "gap_nm": 4000.0,
+  "interface_z_nm": 37000.0,
+  "xz_y_index": 20,
+  "xz_y_nm": 500.0,
+  "dx_nm": 1000.0,
+  "shape": [
+    40,
+    40,
+    80
+  ],
+  "axis": "C-order [X,Y,Z]"
+}

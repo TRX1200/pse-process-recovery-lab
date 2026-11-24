@@ -1,0 +1,355 @@
+{
+  "id": "2026-11-24-tsv-bond-offset",
+  "topic": "tsv_process_sequence",
+  "date_kst": "2026-11-24",
+  "label": "Personal learning simulation; AI agent executed; not wafer, bond equipment or ATE measurement",
+  "scheduled_at_kst": "2026-11-24T20:00:00+09:00",
+  "heartbeat_at_utc": "2026-11-24T10:57:08.045Z",
+  "prepared_at_utc": "2026-11-24T11:00:14.927143+00:00",
+  "question": "How does an 8 um upper-die X offset change Cu face overlap, through connectivity and the implemented series-area resistance?",
+  "hypothesis": "Offset may reduce Cu overlap while leaving a connected path. The current R=sum(rho*dz/Az) omits contact/spreading resistance and may remain unchanged even if face overlap shrinks. Report all outcomes without parameter search.",
+  "changed_parameter": "steps[7].params.offset_x",
+  "values_nm": {
+    "A": 0,
+    "B": 8000
+  },
+  "bond_step_index": 7,
+  "cases": {
+    "A": {
+      "model": "fab",
+      "name": "TSV bond alignment comparison",
+      "domain": {
+        "nx": 40,
+        "ny": 40,
+        "nz": 80,
+        "dx": 1000.0,
+        "substrate": 32000.0,
+        "box": 0.0,
+        "active": 0.0
+      },
+      "steps": [
+        {
+          "op": "mask",
+          "label": "TSV 개구",
+          "enabled": true,
+          "params": {
+            "pattern": "circle",
+            "invert": "inside",
+            "cx": 0.0,
+            "cy": 0.0,
+            "width": 16000.0,
+            "length": 40.0,
+            "pitch": 64.0,
+            "count": 2
+          }
+        },
+        {
+          "op": "etch",
+          "label": "Through-Si etch",
+          "enabled": true,
+          "params": {
+            "material": "Si",
+            "mode": "directional",
+            "rate": 1000.0,
+            "time": 32.0,
+            "selectivity": 1000.0
+          }
+        },
+        {
+          "op": "mask",
+          "label": "입력 마스크",
+          "enabled": true,
+          "params": {
+            "pattern": "all",
+            "invert": "inside",
+            "cx": 0.0,
+            "cy": 0.0,
+            "width": 40.0,
+            "length": 40.0,
+            "pitch": 64.0,
+            "count": 2
+          }
+        },
+        {
+          "op": "deposit",
+          "label": "이상적 TSV 절연 liner",
+          "enabled": true,
+          "params": {
+            "material": "SiO2",
+            "cycles": 10,
+            "gpc": 100.0,
+            "exposure": 20.0,
+            "k": 1.0
+          }
+        },
+        {
+          "op": "mask",
+          "label": "Cu fill 개구",
+          "enabled": true,
+          "params": {
+            "pattern": "circle",
+            "invert": "inside",
+            "cx": 0.0,
+            "cy": 0.0,
+            "width": 14000.0,
+            "length": 40.0,
+            "pitch": 64.0,
+            "count": 2
+          }
+        },
+        {
+          "op": "fill",
+          "label": "이상적 Cu fill",
+          "enabled": true,
+          "params": {
+            "material": "Cu",
+            "height": 33000.0
+          }
+        },
+        {
+          "op": "measure",
+          "label": "단일 TSV 검사",
+          "enabled": true,
+          "params": {}
+        },
+        {
+          "op": "bond",
+          "label": "Die stacking / ideal bond",
+          "enabled": true,
+          "params": {
+            "gap": 4000.0,
+            "offset_x": 0.0,
+            "offset_y": 0.0
+          }
+        },
+        {
+          "op": "measure",
+          "label": "적층 / 정렬 검사",
+          "enabled": true,
+          "params": {}
+        },
+        {
+          "op": "test",
+          "label": "IC / EDS learning test",
+          "enabled": true,
+          "params": {
+            "kind": "tsv",
+            "vdd": 1.0,
+            "vtn": 0.3,
+            "vtp": 0.35,
+            "mun": 300.0,
+            "mup": 150.0,
+            "eot": 4.0,
+            "W": 80.0,
+            "L": 40.0,
+            "rho": 1.68e-08,
+            "fault": "none"
+          }
+        }
+      ]
+    },
+    "B": {
+      "model": "fab",
+      "name": "TSV bond alignment comparison",
+      "domain": {
+        "nx": 40,
+        "ny": 40,
+        "nz": 80,
+        "dx": 1000.0,
+        "substrate": 32000.0,
+        "box": 0.0,
+        "active": 0.0
+      },
+      "steps": [
+        {
+          "op": "mask",
+          "label": "TSV 개구",
+          "enabled": true,
+          "params": {
+            "pattern": "circle",
+            "invert": "inside",
+            "cx": 0.0,
+            "cy": 0.0,
+            "width": 16000.0,
+            "length": 40.0,
+            "pitch": 64.0,
+            "count": 2
+          }
+        },
+        {
+          "op": "etch",
+          "label": "Through-Si etch",
+          "enabled": true,
+          "params": {
+            "material": "Si",
+            "mode": "directional",
+            "rate": 1000.0,
+            "time": 32.0,
+            "selectivity": 1000.0
+          }
+        },
+        {
+          "op": "mask",
+          "label": "입력 마스크",
+          "enabled": true,
+          "params": {
+            "pattern": "all",
+            "invert": "inside",
+            "cx": 0.0,
+            "cy": 0.0,
+            "width": 40.0,
+            "length": 40.0,
+            "pitch": 64.0,
+            "count": 2
+          }
+        },
+        {
+          "op": "deposit",
+          "label": "이상적 TSV 절연 liner",
+          "enabled": true,
+          "params": {
+            "material": "SiO2",
+            "cycles": 10,
+            "gpc": 100.0,
+            "exposure": 20.0,
+            "k": 1.0
+          }
+        },
+        {
+          "op": "mask",
+          "label": "Cu fill 개구",
+          "enabled": true,
+          "params": {
+            "pattern": "circle",
+            "invert": "inside",
+            "cx": 0.0,
+            "cy": 0.0,
+            "width": 14000.0,
+            "length": 40.0,
+            "pitch": 64.0,
+            "count": 2
+          }
+        },
+        {
+          "op": "fill",
+          "label": "이상적 Cu fill",
+          "enabled": true,
+          "params": {
+            "material": "Cu",
+            "height": 33000.0
+          }
+        },
+        {
+          "op": "measure",
+          "label": "단일 TSV 검사",
+          "enabled": true,
+          "params": {}
+        },
+        {
+          "op": "bond",
+          "label": "Die stacking / ideal bond",
+          "enabled": true,
+          "params": {
+            "gap": 4000.0,
+            "offset_x": 8000.0,
+            "offset_y": 0.0
+          }
+        },
+        {
+          "op": "measure",
+          "label": "적층 / 정렬 검사",
+          "enabled": true,
+          "params": {}
+        },
+        {
+          "op": "test",
+          "label": "IC / EDS learning test",
+          "enabled": true,
+          "params": {
+            "kind": "tsv",
+            "vdd": 1.0,
+            "vtn": 0.3,
+            "vtp": 0.35,
+            "mun": 300.0,
+            "mup": 150.0,
+            "eot": 4.0,
+            "W": 80.0,
+            "L": 40.0,
+            "rho": 1.68e-08,
+            "fault": "none"
+          }
+        }
+      ]
+    }
+  },
+  "primary_metrics": [
+    "bond_overlap_nm2",
+    "overlap_of_lower_pad_pct",
+    "connected",
+    "resistance_ohm"
+  ],
+  "measurements": {
+    "bond_overlap_nm2": "Count XY faces with Cu in both adjacent slices at the upper bond interface, times dx^2",
+    "overlap_of_lower_pad_pct": "100 * bond_overlap_nm2 / lower_Cu_pad_nm2",
+    "connected": "Existing copper_path: one 6-neighbor Cu component touches both bottom and top structure planes",
+    "resistance_ohm": "Existing copper_path: sum(rho*dz/Az), using all through-component Cu area at each Z; excludes face-overlap contact/spreading resistance",
+    "crop": "Report upper-die material cells clipped by finite XY domain; verify Cu is not cropped in either main case"
+  },
+  "numerics": {
+    "seed": null,
+    "randomness": "None; deterministic material-grid operations",
+    "grid_shape": [
+      40,
+      40,
+      80
+    ],
+    "dx_nm": 1000,
+    "extent_nm": [
+      40000,
+      40000,
+      80000
+    ],
+    "coordinate_system": "C-order [X,Y,Z]; XY centered at zero; Z up from zero",
+    "time_basis": "Process-stage snapshots, not continuous transient integration; bond/fill are instantaneous ideal operations",
+    "boundary": "No periodic boundaries; gas access from top via 6-neighbor void; laterally shifted upper-die cells outside the domain are clipped"
+  },
+  "fixed_conditions": {
+    "substrate_nm": 32000,
+    "hole_diameter_nm": 16000,
+    "etch_rate_nm_s": 1000,
+    "etch_time_s": 32,
+    "liner_cycles": 10,
+    "liner_gpc_nm_cycle": 100,
+    "liner_exposure_Pa_s": 20,
+    "liner_k_per_Pa_s": 1,
+    "nominal_fill_diameter_nm": 14000,
+    "fill_height_nm": 33000,
+    "bond_gap_nm": 4000,
+    "offset_y_nm": 0,
+    "rho_ohm_m": 1.68e-08
+  },
+  "prior_review": "No prior daily TSV experiment. Existing unit/UI checks used 0 versus 16000 nm offsets; this new comparison uses 0 versus 8000 nm.",
+  "auxiliary_checks": [
+    "Exact A and B replays",
+    "Known rectangular Cu prism resistance and explicit open control",
+    "Voxel/volume/NPZ accounting",
+    "Known translation and interface-overlap checks"
+  ],
+  "historical_results_reused": false,
+  "optimization_performed": false,
+  "local_git_head": "e285f328500c5bafcacad4a200cb6dc1b37256f9",
+  "remote_main_before": "52cc2bfe744f10707f2183b8c3e92456ed64bd0f",
+  "source_sha256": {
+    "fab_lab/__init__.py": "6d0823cdd4978fdf111dc0c301211f213e130ef4fb08e60d9058f609e3f9d5f5",
+    "fab_lab/engine.py": "e52f103e6bade4acf00843152f4123f581a07134271418089bc1bcf4df6b48a0",
+    "fab_lab/schema.py": "f67f54700a2dc21c701be327bb2c77894acb56539e3af5aae7d0160be76e9280",
+    "fab_lab/presets.py": "e90ebdf4e41490154f18adbbc2c0ae56b63e42ea2906d6672062de9f6549dcd0",
+    "fab_lab/electrical.py": "509bbdf236b4fbea8e44a0d8a4c379610ef3c7d51ed75cbe97785b6bb9e8c607"
+  },
+  "source_authority": "Exact local source snapshot; unrelated dirty working tree preserved",
+  "versions": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  },
+  "run_command": ".venv/Scripts/python.exe exports/daily/2026-11-24-tsv-bond-offset/run_experiment.py"
+}

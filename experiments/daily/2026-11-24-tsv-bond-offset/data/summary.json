@@ -1,0 +1,52 @@
+{
+  "A": {
+    "offset_x_nm": 0.0,
+    "realized_offset_x_nm": 0.0,
+    "bond_interface_z_nm": 37000.0,
+    "lower_Cu_pad_nm2": 156000000.0,
+    "upper_Cu_pad_nm2": 156000000.0,
+    "bond_overlap_nm2": 156000000.0,
+    "overlap_of_lower_pad_pct": 100.0,
+    "connected": true,
+    "resistance_ohm": 0.007538461538461537,
+    "min_area_nm2": 156000000.00000003,
+    "path_length_nm": 70000.0,
+    "cu_volume_nm3": 10920000000000.0,
+    "clipped_upper_cells": {
+      "Si": 0,
+      "SiGe": 0,
+      "SiO2": 0,
+      "HfO2": 0,
+      "TiN": 0,
+      "Si3N4": 0,
+      "Cu": 0
+    },
+    "bond_warnings": []
+  },
+  "B": {
+    "offset_x_nm": 8000.0,
+    "realized_offset_x_nm": 8000.0,
+    "bond_interface_z_nm": 37000.0,
+    "lower_Cu_pad_nm2": 156000000.0,
+    "upper_Cu_pad_nm2": 156000000.0,
+    "bond_overlap_nm2": 48000000.0,
+    "overlap_of_lower_pad_pct": 30.76923076923077,
+    "connected": true,
+    "resistance_ohm": 0.007538461538461537,
+    "min_area_nm2": 156000000.00000003,
+    "path_length_nm": 70000.0,
+    "cu_volume_nm3": 10920000000000.0,
+    "clipped_upper_cells": {
+      "Si": 10240,
+      "SiGe": 0,
+      "SiO2": 320,
+      "HfO2": 0,
+      "TiN": 0,
+      "Si3N4": 0,
+      "Cu": 0
+    },
+    "bond_warnings": [
+      "정렬 이동으로 도메인 밖으로 나간 위 다이 셀은 잘립니다. 측면 여유 공간을 확인하세요."
+    ]
+  }
+}
