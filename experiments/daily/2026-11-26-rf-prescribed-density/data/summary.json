@@ -1,0 +1,124 @@
+{
+  "A": {
+    "density_1e15_m3": 20.0,
+    "operating_point": {
+      "frequency_mhz": 13.56,
+      "cp_pf": 500.00000000000006,
+      "cs_pf": 120.0,
+      "z_load": [
+        0.5323036790060809,
+        -66.053119125901
+      ],
+      "z_match": [
+        4.402585648328774,
+        8.451877764848101
+      ],
+      "z_generator": [
+        4.924190974611773,
+        19.326708891701177
+      ],
+      "gamma": [
+        -0.6200925728971356,
+        0.570077719459962
+      ],
+      "gamma_match": [
+        -0.7948277605761966,
+        0.27884087972226873
+      ],
+      "s11_db": -1.4904551585088415,
+      "return_loss_db": 1.4904551585088415,
+      "vswr": 11.683936981435034,
+      "reflected_pct": 70.95034051868605,
+      "reflected_w": 212.85102155605816,
+      "forward_w": 300.0,
+      "accepted_w": 87.14897844394184,
+      "bulk_w": 19.85720663314546,
+      "coil_loss_w": 63.56649139240043,
+      "capacitor_loss_w": 3.7252804183959,
+      "bulk_efficiency_pct": 6.6190688777151525,
+      "coil_current_rms_a": 6.1077231562828755,
+      "series_cap_rms_v": 597.3911119692089,
+      "sheath_rms_v": 404.8191607661152,
+      "load_voltage": [
+        -188.58231044989935,
+        -356.6600733532304
+      ],
+      "load_current": [
+        5.376237842969124,
+        -2.8983355239897177
+      ],
+      "power_residual_w": 4.707345624410664e-14,
+      "bulk_r_ohm": 0.5323036790060809,
+      "bulk_l_nh": 2.6615183950304044,
+      "sheath_c_pf": 177.08375625600002
+    },
+    "coil_r_ohm_at_operating_point": 1.7039998553071036,
+    "sampled_band_minimum": {
+      "frequency_mhz": 14.06,
+      "reflected_pct": 31.221627121210126,
+      "s11_db": -5.055444673418579,
+      "note": "Minimum only among the predeclared 201 samples; no optimizer or grid refinement"
+    }
+  },
+  "B": {
+    "density_1e15_m3": 30.0,
+    "operating_point": {
+      "frequency_mhz": 13.56,
+      "cp_pf": 500.00000000000006,
+      "cs_pf": 120.0,
+      "z_load": [
+        0.3548691193373872,
+        -66.12870624190148
+      ],
+      "z_match": [
+        4.043708879570484,
+        8.40169038810365
+      ],
+      "z_generator": [
+        4.5211097230214685,
+        19.285073263731665
+      ],
+      "gamma": [
+        -0.6301890522345996,
+        0.5766264748790091
+      ],
+      "gamma_match": [
+        -0.8066898163761473,
+        0.28086985107475226
+      ],
+      "s11_db": -1.3689354794357358,
+      "return_loss_db": 1.3689354794357358,
+      "vswr": 12.716247817118642,
+      "reflected_pct": 72.96363330877355,
+      "reflected_w": 218.89089992632063,
+      "forward_w": 300.0,
+      "accepted_w": 81.10910007367937,
+      "bulk_w": 13.333817852526339,
+      "coil_loss_w": 64.02592520256638,
+      "capacitor_loss_w": 3.749357018586625,
+      "bulk_efficiency_pct": 4.444605950842114,
+      "coil_current_rms_a": 6.129755538135462,
+      "series_cap_rms_v": 599.546080155792,
+      "sheath_rms_v": 406.27946440185997,
+      "load_voltage": [
+        -186.5807536634475,
+        -359.8655989098454
+      ],
+      "load_current": [
+        5.426599572440168,
+        -2.850599943467087
+      ],
+      "power_residual_w": 2.531308496145357e-14,
+      "bulk_r_ohm": 0.3548691193373872,
+      "bulk_l_nh": 1.774345596686936,
+      "sheath_c_pf": 177.08375625600002
+    },
+    "coil_r_ohm_at_operating_point": 1.7039998553071036,
+    "sampled_band_minimum": {
+      "frequency_mhz": 14.06,
+      "reflected_pct": 34.18207914152843,
+      "s11_db": -4.6620152463954,
+      "note": "Minimum only among the predeclared 201 samples; no optimizer or grid refinement"
+    }
+  }
+}

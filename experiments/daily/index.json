@@ -9,8 +9,8 @@
     "etch",
     "tsv_process_sequence"
   ],
-  "last_completed_date": "2026-11-24",
-  "next_topic": "rf_impedance_matching",
+  "last_completed_date": "2026-11-26",
+  "next_topic": "ate_si_pi",
   "experiments": [
     {
       "id": "2026-11-16-rf-capacitor-step",
@@ -77,6 +77,17 @@
       "finished_at_utc": "2026-11-24T11:00:41.114305+00:00",
       "plan_sha256": "653047b4a03e7df3d990ce9a179834586ccea21c105720efc77ea01b3517e19c",
       "changed_parameter": "Upper-die bond offset_x 0 to 8000 nm; fixed TSV flow, 1000 nm grid, 4000 nm gap and Cu resistivity"
+    },
+    {
+      "id": "2026-11-26-rf-prescribed-density",
+      "date": "2026-11-26",
+      "topic": "rf_impedance_matching",
+      "status": "completed",
+      "path": "2026-11-26-rf-prescribed-density/",
+      "execution_id": "3871ff9645814d35880e7a6ef3e10e72",
+      "finished_at_utc": "2026-11-26T11:04:45.927654+00:00",
+      "plan_sha256": "38c80dc46bc1a11920acba81ecc2ec334ff4f423ae12cb6f8935f06961044de7",
+      "changed_parameter": "Prescribed density 2e16 to 3e16 m^-3; fixed matching C/L, 13.56 MHz, 300 W, collision frequency and sheath geometry"
     }
   ]
 }

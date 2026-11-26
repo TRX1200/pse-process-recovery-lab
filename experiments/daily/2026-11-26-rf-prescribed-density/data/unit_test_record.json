@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "returncode": 0,
+  "tests_requested": 4,
+  "command": [
+    ".venv/Scripts/python.exe",
+    "-m",
+    "unittest",
+    "rf_lab.tests.test_model.RFTests.test_independent_nodal_solution",
+    "rf_lab.tests.test_model.RFTests.test_lossless_line_rotates_phase_only",
+    "rf_lab.tests.test_model.RFTests.test_zero_power_and_fixed_load_scaling",
+    "rf_lab.tests.test_model.RFTests.test_density_and_sheath_scaling"
+  ],
+  "observed_output": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.051s\n\nOK\n",
+  "executed_at_utc": "2026-11-26T11:05:42.890374+00:00"
+}

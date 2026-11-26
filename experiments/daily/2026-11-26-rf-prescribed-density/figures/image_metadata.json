@@ -1,0 +1,56 @@
+{
+  "python": "3.12.14",
+  "numpy": "2.1.3",
+  "matplotlib": "3.11.0",
+  "files": [
+    {
+      "file": "01_frequency_response.png",
+      "pixels": [
+        2160,
+        1080
+      ],
+      "mode": "RGBA",
+      "dpi": [
+        180.00979999999998,
+        180.00979999999998
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "02_power_budget.png",
+      "pixels": [
+        2160,
+        1080
+      ],
+      "mode": "RGBA",
+      "dpi": [
+        180.00979999999998,
+        180.00979999999998
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ]
+    },
+    {
+      "file": "03_load_and_current.png",
+      "pixels": [
+        2160,
+        1080
+      ],
+      "mode": "RGBA",
+      "dpi": [
+        180.00979999999998,
+        180.00979999999998
+      ],
+      "alpha_extrema": [
+        255,
+        255
+      ]
+    }
+  ],
+  "transformations": "No smoothing, clipping, interpolation or added uncertainty; lines join computed frequency samples."
+}

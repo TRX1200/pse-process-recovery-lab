@@ -1,0 +1,113 @@
+{
+  "id": "2026-11-26-rf-prescribed-density",
+  "date_kst": "2026-11-26",
+  "topic": "rf_impedance_matching",
+  "label": "Personal learning simulation; AI agent executed; prescribed equivalent plasma load, not observed plasma or equipment data",
+  "scheduled_at_kst": "2026-11-26T20:00:00+09:00",
+  "heartbeat_at_utc": "2026-11-26T11:02:54.622Z",
+  "prepared_at_utc": "2026-11-26T11:04:38.442044+00:00",
+  "question": "With a fixed matching network, how does a prescribed density change affect load impedance, reflected power, bulk absorption and component losses?",
+  "hypothesis": "Density times 1.5 reduces both bulk R and L to two thirds at fixed geometry and collision frequency. Reflection and absorbed power need not improve; no automatic matching or recipe search.",
+  "changed_parameter": "density_1e15_m3",
+  "values_m3": {
+    "A": 2e+16,
+    "B": 3e+16
+  },
+  "cases": {
+    "A": {
+      "frequency_mhz": 13.56,
+      "forward_w": 300.0,
+      "cp_pf": 500.0,
+      "cs_pf": 120.0,
+      "coil_uh": 2.0,
+      "coil_q": 100.0,
+      "capacitor_q": 1000.0,
+      "density_1e15_m3": 20.0,
+      "collision_1e8_s": 2.0,
+      "bulk_mm": 30.0,
+      "area_cm2": 200.0,
+      "sheath_total_mm": 1.0,
+      "cable_m": 0.5,
+      "velocity_factor": 0.7,
+      "density_ratio": 0.5,
+      "voltage_limit_v": 1000.0,
+      "current_limit_a": 10.0
+    },
+    "B": {
+      "frequency_mhz": 13.56,
+      "forward_w": 300.0,
+      "cp_pf": 500.0,
+      "cs_pf": 120.0,
+      "coil_uh": 2.0,
+      "coil_q": 100.0,
+      "capacitor_q": 1000.0,
+      "density_1e15_m3": 30.0,
+      "collision_1e8_s": 2.0,
+      "bulk_mm": 30.0,
+      "area_cm2": 200.0,
+      "sheath_total_mm": 1.0,
+      "cable_m": 0.5,
+      "velocity_factor": 0.7,
+      "density_ratio": 0.5,
+      "voltage_limit_v": 1000.0,
+      "current_limit_a": 10.0
+    }
+  },
+  "primary_metrics_at_mhz": 13.56,
+  "primary_metrics": [
+    "z_load",
+    "z_generator",
+    "reflected_pct",
+    "bulk_w",
+    "coil_loss_w",
+    "capacitor_loss_w",
+    "coil_current_rms_a"
+  ],
+  "frequency_grid": {
+    "center_mhz": 13.56,
+    "offset_step_mhz": 0.05,
+    "offset_integer_min": -100,
+    "offset_integer_max": 100,
+    "count": 201,
+    "start_mhz": 8.56,
+    "stop_mhz": 18.56
+  },
+  "numerics": {
+    "spatial_grid": null,
+    "seed": null,
+    "randomness": "None: deterministic prescribed static load",
+    "time_step": null,
+    "time_basis": "Independent steady-state phasor solutions; frequency is not transient time",
+    "convention": "exp(+j omega t); RMS voltages/currents; SI internal units",
+    "reference": "50 ohm generator reference plane; lossless 50 ohm feed",
+    "boundary": "Uniform prescribed bulk R-L and fixed linear two-sheath equivalent C"
+  },
+  "metric_definition": "Primary comparison at exactly 13.56 MHz. Sampled frequency minimum is a diagnostic, not a continuous optimum or chosen recipe.",
+  "unused_schema_fields": [
+    "density_ratio",
+    "voltage_limit_v",
+    "current_limit_a"
+  ],
+  "auxiliary_checks": [
+    "Exact A/B replay",
+    "Zero and half forward power",
+    "Lossless feed invariance",
+    "Inverse density R/L scaling",
+    "Independent nodal unit test"
+  ],
+  "previous_review": "Published RF varied Cp on Nov 16. Nov 25 local-only L comparison is not published. Today uses a different variable and fresh calculations; identical baseline is recomputed, not reused.",
+  "historical_results_reused": false,
+  "optimization_performed": false,
+  "local_git_head": "e285f328500c5bafcacad4a200cb6dc1b37256f9",
+  "remote_main_before": "2001d641309519d96c699da251ec167367cd7e34",
+  "source_sha256": {
+    "rf_lab/__init__.py": "7e0d112be31bdb3657bbb6500b6a684f0bba438199b129cd53d6f5dd3ffc33c9",
+    "rf_lab/model.py": "cbaa7ff772eb444d7265ef98467f7a694a6cad07bf3e5146e1dce3dff0db79bd"
+  },
+  "source_authority": "Included exact source_snapshot; remote Git SHA alone does not represent the dirty local source tree",
+  "versions": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  },
+  "run_command": ".venv/Scripts/python.exe exports/daily/2026-11-26-rf-prescribed-density/run_experiment.py"
+}
