@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "returncode": 0,
+  "command": [
+    ".venv/Scripts/python.exe",
+    "-m",
+    "unittest",
+    "fab_lab.tests.test_practice.PracticeTests.test_pdn_port_and_decap_change"
+  ],
+  "observed_output": ".\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nOK\n",
+  "executed_at_utc": "2026-11-27T11:07:58.300239+00:00"
+}

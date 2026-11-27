@@ -1,0 +1,286 @@
+{
+  "schema_version": 1,
+  "label": "Personal learning simulation; AI agent executed; independent virtual PDN fixture, not ATE/VNA measurements or geometry-extracted SI/PI",
+  "experiment_id": "3f116cb541a64f318a849b6829d969e1",
+  "execution": {
+    "execution_id": "3f116cb541a64f318a849b6829d969e1",
+    "server_job_id": null,
+    "id_kind": "Generated experiment ID; direct engine calls, not a server job ID",
+    "scheduled_at_kst": "2026-11-27T20:00:00+09:00",
+    "started_at_utc": "2026-11-27T11:06:59.780967+00:00",
+    "state": "COMPLETE",
+    "plan_sha256": "bb16628833677cea250fb09f9f1972b36c11c279eef5af4068da6e4f1246a9e9",
+    "versions": {
+      "numpy": "2.5.3",
+      "scipy": "1.18.1",
+      "python": "3.12.2"
+    },
+    "historical_results_reused": false,
+    "runs": {
+      "A": {
+        "started_at_utc": "2026-11-27T11:06:59.780967+00:00",
+        "finished_at_utc": "2026-11-27T11:06:59.809507+00:00",
+        "raw_sha256": "8075a2bd5040faae70e59285510ea5c9305752e3a4fd222cc941fb27c6ecdf50",
+        "config_sha256": "d158867666b4c8a20f37126f158cecebc6f9fd8a5f85cebbd794eb8179d49840",
+        "frequency_points": 241,
+        "exact_replay": true,
+        "low_frequency_control_1hz": {
+          "z_real_ohm": 0.03700000000000018,
+          "z_imag_ohm": 8.003584276138442e-09,
+          "z_abs_ohm": 0.037000000000001046,
+          "max_kcl_residual_a": 1.0587911840678754e-22,
+          "input_power_w": 0.03700000000000018,
+          "resistor_power_w": 0.03700000000000016,
+          "power_residual_w": 2.0816681711721685e-17
+        }
+      },
+      "B": {
+        "started_at_utc": "2026-11-27T11:06:59.814507+00:00",
+        "finished_at_utc": "2026-11-27T11:06:59.819014+00:00",
+        "raw_sha256": "0b34a5a91ac3cdd4fb7e6293dd836212233332218f537b00a4013519e0290989",
+        "config_sha256": "405e6e86e110b319ab0788c4167d222937b8e2e1b4f0cacb6f89d9f67ef46295",
+        "frequency_points": 241,
+        "exact_replay": true,
+        "low_frequency_control_1hz": {
+          "z_real_ohm": 0.037000000000000255,
+          "z_imag_ohm": 7.83155066242787e-09,
+          "z_abs_ohm": 0.03700000000000108,
+          "max_kcl_residual_a": 4.440892098500752e-16,
+          "input_power_w": 0.037000000000000255,
+          "resistor_power_w": 0.03700000000000024,
+          "power_residual_w": 1.3877787807814457e-17
+        }
+      }
+    },
+    "finished_at_utc": "2026-11-27T11:06:59.838061+00:00"
+  },
+  "scheduled_at_kst": "2026-11-27T20:00:00+09:00",
+  "prepared_at_utc": "2026-11-27T11:05:45.002317+00:00",
+  "packaged_at_utc": "2026-11-27T11:10:31.472018+00:00",
+  "numerics": {
+    "frequency_grid": "np.geomspace(1e5,3e9,241) Hz; exported MHz",
+    "frequency_count": 241,
+    "spatial_grid": null,
+    "time_step": null,
+    "time_basis": "Independent steady-state impedance solves; no transient integration",
+    "seed": 42,
+    "randomness": "PDN branch does not use the validated seed; no random samples or seed ensemble",
+    "convention": "exp(+j omega t); impedance in ohm; auxiliary nodal control uses 1 A RMS injection",
+    "boundary": "Ideal common ground; ideal VRM source zeroed for driving-point impedance"
+  },
+  "source": {
+    "local_git_head": "e285f328500c5bafcacad4a200cb6dc1b37256f9",
+    "remote_main_before": "a455369bdec83e997802b406edd41a56816a73af",
+    "source_sha256": {
+      "fab_lab/__init__.py": "6d0823cdd4978fdf111dc0c301211f213e130ef4fb08e60d9058f609e3f9d5f5",
+      "fab_lab/ate.py": "61d4bfc23b0c987c6096768f213bd54f5c3d7730cf3f6e9ca67ff6399f3c6cc2",
+      "rf_lab/__init__.py": "7e0d112be31bdb3657bbb6500b6a684f0bba438199b129cd53d6f5dd3ffc33c9",
+      "rf_lab/practice.py": "36c7c0a7a8deaa62b038e3f2fdacdc459dc27043c2b244b73b8645dde3a80b51",
+      "rf_lab/model.py": "cbaa7ff772eb444d7265ef98467f7a694a6cad07bf3e5146e1dce3dff0db79bd"
+    },
+    "unchanged_local_source_after_execution": true,
+    "reproduction_authority": "Included source_snapshot"
+  },
+  "commands": {
+    "actual_run": ".venv/Scripts/python.exe exports/daily/2026-11-27-ate-die-decap/run_experiment.py",
+    "replay": "python run_experiment.py --out replay",
+    "plot": "python plot_results.py --data-dir replay"
+  },
+  "validation": {
+    "only_decap_changed": "PASS",
+    "A_exact_replay": "PASS",
+    "A_input_preserved": "PASS",
+    "A_frequency_and_units": "PASS",
+    "A_finite_positive": "PASS",
+    "A_engine_maximum_readback": "PASS",
+    "A_independent_nodal_agreement": "PASS",
+    "A_positive_real_impedance": "PASS",
+    "A_kcl": "PASS",
+    "A_power_balance": "PASS",
+    "A_unused_seed_invariance": "PASS",
+    "A_low_frequency_limit": "PASS",
+    "B_exact_replay": "PASS",
+    "B_input_preserved": "PASS",
+    "B_frequency_and_units": "PASS",
+    "B_finite_positive": "PASS",
+    "B_engine_maximum_readback": "PASS",
+    "B_independent_nodal_agreement": "PASS",
+    "B_positive_real_impedance": "PASS",
+    "B_kcl": "PASS",
+    "B_power_balance": "PASS",
+    "B_unused_seed_invariance": "PASS",
+    "B_low_frequency_limit": "PASS",
+    "identical_frequency_grids": "PASS",
+    "source_snapshot_unchanged": "PASS",
+    "only_normalized_decap_changed": "PASS",
+    "max_abs_independent_error_ohm": 6.661338147750939e-16,
+    "max_kcl_residual_a": 1.2560739669470201e-15,
+    "max_abs_power_residual_w": 2.220446049250313e-16,
+    "physical_calibration": "NOT_RUN",
+    "frequency_grid_refinement": "NOT_RUN",
+    "component_tolerance_ensemble": "NOT_RUN",
+    "fab_geometry_extraction": "NOT_MODELED",
+    "voltage_droop_transient": "NOT_MODELED",
+    "active_vrm_control": "NOT_MODELED"
+  },
+  "unit_tests": {
+    "status": "PASS",
+    "returncode": 0,
+    "command": [
+      ".venv/Scripts/python.exe",
+      "-m",
+      "unittest",
+      "fab_lab.tests.test_practice.PracticeTests.test_pdn_port_and_decap_change"
+    ],
+    "observed_output": ".\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nOK\n",
+    "executed_at_utc": "2026-11-27T11:07:58.300239+00:00"
+  },
+  "figure_review": {
+    "python": "3.12.14",
+    "numpy": "2.1.3",
+    "matplotlib": "3.11.0",
+    "pillow": "12.2.0",
+    "files": [
+      {
+        "file": "01_full_impedance_spectrum.png",
+        "pixels": [
+          2160,
+          1080
+        ],
+        "mode": "RGBA",
+        "dpi": [
+          180.00979999999998,
+          180.00979999999998
+        ],
+        "alpha_extrema": [
+          255,
+          255
+        ]
+      },
+      {
+        "file": "02_band_detail_and_ratio.png",
+        "pixels": [
+          2160,
+          1080
+        ],
+        "mode": "RGBA",
+        "dpi": [
+          180.00979999999998,
+          180.00979999999998
+        ],
+        "alpha_extrema": [
+          255,
+          255
+        ]
+      }
+    ],
+    "transformations": "Log axes explicitly labelled; ratio B/A; full-band figure retained; no smoothing or added samples.",
+    "visual_review": {
+      "status": "PASS",
+      "images": 2,
+      "review": "Both images inspected; full band retained, log axes labelled, ratio legend moved clear of peak, zero baseline on linear magnitude detail, no uncertainty invented."
+    }
+  },
+  "historical_results_reused": false,
+  "optimization_performed": false,
+  "omitted_native_files": [],
+  "publication_status": "PREPARED; remote verification receipt stored separately",
+  "files": {
+    "data/A.json": {
+      "bytes": 13151,
+      "sha256": "8075a2bd5040faae70e59285510ea5c9305752e3a4fd222cc941fb27c6ecdf50"
+    },
+    "data/B.json": {
+      "bytes": 13166,
+      "sha256": "0b34a5a91ac3cdd4fb7e6293dd836212233332218f537b00a4013519e0290989"
+    },
+    "data/comparison.csv": {
+      "bytes": 23994,
+      "sha256": "f08806778b4102af4eddd4355acc8a0d95f16f3f9e6409661f337ab1f89e03bc"
+    },
+    "data/frequency_response.csv": {
+      "bytes": 21399,
+      "sha256": "0e11c4674d5d0b1f0b72f38da06f7b3cb8c4ddd251c344bb3991e15f8ae2e6e8"
+    },
+    "data/nodal_controls.csv.gz": {
+      "bytes": 26026,
+      "sha256": "a035b7eca5de2c183e14b543c579e91b53ccb3dd401c60211c81cf581fbc5606"
+    },
+    "data/summary.json": {
+      "bytes": 2094,
+      "sha256": "b29f606211c0a2d2f4877aca8f0818d4004d10feaf54371c44b3e4a874bfc07d"
+    },
+    "data/unit_test_record.json": {
+      "bytes": 394,
+      "sha256": "b836768b70619f129fd2202cfcb3f95804a022a7ef4c2c28a1aca8f45e57c25b"
+    },
+    "data/validation.json": {
+      "bytes": 1335,
+      "sha256": "2f6bda4cffb5637d7f843001931a1199d4c0d9a4c0b6f2809b8e80d4f520450f"
+    },
+    "execution.json": {
+      "bytes": 2134,
+      "sha256": "fc23381e7f68eb28c9d8edbc7d709ac2029b43d5c92cff0b6e6fdc6365d2158f"
+    },
+    "figures/01_full_impedance_spectrum.png": {
+      "bytes": 154888,
+      "sha256": "fc241e1b627b8c716f93646300c82e4ab0152b7c5613099f987e853d52f34ce5"
+    },
+    "figures/02_band_detail_and_ratio.png": {
+      "bytes": 166131,
+      "sha256": "9bef083987d79e2a91932078696db93738ab1592aaab0d86e309ab2fe0a21c84"
+    },
+    "figures/image_metadata.json": {
+      "bytes": 819,
+      "sha256": "ef96c0aca97bd7dcabe3758c2c8cd2fc0e776afd229ee13fa20475b9ee6765ec"
+    },
+    "inputs/A.json": {
+      "bytes": 219,
+      "sha256": "d936a63319904fcde08991a045cc79b9253873db5009798049dd7f24c1184507"
+    },
+    "inputs/B.json": {
+      "bytes": 219,
+      "sha256": "e87c3176600ee9c4dcae577ddadf3bc78e0f7d59372c46687ba1d3477237b354"
+    },
+    "plan.json": {
+      "bytes": 4326,
+      "sha256": "bb16628833677cea250fb09f9f1972b36c11c279eef5af4068da6e4f1246a9e9"
+    },
+    "plot_results.py": {
+      "bytes": 4367,
+      "sha256": "4284be888e2a22da2ed31b63212ffdd3ccc7296636da507c7a7d3820ea93d32f"
+    },
+    "README.md": {
+      "bytes": 10706,
+      "sha256": "da73e20162fa651e841cf0e60f1f398b669320949448debadbc581d169a9fd5e"
+    },
+    "requirements.txt": {
+      "bytes": 29,
+      "sha256": "57e74730633249faccf68cf27f4ffd05df5bffb1245dee9b36acce5e4c48019f"
+    },
+    "run_experiment.py": {
+      "bytes": 8280,
+      "sha256": "7b8bfbe705ef9c18b9d06640ee7884d9ff8a624ca06a38b9ffcf011c06326d51"
+    },
+    "source_snapshot/fab_lab/__init__.py": {
+      "bytes": 72,
+      "sha256": "6d0823cdd4978fdf111dc0c301211f213e130ef4fb08e60d9058f609e3f9d5f5"
+    },
+    "source_snapshot/fab_lab/ate.py": {
+      "bytes": 5450,
+      "sha256": "61d4bfc23b0c987c6096768f213bd54f5c3d7730cf3f6e9ca67ff6399f3c6cc2"
+    },
+    "source_snapshot/rf_lab/__init__.py": {
+      "bytes": 96,
+      "sha256": "7e0d112be31bdb3657bbb6500b6a684f0bba438199b129cd53d6f5dd3ffc33c9"
+    },
+    "source_snapshot/rf_lab/model.py": {
+      "bytes": 10964,
+      "sha256": "cbaa7ff772eb444d7265ef98467f7a694a6cad07bf3e5146e1dce3dff0db79bd"
+    },
+    "source_snapshot/rf_lab/practice.py": {
+      "bytes": 3696,
+      "sha256": "36c7c0a7a8deaa62b038e3f2fdacdc459dc27043c2b244b73b8645dde3a80b51"
+    }
+  }
+}

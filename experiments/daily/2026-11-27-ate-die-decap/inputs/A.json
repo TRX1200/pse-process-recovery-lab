@@ -1,0 +1,13 @@
+{
+  "port": "VDD_DIE",
+  "mode": "pdn",
+  "seed": 42,
+  "rate_gbps": 8,
+  "load_ohm": 50,
+  "package_z": 65,
+  "jitter_ui": 0.04,
+  "rise_ps": 35,
+  "strobe_ui": 0.5,
+  "threshold_v": 0.5,
+  "decap_nf": 10
+}

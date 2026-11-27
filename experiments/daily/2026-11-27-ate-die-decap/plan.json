@@ -1,0 +1,120 @@
+{
+  "id": "2026-11-27-ate-die-decap",
+  "date_kst": "2026-11-27",
+  "topic": "ate_si_pi",
+  "label": "Personal learning simulation; AI agent executed; independent virtual PDN fixture, not ATE/VNA measurements or geometry-extracted SI/PI",
+  "scheduled_at_kst": "2026-11-27T20:00:00+09:00",
+  "heartbeat_at_utc": "2026-11-27T11:03:48.269Z",
+  "prepared_at_utc": "2026-11-27T11:05:45.002317+00:00",
+  "question": "At the same VDD_DIE port, how does increasing only die decap from 10 to 30 nF change the impedance spectrum?",
+  "hypothesis": "Extra C can reduce impedance in some frequency ranges while shifting peaks and not improving every frequency. ESL/ESR and the board network stay fixed; no tuning or target search.",
+  "changed_parameter": "decap_nf",
+  "cases": {
+    "A": {
+      "port": "VDD_DIE",
+      "mode": "pdn",
+      "seed": 42,
+      "rate_gbps": 8,
+      "load_ohm": 50,
+      "package_z": 65,
+      "jitter_ui": 0.04,
+      "rise_ps": 35,
+      "strobe_ui": 0.5,
+      "threshold_v": 0.5,
+      "decap_nf": 10
+    },
+    "B": {
+      "port": "VDD_DIE",
+      "mode": "pdn",
+      "seed": 42,
+      "rate_gbps": 8,
+      "load_ohm": 50,
+      "package_z": 65,
+      "jitter_ui": 0.04,
+      "rise_ps": 35,
+      "strobe_ui": 0.5,
+      "threshold_v": 0.5,
+      "decap_nf": 30
+    }
+  },
+  "primary_metrics": [
+    "Maximum sampled magnitude within the predeclared 1..100 MHz band and its sampled frequency",
+    "Maximum over the full 0.1..3000 MHz sample band; never equate a boundary maximum with resonance",
+    "Magnitude at nearest existing sample to 10, 100 and 1000 MHz; report realized frequencies"
+  ],
+  "analysis_band_mhz": [
+    1,
+    100
+  ],
+  "probe_nominal_mhz": [
+    10,
+    100,
+    1000
+  ],
+  "numerics": {
+    "frequency_grid": "np.geomspace(1e5,3e9,241) Hz; exported MHz",
+    "frequency_count": 241,
+    "spatial_grid": null,
+    "time_step": null,
+    "time_basis": "Independent steady-state impedance solves; no transient integration",
+    "seed": 42,
+    "randomness": "PDN branch does not use the validated seed; no random samples or seed ensemble",
+    "convention": "exp(+j omega t); impedance in ohm; auxiliary nodal control uses 1 A RMS injection",
+    "boundary": "Ideal common ground; ideal VRM source zeroed for driving-point impedance"
+  },
+  "fixture": {
+    "vrm": {
+      "r_ohm": 0.025,
+      "l_h": 8e-10
+    },
+    "board_cap": {
+      "c_f": 1e-07,
+      "r_ohm": 0.018,
+      "l_h": 3.5e-10
+    },
+    "link": {
+      "r_ohm": 0.012,
+      "l_h": 5.5e-10
+    },
+    "die_cap": {
+      "r_ohm": 0.012,
+      "l_h": 8e-11
+    }
+  },
+  "inactive_fields": [
+    "seed",
+    "rate_gbps",
+    "load_ohm",
+    "package_z",
+    "jitter_ui",
+    "rise_ps",
+    "strobe_ui",
+    "threshold_v"
+  ],
+  "controls": [
+    "Exact A/B replay",
+    "Independent 2x2 complex nodal solution at all 241 frequencies",
+    "KCL residual and passive-resistor power balance with 1 A RMS control source",
+    "Low-frequency 0.037 ohm VDD_DIE limit",
+    "Seed-only invariance",
+    "Existing port/decap unit test"
+  ],
+  "previous_review": "Nov 17 ATE daily experiment varied source rise time in Eye mode; no prior daily PDN-capacitance experiment found. No historical results reused.",
+  "historical_results_reused": false,
+  "optimization_performed": false,
+  "local_git_head": "e285f328500c5bafcacad4a200cb6dc1b37256f9",
+  "remote_main_before": "a455369bdec83e997802b406edd41a56816a73af",
+  "source_sha256": {
+    "fab_lab/__init__.py": "6d0823cdd4978fdf111dc0c301211f213e130ef4fb08e60d9058f609e3f9d5f5",
+    "fab_lab/ate.py": "61d4bfc23b0c987c6096768f213bd54f5c3d7730cf3f6e9ca67ff6399f3c6cc2",
+    "rf_lab/__init__.py": "7e0d112be31bdb3657bbb6500b6a684f0bba438199b129cd53d6f5dd3ffc33c9",
+    "rf_lab/practice.py": "36c7c0a7a8deaa62b038e3f2fdacdc459dc27043c2b244b73b8645dde3a80b51",
+    "rf_lab/model.py": "cbaa7ff772eb444d7265ef98467f7a694a6cad07bf3e5146e1dce3dff0db79bd"
+  },
+  "source_authority": "Included exact source_snapshot; dirty local tree cannot be represented by remote Git SHA alone",
+  "versions": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1"
+  },
+  "run_command": ".venv/Scripts/python.exe exports/daily/2026-11-27-ate-die-decap/run_experiment.py"
+}

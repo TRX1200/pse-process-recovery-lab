@@ -1,0 +1,80 @@
+{
+  "A": {
+    "decap_nf": 10,
+    "port": "VDD_DIE",
+    "full_band_max": {
+      "z_abs_ohm": 1.9114053487286715,
+      "frequency_mhz": 55.23785027279898,
+      "at_endpoint": false
+    },
+    "analysis_band_max": {
+      "z_abs_ohm": 1.9114053487286715,
+      "frequency_mhz": 55.23785027279898,
+      "sample_count": 107,
+      "actual_first_mhz": 1.017073367586719,
+      "actual_last_mhz": 96.54893846056292
+    },
+    "probes": [
+      {
+        "nominal_mhz": 10,
+        "sample_index": 107,
+        "actual_mhz": 9.909457804391087,
+        "z_abs_ohm": 0.11926494235268642
+      },
+      {
+        "nominal_mhz": 100,
+        "sample_index": 161,
+        "actual_mhz": 100.78645620070536,
+        "z_abs_ohm": 0.13738113198460689
+      },
+      {
+        "nominal_mhz": 1000,
+        "sample_index": 214,
+        "actual_mhz": 981.9735397700742,
+        "z_abs_ohm": 0.43509823216779037
+      }
+    ]
+  },
+  "B": {
+    "decap_nf": 30,
+    "port": "VDD_DIE",
+    "full_band_max": {
+      "z_abs_ohm": 1.3684336026316433,
+      "frequency_mhz": 3000.0,
+      "at_endpoint": true
+    },
+    "analysis_band_max": {
+      "z_abs_ohm": 0.5258335647018367,
+      "frequency_mhz": 34.437798268769605,
+      "sample_count": 107,
+      "actual_first_mhz": 1.017073367586719,
+      "actual_last_mhz": 96.54893846056292
+    },
+    "probes": [
+      {
+        "nominal_mhz": 10,
+        "sample_index": 107,
+        "actual_mhz": 9.909457804391087,
+        "z_abs_ohm": 0.13360653836390984
+      },
+      {
+        "nominal_mhz": 100,
+        "sample_index": 161,
+        "actual_mhz": 100.78645620070536,
+        "z_abs_ohm": 0.01219289397142425
+      },
+      {
+        "nominal_mhz": 1000,
+        "sample_index": 214,
+        "actual_mhz": 981.9735397700742,
+        "z_abs_ohm": 0.444046994291191
+      }
+    ]
+  },
+  "comparison": {
+    "b_lower_samples": 37,
+    "b_higher_samples": 204,
+    "total_samples": 241,
+    "note": "Counts on a nonuniform log-frequency grid, not frequency bandwidth fractions"
+  }
+}

@@ -9,8 +9,8 @@
     "etch",
     "tsv_process_sequence"
   ],
-  "last_completed_date": "2026-11-26",
-  "next_topic": "ate_si_pi",
+  "last_completed_date": "2026-11-27",
+  "next_topic": "gaa_free_process",
   "experiments": [
     {
       "id": "2026-11-16-rf-capacitor-step",
@@ -88,6 +88,17 @@
       "finished_at_utc": "2026-11-26T11:04:45.927654+00:00",
       "plan_sha256": "38c80dc46bc1a11920acba81ecc2ec334ff4f423ae12cb6f8935f06961044de7",
       "changed_parameter": "Prescribed density 2e16 to 3e16 m^-3; fixed matching C/L, 13.56 MHz, 300 W, collision frequency and sheath geometry"
+    },
+    {
+      "id": "2026-11-27-ate-die-decap",
+      "date": "2026-11-27",
+      "topic": "ate_si_pi",
+      "status": "completed",
+      "path": "2026-11-27-ate-die-decap/",
+      "execution_id": "3f116cb541a64f318a849b6829d969e1",
+      "finished_at_utc": "2026-11-27T11:06:59.838061+00:00",
+      "plan_sha256": "bb16628833677cea250fb09f9f1972b36c11c279eef5af4068da6e4f1246a9e9",
+      "changed_parameter": "Die decap 10 to 30 nF at fixed VDD_DIE port; ESR/ESL and board/VRM/link fixed, 241 frequencies 0.1 to 3000 MHz"
     }
   ]
 }

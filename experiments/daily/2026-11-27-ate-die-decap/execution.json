@@ -1,0 +1,52 @@
+{
+  "execution_id": "3f116cb541a64f318a849b6829d969e1",
+  "server_job_id": null,
+  "id_kind": "Generated experiment ID; direct engine calls, not a server job ID",
+  "scheduled_at_kst": "2026-11-27T20:00:00+09:00",
+  "started_at_utc": "2026-11-27T11:06:59.780967+00:00",
+  "state": "COMPLETE",
+  "plan_sha256": "bb16628833677cea250fb09f9f1972b36c11c279eef5af4068da6e4f1246a9e9",
+  "versions": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "python": "3.12.2"
+  },
+  "historical_results_reused": false,
+  "runs": {
+    "A": {
+      "started_at_utc": "2026-11-27T11:06:59.780967+00:00",
+      "finished_at_utc": "2026-11-27T11:06:59.809507+00:00",
+      "raw_sha256": "8075a2bd5040faae70e59285510ea5c9305752e3a4fd222cc941fb27c6ecdf50",
+      "config_sha256": "d158867666b4c8a20f37126f158cecebc6f9fd8a5f85cebbd794eb8179d49840",
+      "frequency_points": 241,
+      "exact_replay": true,
+      "low_frequency_control_1hz": {
+        "z_real_ohm": 0.03700000000000018,
+        "z_imag_ohm": 8.003584276138442e-09,
+        "z_abs_ohm": 0.037000000000001046,
+        "max_kcl_residual_a": 1.0587911840678754e-22,
+        "input_power_w": 0.03700000000000018,
+        "resistor_power_w": 0.03700000000000016,
+        "power_residual_w": 2.0816681711721685e-17
+      }
+    },
+    "B": {
+      "started_at_utc": "2026-11-27T11:06:59.814507+00:00",
+      "finished_at_utc": "2026-11-27T11:06:59.819014+00:00",
+      "raw_sha256": "0b34a5a91ac3cdd4fb7e6293dd836212233332218f537b00a4013519e0290989",
+      "config_sha256": "405e6e86e110b319ab0788c4167d222937b8e2e1b4f0cacb6f89d9f67ef46295",
+      "frequency_points": 241,
+      "exact_replay": true,
+      "low_frequency_control_1hz": {
+        "z_real_ohm": 0.037000000000000255,
+        "z_imag_ohm": 7.83155066242787e-09,
+        "z_abs_ohm": 0.03700000000000108,
+        "max_kcl_residual_a": 4.440892098500752e-16,
+        "input_power_w": 0.037000000000000255,
+        "resistor_power_w": 0.03700000000000024,
+        "power_residual_w": 1.3877787807814457e-17
+      }
+    }
+  },
+  "finished_at_utc": "2026-11-27T11:06:59.838061+00:00"
+}
